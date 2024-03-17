@@ -1,0 +1,38 @@
+.header {
+    background-color: #1c1c21;
+    position: relative;
+    width: 100%;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--max-width);
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+    width: 85%;
+    justify-content: center;
+    display: flex;
+}
+
+.blockMenu {
+    width: 25%;
+    text-align-last: left;
+}
+
+.blockLogo {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-block: auto;
+}
+
+.blockProfile {
+    width: 25%;
+    text-align-last: right;
+}
+
+.name {
+    vertical-align: top;
+    font-size: larger;
+}
