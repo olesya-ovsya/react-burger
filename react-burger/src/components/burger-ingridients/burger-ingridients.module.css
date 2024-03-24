@@ -1,9 +1,9 @@
-.constructorBox {
+.box {
     /*width: 83%;*/
     display: flex;
 }
 
-.constructor {
+.burgerIngridients {
     max-width: 50%;
     min-width: 600px;
 }
@@ -22,7 +22,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     flex-direction: column;
-    max-height: 40vh;
+    max-height: 65vh;
     max-width: 600px;
     scrollbar-width: thin;
 }

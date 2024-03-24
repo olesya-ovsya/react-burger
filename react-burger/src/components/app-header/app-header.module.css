@@ -1,7 +1,6 @@
 .header {
     background-color: #1c1c21;
     position: relative;
-    width: 100%;
 }
 
 .container {
@@ -16,19 +15,17 @@
 }
 
 .blockMenu {
-    width: 25%;
     text-align-last: left;
 }
 
 .blockLogo {
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: center;
     margin-block: auto;
 }
 
 .blockProfile {
-    width: 25%;
     text-align-last: right;
 }
 

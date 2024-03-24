@@ -54,7 +54,7 @@ class NavigationBlockItem extends React.Component {
     render() {
         return(
             <>
-                <Button htmlType='button' size='large' type='secondary' extraClass='p-5 mt-4 mb-4 mr-2' {...this.props}>
+                <Button htmlType='button' size='medium' type='secondary' extraClass='p-5 mt-4 mb-4 mr-2' {...this.props}>
                     {this.props.getIcon()}
                     <span className={styles.name + ' ' + 'ml-2'}>{this.props.text}</span>
                 </Button>
