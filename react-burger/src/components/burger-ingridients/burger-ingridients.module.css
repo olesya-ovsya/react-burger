@@ -1,5 +1,4 @@
 .box {
-    /*width: 83%;*/
     display: flex;
 }
 
@@ -8,43 +7,6 @@
     min-width: 600px;
 }
 
-.h1 {
+.header {
     text-align: justify;
-}
-
-.tabList {
-    display: flex;
-}
-
-.ingridientList {
-    display: flex;
-    justify-content: flex-start;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    flex-direction: column;
-    max-height: 65vh;
-    max-width: 600px;
-    scrollbar-width: thin;
-}
-
-.ingridientCard {
-    display: inline-table;
-    max-width: 50%;
-    flex-grow: 1;
-    flex-basis: 0;
-}
-
-.ingridientPrice{
-    vertical-align: top;
-}
-
-.ingridientListBlock {
-    display: flex;
-    flex-wrap: wrap;
-    min-width: 600px;
-}
-
-.imageBox {
-    display: flex;
-    position: relative;
 }

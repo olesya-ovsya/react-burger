@@ -1,0 +1,36 @@
+.ingridientList {
+    display: flex;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex-direction: column;
+    max-height: 65vh;
+    max-width: 600px;
+    scrollbar-width: thin;
+}
+
+.header {
+    text-align: justify;
+}
+
+.ingridientListBlock {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 600px;
+}
+
+.ingridientCard {
+    display: inline-table;
+    max-width: 50%;
+    /*flex-grow: 1;*/
+    flex-basis: 0;
+}
+
+.imageBox {
+    display: flex;
+    position: relative;
+}
+
+.ingridientPrice{
+    vertical-align: top;
+}

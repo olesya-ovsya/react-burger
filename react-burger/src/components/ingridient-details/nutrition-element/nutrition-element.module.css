@@ -1,0 +1,12 @@
+.nutritionText {
+    display: inline-table;
+    max-width: 50%;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.nutritionBlock {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}

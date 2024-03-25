@@ -1,34 +1,16 @@
-import React from 'react';
+import styles from './modal-overlay.module.css';
+import PropTypes from 'prop-types';
 
-export default class ModalOverlay extends React.Component {
-    constructor(props) {
-        super(props);
-    this.state = {
-      visible: false,
-    };
-    
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-  }
+export default function ModalOverlay({ children, onClose }) {
 
-    handleOpenModal() {
-    this.setState({ visible: true });
-  }
-
-    handleCloseModal() {
-    this.setState({ visible: false });
-  }
-
-  render() {
-    return (
-        <>
-            {
-                this.props.visible && (
-                    <div style={{overflow: 'hidden'}}>
-                        {this.props.children}
-                    </div>)
-            }
-        </>
-    );
-  }
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      {children}
+    </div>
+  );
 }
+
+ModalOverlay.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired
+};

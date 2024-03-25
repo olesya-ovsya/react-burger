@@ -1,0 +1,26 @@
+.modal {
+    max-width: 90vh;
+    width: 60%;
+    height: fit-content;
+    background: var(--background);
+    position: relative;
+    margin: 0 20px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10000;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 7%;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

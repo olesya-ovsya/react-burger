@@ -1,57 +1,52 @@
 import React from 'react';
-import logo from '../../images/logo.svg';
-import './App.css';
+import styles from './App.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngridients from '../burger-ingridients/burger-ingridients';
-import { getData } from '../../utils/data';
 
-export default class App extends React.Component {
+export default function App() {
 
-  constructor(props:any) {
-    super(props);
-    this.state = {
-        ingridients: [],
-        loading: true,
-        hasError: false,
-        currentTab: 1,
-        tabs: [
-            {
-                id: 1,
-                name: 'Булки',
-                type: 'bun'
-            },
-            {
-                id: 2,
-                name: 'Соусы',
-                type: 'sauce'
-            },
-            {
-                id: 3,
-                name: 'Основное',
-                type: 'main'
-            },
-        ]
+  const URL = "https://norma.nomoreparties.space/api/ingredients/";
+
+  const initialIngridientsValue = [
+    {
+      _id:"",
+      name:"",
+      type:"",
+      proteins:-1,
+      fat:-1,
+      carbohydrates:-1,
+      calories:-1,
+      price:-1,
+      image:"",
+      image_mobile:"",
+      image_large:"",
+      __v:0
     }
-};
+  ];
 
-  componentDidMount() {
-    const newData = getData();
-    this.setState({...this.state, ingridients: newData, loading: false });
-  };
+  const [state, setState] = React.useState({
+    ingridients: initialIngridientsValue,
+    loading: true,
+    hasError: false
+  });
+
+  React.useEffect(() => {
+      fetch(URL)
+        .then((response) => response.json())
+        .then((model) => setState({...state, ingridients: model.data, loading: false }))
+        .catch(e => setState({ ...state, loading: false, hasError: true }));
+    },
+    []
+  );
   
-  render() {
-    return (
-      <div className="App">
-        <AppHeader />
-          <section style={{display: 'flex', justifyContent: 'center'}}>
-            <BurgerIngridients />
-            <BurgerConstructor />
-          </section>
-        <div>
-          
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div className={styles.app}>
+      <AppHeader />
+        <main className={styles.appMain}>
+          {state.ingridients.length > 1 && <BurgerIngridients ingridients={state.ingridients} />}
+          {state.ingridients.length > 1 && <BurgerConstructor ingridients={state.ingridients} />}
+        </main>
+    </div>
+  );
 }
