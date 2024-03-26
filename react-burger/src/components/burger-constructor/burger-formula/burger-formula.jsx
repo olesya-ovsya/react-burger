@@ -6,6 +6,7 @@ import IngridientDetails from '../../ingridient-details/ingridient-details';
 import OrderDetails from '../../order-details/order-details';
 import PropTypes from 'prop-types';
 import { IngridientPropTypes } from '../../../utils/shared-prop-types';
+import Modal from '../../modal/modal';
  
 export default function BurgerFormula({ ingridientList }) {
 
@@ -53,15 +54,7 @@ export default function BurgerFormula({ ingridientList }) {
             setState({
                 ...state,
                 ingridientDetailsVisible: true,
-                currentIngridient: {
-                    ...state.currentIngridient,
-                    name: ingridient.name,
-                    image: ingridient.image_large,
-                    proteins: ingridient.proteins,
-                    fat: ingridient.fat,
-                    carbohydrates: ingridient.carbohydrates,
-                    calories: ingridient.calories
-                }
+                currentIngridient: ingridient
             });
         }
     };
@@ -127,20 +120,16 @@ export default function BurgerFormula({ ingridientList }) {
                 </Button>
             </div>
             <div className={styles.modalContainer} id='igridient-details-modal'>
-                    {state.ingridientDetailsVisible && <IngridientDetails
-                        modalContainerId='igridient-details-modal'
-                        name={state.currentIngridient.name}
-                        imageSrc={state.currentIngridient.image}
-                        calories={state.currentIngridient.calories}
-                        proteins={state.currentIngridient.proteins}
-                        fat={state.currentIngridient.fat}
-                        carbohydrates={state.currentIngridient.carbohydrates}
-                        onClose={closeIngridientDetails} />}
+                    {state.ingridientDetailsVisible && (
+                    <Modal header='Детали ингридиента' modalContainerId='igridient-details-modal' onClose={closeIngridientDetails}>
+                        <IngridientDetails ingridient={state.currentIngridient} />
+                    </Modal>)}
             </div>
             <div className={styles.modalContainer} id='order-details-modal'>
-                    {state.orderDetailsVisible && <OrderDetails
-                        modalContainerId='order-details-modal'
-                        onClose={closeOrderDetails} />}
+                    {state.orderDetailsVisible && (
+                        <Modal modalContainerId='order-details-modal' onClose={closeOrderDetails}>
+                            <OrderDetails />
+                        </Modal>)}
             </div>
         </div>
     );

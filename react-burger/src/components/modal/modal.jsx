@@ -4,6 +4,7 @@ import styles from './modal.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 
 
 export default function Modal({ children, header, modalContainerId, onClose }) {
@@ -28,6 +29,7 @@ export default function Modal({ children, header, modalContainerId, onClose }) {
         ?  ReactDOM.createPortal(
                 (
                     <>
+                        <ModalOverlay onClose={onClose} />
                         <div className={styles.modal}>
                             <div className={styles.modalHeader + ' mr-10 ml-10'}>
                                 <h1 className='text_type_main-large mr-10 ml-10'>{header}</h1>

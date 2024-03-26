@@ -31,6 +31,6 @@ export default function IngridientList ({ tabData, ingridients }) {
 } 
 
 IngridientList.propTypes = {
-    ingridientList: PropTypes.arrayOf(IngridientPropTypes).isRequired,
+    ingridients: PropTypes.arrayOf(IngridientPropTypes).isRequired,
     tabData: PropTypes.arrayOf(IngridientTabPropTypes).isRequired
 }

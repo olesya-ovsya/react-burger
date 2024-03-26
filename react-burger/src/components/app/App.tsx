@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './App.module.css';
+import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngridients from '../burger-ingridients/burger-ingridients';
@@ -34,7 +34,14 @@ export default function App() {
   React.useEffect(() => {
       fetch(URL)
         .then((response) => response.json())
-        .then((model) => setState({...state, ingridients: model.data, loading: false }))
+        .then((model) => 
+          {
+            if (model && model.success) {
+              setState({ ...state, ingridients: model.data, loading: false });
+            } else {
+              throw new Error('Failed to receive data from the server. In the response model "success":false');
+            }
+          })
         .catch(e => setState({ ...state, loading: false, hasError: true }));
     },
     []
