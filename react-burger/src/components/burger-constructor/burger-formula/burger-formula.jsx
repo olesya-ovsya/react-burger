@@ -2,21 +2,18 @@ import React from 'react';
 import { CurrencyIcon, ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './burger-formula.module.css';
-import IngridientDetails from '../../ingridient-details/ingridient-details';
 import OrderDetails from '../../order-details/order-details';
 import PropTypes from 'prop-types';
-import { IngridientPropTypes } from '../../../utils/shared-prop-types';
+import { IngredientPropTypes } from '../../../utils/shared-prop-types';
 import Modal from '../../modal/modal';
  
-export default function BurgerFormula({ ingridientList }) {
+export default function BurgerFormula({ ingredientList }) {
 
     const [state, setState] = React.useState({
         sum: 0,
-        ingridientDetailsVisible: false,
         orderDetailsVisible: false,
-        currentIngridient: undefined,
         bun: undefined,
-        otherIngridients: []
+        otherIngredients: []
     });
     
     React.useEffect(() => {
@@ -31,43 +28,23 @@ export default function BurgerFormula({ ingridientList }) {
             '643d69a5c3f7b9001cfa0940',
             '643d69a5c3f7b9001cfa094a'];
         
-            const newData = ingridientList.map(x => x).filter(x => ids.includes(x._id));
+            const newData = ingredientList.map(x => x).filter(x => ids.includes(x._id));
         
         const currentBun = newData.find(x => x.type === "bun");
-        const currentOtherIngridients = newData.filter(x => x.type !== 'bun');
+        const currentOtherIngredients = newData.filter(x => x.type !== 'bun');
         let currentSum = currentBun.price * 2;
         
-        state.otherIngridients.forEach(x => { currentSum += x.price });
+        state.otherIngredients.forEach(x => { currentSum += x.price });
         
         setState({
             ...state,
             bun: currentBun,
-            otherIngridients: currentOtherIngridients,
+            otherIngredients: currentOtherIngredients,
             sum: currentSum
         });
         },
         []
     );
-
-    const openIngridientDetails = (ingridient) => {
-        if (!state.ingridientDetailsVisible) {
-            setState({
-                ...state,
-                ingridientDetailsVisible: true,
-                currentIngridient: ingridient
-            });
-        }
-    };
-
-    const closeIngridientDetails = () => {
-        if (state.ingridientDetailsVisible){
-            setState({
-                ...state,
-                ingridientDetailsVisible: false,
-                currentIngridient: undefined
-            });
-        }
-    };
 
     const openOrderDetails = () => {
         if (!state.orderDetailsVisible) {
@@ -97,13 +74,16 @@ export default function BurgerFormula({ ingridientList }) {
                     thumbnail={state.bun.image_mobile}
                     price={state.bun.price}
                     extraClass='ml-8 mb-4 mr-1' />}
-            <div className={styles.ingridientListContainer}>
-                {state.otherIngridients.map((ingridient) =>
-                    <ElementListItem
-                        key={ingridient._id}
-                        ingridient={ingridient}
-                        onShowDetailsClick={openIngridientDetails} />
-                )}
+            <div className={styles.ingredientListContainer}>
+                {state.otherIngredients.map((ingredient) =>
+                    <div key={ingredient._id} className={styles.elementListItem}>
+                        <DragIcon/>
+                        <ConstructorElement
+                            text={ingredient.name}
+                            thumbnail={ingredient.image_mobile}
+                            price={ingredient.price}
+                            extraClass='mb-4 ml-2'/>
+                    </div>)}
             </div>
             {state.bun && <ConstructorElement
                 text={`${state.bun.name} (низ)`}
@@ -119,42 +99,16 @@ export default function BurgerFormula({ ingridientList }) {
                     <span>Оформить заказ</span>
                 </Button>
             </div>
-            <div className={styles.modalContainer} id='igridient-details-modal'>
-                    {state.ingridientDetailsVisible && (
-                    <Modal header='Детали ингридиента' modalContainerId='igridient-details-modal' onClose={closeIngridientDetails}>
-                        <IngridientDetails ingridient={state.currentIngridient} />
-                    </Modal>)}
-            </div>
             <div className={styles.modalContainer} id='order-details-modal'>
-                    {state.orderDetailsVisible && (
-                        <Modal modalContainerId='order-details-modal' onClose={closeOrderDetails}>
-                            <OrderDetails />
-                        </Modal>)}
+                {state.orderDetailsVisible && (
+                    <Modal modalContainerId='order-details-modal' onClose={closeOrderDetails}>
+                        <OrderDetails />
+                    </Modal>)}
             </div>
         </div>
     );
 }
 
 BurgerFormula.propTypes = {
-    ingridientList: PropTypes.arrayOf(IngridientPropTypes).isRequired
+    ingredientList: PropTypes.arrayOf(IngredientPropTypes).isRequired
 }; 
-
-const ElementListItem = ({ ingridient, onShowDetailsClick }) => {
-    const handleClick = () => onShowDetailsClick(ingridient);
-    return (
-        <div className={styles.elementListItem}>
-            <div onClick={handleClick}><DragIcon/></div>
-            <ConstructorElement
-                text={ingridient.name}
-                thumbnail={ingridient.image_mobile}
-                price={ingridient.price}
-                extraClass='mb-4 ml-2'
-            />
-        </div>
-    )
-};
-
-ElementListItem.propTypes = {
-    ingridient: IngridientPropTypes.isRequired,
-    onShowDetailsClick: PropTypes.func.isRequired
-};

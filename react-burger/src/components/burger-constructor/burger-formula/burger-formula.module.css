@@ -1,4 +1,4 @@
-.ingridientListContainer {
+.ingredientListContainer {
     display: flex;
     justify-content: flex-start;
     overflow-y: scroll;

@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngridients from '../burger-ingridients/burger-ingridients';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 export default function App() {
 
   const URL = "https://norma.nomoreparties.space/api/ingredients/";
 
-  const initialIngridientsValue = [
+  const initialIngredientsValue = [
     {
       _id:"",
       name:"",
@@ -26,18 +26,22 @@ export default function App() {
   ];
 
   const [state, setState] = React.useState({
-    ingridients: initialIngridientsValue,
+    ingredients: initialIngredientsValue,
     loading: true,
     hasError: false
   });
 
   React.useEffect(() => {
       fetch(URL)
-        .then((response) => response.json())
-        .then((model) => 
-          {
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(`Ошибка ${response.status}`);
+        })
+        .then((model) => {
             if (model && model.success) {
-              setState({ ...state, ingridients: model.data, loading: false });
+              setState({ ...state, ingredients: model.data, loading: false });
             } else {
               throw new Error('Failed to receive data from the server. In the response model "success":false');
             }
@@ -51,8 +55,8 @@ export default function App() {
     <div className={styles.app}>
       <AppHeader />
         <main className={styles.appMain}>
-          {state.ingridients.length > 1 && <BurgerIngridients ingridients={state.ingridients} />}
-          {state.ingridients.length > 1 && <BurgerConstructor ingridients={state.ingridients} />}
+          {state.ingredients.length > 1 && <BurgerIngredients ingredients={state.ingredients} />}
+          {state.ingredients.length > 1 && <BurgerConstructor ingredients={state.ingredients} />}
         </main>
     </div>
   );

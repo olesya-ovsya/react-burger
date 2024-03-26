@@ -1,20 +1,20 @@
 import styles from './nutrition-element.module.css';
 import PropTypes from 'prop-types';
-import { IngridientPropTypes } from '../../../utils/shared-prop-types';
+import { IngredientPropTypes } from '../../../utils/shared-prop-types';
 
-export default function NutritionElement({ ingridient }) {
+export default function NutritionElement({ ingredient }) {
     return (
         <div className={`${styles.nutritionBlock} mb-15`}>
-            <NutritionElementText name='Калории, ккал' value={ingridient.calories} />
-            <NutritionElementText name='Белки, г' value={ingridient.proteins} />
-            <NutritionElementText name='Жиры, г' value={ingridient.fat} />
-            <NutritionElementText name='Углеводы, г' value={ingridient.carbohydrates} />
+            <NutritionElementText name='Калории, ккал' value={ingredient.calories} />
+            <NutritionElementText name='Белки, г' value={ingredient.proteins} />
+            <NutritionElementText name='Жиры, г' value={ingredient.fat} />
+            <NutritionElementText name='Углеводы, г' value={ingredient.carbohydrates} />
         </div>
     );
 }
 
 NutritionElement.propTypes = {
-    ingridient: IngridientPropTypes
+    ingredient: IngredientPropTypes
 };
 
 const NutritionElementText = ({name, value}) => {

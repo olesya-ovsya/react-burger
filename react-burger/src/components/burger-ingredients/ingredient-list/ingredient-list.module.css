@@ -1,4 +1,4 @@
-.ingridientList {
+.ingredientList {
     display: flex;
     justify-content: flex-start;
     overflow-y: scroll;
@@ -13,13 +13,13 @@
     text-align: justify;
 }
 
-.ingridientListBlock {
+.ingredientListBlock {
     display: flex;
     flex-wrap: wrap;
     min-width: 600px;
 }
 
-.ingridientCard {
+.ingredientCard {
     display: inline-table;
     max-width: 50%;
     /*flex-grow: 1;*/
@@ -31,6 +31,6 @@
     position: relative;
 }
 
-.ingridientPrice{
+.ingredientPrice{
     vertical-align: top;
 }
