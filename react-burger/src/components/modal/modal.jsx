@@ -9,14 +9,14 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 
 export default function Modal({ children, header, modalContainerId, onClose }) {
     
-    React.useEffect(() =>
-    {
+    React.useEffect(() => {
         document.addEventListener("keydown", handleClick);
 
         return () => {
             document.removeEventListener("keydown", handleClick);
           }
-    });
+    },
+    []);
 
     const handleClick = (e) => {
         if (e.code === "Escape") {
