@@ -1,0 +1,8 @@
+.constructorContainer {
+    display: flex;
+}
+
+.constructor {
+    max-width: 50%;
+    min-width: 600px;
+}

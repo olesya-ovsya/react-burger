@@ -1,0 +1,36 @@
+.ingredientList {
+    display: flex;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex-direction: column;
+    max-height: 65vh;
+    max-width: 600px;
+    scrollbar-width: thin;
+}
+
+.header {
+    text-align: justify;
+}
+
+.ingredientListBlock {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 600px;
+}
+
+.ingredientCard {
+    display: inline-table;
+    max-width: 50%;
+    /*flex-grow: 1;*/
+    flex-basis: 0;
+}
+
+.imageBox {
+    display: flex;
+    position: relative;
+}
+
+.ingredientPrice{
+    vertical-align: top;
+}

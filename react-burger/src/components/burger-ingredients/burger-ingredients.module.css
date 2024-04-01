@@ -1,0 +1,12 @@
+.box {
+    display: flex;
+}
+
+.burgerIngredients {
+    max-width: 50%;
+    min-width: 600px;
+}
+
+.header {
+    text-align: justify;
+}
