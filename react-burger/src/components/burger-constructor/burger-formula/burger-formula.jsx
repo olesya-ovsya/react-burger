@@ -3,11 +3,10 @@ import { CurrencyIcon, ConstructorElement, DragIcon, Button } from '@ya.praktiku
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './burger-formula.module.css';
 import OrderDetails from '../../order-details/order-details';
-import PropTypes from 'prop-types';
-import { IngredientPropTypes } from '../../../utils/shared-prop-types';
 import Modal from '../../modal/modal';
+import { useSelector } from 'react-redux';
  
-export default function BurgerFormula({ ingredientList }) {
+export default function BurgerFormula() {
 
     const [state, setState] = React.useState({
         sum: 0,
@@ -15,6 +14,8 @@ export default function BurgerFormula({ ingredientList }) {
         bun: undefined,
         otherIngredients: []
     });
+
+    const ingredientList = useSelector(store => store.ingredients.ingredients); 
     
     React.useEffect(() => {
         const ids = [
@@ -108,7 +109,3 @@ export default function BurgerFormula({ ingredientList }) {
         </div>
     );
 }
-
-BurgerFormula.propTypes = {
-    ingredientList: PropTypes.arrayOf(IngredientPropTypes).isRequired
-}; 

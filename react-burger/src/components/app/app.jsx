@@ -3,10 +3,26 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import { useDispatch } from 'react-redux';
+import { getBurgerIngredients } from '../../services/actions/burgerIngredients';
 
 export default function App() {
 
-  const URL = "https://norma.nomoreparties.space/api/ingredients/";
+  const dispatch = useDispatch();
+
+  React.useEffect(() => { dispatch(getBurgerIngredients()); }, [dispatch]);
+
+  return (
+    <div className={styles.app}>
+      <AppHeader />
+        <main className={styles.appMain}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </main>
+    </div>
+  );
+
+  /*const URL = "https://norma.nomoreparties.space/api/ingredients/";
 
   const initialIngredientsValue = [
     {
@@ -49,9 +65,9 @@ export default function App() {
         .catch(e => setState({ ...state, loading: false, hasError: true }));
     },
     []
-  );
+  );*/
   
-  return (
+  /*return (
     <div className={styles.app}>
       <AppHeader />
         <main className={styles.appMain}>
@@ -59,5 +75,5 @@ export default function App() {
           {state.ingredients.length > 1 && <BurgerConstructor ingredients={state.ingredients} />}
         </main>
     </div>
-  );
+  );*/
 }

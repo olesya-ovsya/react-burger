@@ -5,13 +5,16 @@ import PropTypes from 'prop-types';
 import { IngredientPropTypes, IngredientTabPropTypes } from '../../../utils/shared-prop-types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
+import { useSelector } from 'react-redux';
 
-export default function IngredientList ({ tabData, ingredients }) {
+export default function IngredientList ({ tabData }) {
     const [currentIngredient, setCurrentIngredient] = React.useState(undefined);
     
     const openIngredientDetails = (ingredient) => { setCurrentIngredient(ingredient) };
 
     const closeIngredientDetails = () => { setCurrentIngredient(undefined) };
+
+    const ingredients = useSelector(store => store.ingredients.ingredients); 
 
     return (
         <div className={styles.ingredientList}>
@@ -36,7 +39,6 @@ export default function IngredientList ({ tabData, ingredients }) {
 } 
 
 IngredientList.propTypes = {
-    ingredients: PropTypes.arrayOf(IngredientPropTypes).isRequired,
     tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired
 }
 
