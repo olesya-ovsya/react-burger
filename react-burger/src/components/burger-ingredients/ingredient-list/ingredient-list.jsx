@@ -14,7 +14,9 @@ export default function IngredientList ({ tabData }) {
 
     const closeIngredientDetails = () => { setCurrentIngredient(undefined) };
 
-    const ingredients = useSelector(store => store.ingredients.ingredients); 
+    const ingredients = useSelector(store => store.burgerIngredients.ingredients);
+    const formulaBun = useSelector(store => store.burgerFormula.bun);
+    const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
 
     return (
         <div className={styles.ingredientList}>
@@ -23,7 +25,14 @@ export default function IngredientList ({ tabData }) {
                     <h2 className={`${styles.header} text_type_main-medium`}>{tab.name}</h2>
                     <div className={styles.ingredientListBlock}>
                         {ingredients.filter(x => x.type === tab.type).map((i)=>(
-                            <ElementListItem key={i._id} ingredient={i} onShowDetailsClick={openIngredientDetails} />
+                            <ElementListItem
+                                key={i._id}
+                                ingredient={i}
+                                count={ i.type === 'bun'
+                                    ? (formulaBun && formulaBun._id === i._id ? 2 : 0)
+                                    : (formulaOtherIngredients.filter(x => x._id === i._id).length)}
+                                isLocked = {i.type === 'bun' && formulaBun && formulaBun._id === i._id}
+                                onShowDetailsClick={openIngredientDetails} />
                         ))}
                     </div>
                 </div>
@@ -42,13 +51,13 @@ IngredientList.propTypes = {
     tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired
 }
 
-const ElementListItem = ({ ingredient, onShowDetailsClick }) => {
+const ElementListItem = ({ ingredient, count, isLocked, onShowDetailsClick }) => {
     const handleClick = () => onShowDetailsClick(ingredient);
     return (
-        <div key={ingredient._id} className={`${styles.ingredientCard} mr-4 mt-6`} onClick={handleClick}>
+        <div key={ingredient._id} className={`${styles.ingredientCard} mr-4 mt-6`} onClick={handleClick} disabled={isLocked}>
             <div className={styles.imageBox}>
                 <img src={ingredient.image} className='ml-4' />
-                <Counter count={1} styles={{zIndex: '3', position: 'absolute'}}/>
+                {count > 0 && <Counter count={count} styles={{zIndex: '3', position: 'absolute'}}/>}
             </div>
             <div className='mt-1 mb-1'>
                 <span className={`${styles.ingredientPrice} text_type_digits-default mr-2`}>{ingredient.price}</span>
@@ -61,5 +70,7 @@ const ElementListItem = ({ ingredient, onShowDetailsClick }) => {
 
 ElementListItem.propTypes = {
     ingredient: IngredientPropTypes.isRequired,
+    count: PropTypes.number.isRequired,
+    isLocked: PropTypes.bool.isRequired,
     onShowDetailsClick: PropTypes.func.isRequired
 };

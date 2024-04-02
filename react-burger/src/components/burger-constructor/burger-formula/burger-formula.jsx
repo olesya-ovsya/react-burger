@@ -4,46 +4,24 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './burger-formula.module.css';
 import OrderDetails from '../../order-details/order-details';
 import Modal from '../../modal/modal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { SET_BUN } from '../../../services/actions/burgerFormula';
+import PropTypes from 'prop-types';
  
 export default function BurgerFormula() {
 
     const [state, setState] = React.useState({
         sum: 0,
-        orderDetailsVisible: false,
-        bun: undefined,
-        otherIngredients: []
+        orderDetailsVisible: false
     });
 
-    const ingredientList = useSelector(store => store.ingredients.ingredients); 
+    const ingredientList = useSelector(store => store.burgerIngredients.ingredients);
+    const { otherIngredients, bun } = useSelector(store => store.burgerFormula);
+
+    const dispatch = useDispatch();
     
-    React.useEffect(() => {
-        const ids = [
-            '643d69a5c3f7b9001cfa093c',
-            '643d69a5c3f7b9001cfa0941',
-            '643d69a5c3f7b9001cfa093e',
-            '643d69a5c3f7b9001cfa0942',
-            '643d69a5c3f7b9001cfa0942',
-            '643d69a5c3f7b9001cfa093f',
-            '643d69a5c3f7b9001cfa0940',
-            '643d69a5c3f7b9001cfa0940',
-            '643d69a5c3f7b9001cfa094a'];
-        
-            const newData = ingredientList.map(x => x).filter(x => ids.includes(x._id));
-        
-        const currentBun = newData.find(x => x.type === "bun");
-        const currentOtherIngredients = newData.filter(x => x.type !== 'bun');
-        let currentSum = currentBun.price * 2;
-        
-        state.otherIngredients.forEach(x => { currentSum += x.price });
-        
-        setState({
-            ...state,
-            bun: currentBun,
-            otherIngredients: currentOtherIngredients,
-            sum: currentSum
-        });
-        },
+    React.useEffect(
+        () => { setState({ ...state, sum: 0 }); },
         []
     );
 
@@ -67,16 +45,17 @@ export default function BurgerFormula() {
 
     return (
         <div className='mt-25 ml-4'>
-            {state.bun
-                && <ConstructorElement
+            {bun
+                ? <ConstructorElement
                     type='top'
                     isLocked={true}
-                    text={`${state.bun.name} (верх)`}
-                    thumbnail={state.bun.image_mobile}
-                    price={state.bun.price}
-                    extraClass='ml-8 mb-4 mr-1' />}
-            <div className={styles.ingredientListContainer}>
-                {state.otherIngredients.map((ingredient) =>
+                    text={`${bun.name} (верх)`}
+                    thumbnail={bun.image_mobile}
+                    price={bun.price}
+                    extraClass='ml-8 mb-4 mr-1' />
+                : <FakeConstructorElement text='Выберите булки' extraClass='constructor-element_pos_top' />}
+            {otherIngredients && otherIngredients.length > 0 ? <div className={styles.ingredientListContainer}>
+                {otherIngredients.map((ingredient) =>
                     <div key={ingredient._id} className={styles.elementListItem}>
                         <DragIcon/>
                         <ConstructorElement
@@ -86,13 +65,17 @@ export default function BurgerFormula() {
                             extraClass='mb-4 ml-2'/>
                     </div>)}
             </div>
-            {state.bun && <ConstructorElement
-                text={`${state.bun.name} (низ)`}
+            : <div className='constructor-element ml-8 mb-4 mr-1'>
+            <span className="constructor-element__text mt-4" style={{fontSize: 'larger'}}>Выберите начинку</span>
+        </div>}
+            {bun ? <ConstructorElement
+                text={`${bun.name} (низ)`}
                 type='bottom'
                 isLocked={true}
-                thumbnail={state.bun.image_mobile}
-                price={state.bun.price}
-                extraClass='ml-8 mb-4 mr-1' />}
+                thumbnail={bun.image_mobile}
+                price={bun.price}
+                extraClass='ml-8 mb-4 mr-1' />
+                : <FakeConstructorElement text='Выберите булки' extraClass='constructor-element_pos_bottom' />}
             <div className={`${styles.bottom} mt-10`}>
                 <span className='text_type_digits-medium mr-2'>{state.sum}</span>
                 <CurrencyIcon style={{viewBox: '0 0 36 36'}} />
@@ -109,3 +92,16 @@ export default function BurgerFormula() {
         </div>
     );
 }
+
+function FakeConstructorElement({ text, extraClass }) {
+    return (
+        <div className={`constructor-element ml-8 mb-4 mr-1 ${extraClass}`}>
+            <span className="constructor-element__text mt-4" style={{fontSize: 'larger'}}>{text}</span>
+        </div>
+    );
+}
+
+FakeConstructorElement.propTypes = {
+    text: PropTypes.string.isRequired,
+    extraClass: PropTypes.string
+};
