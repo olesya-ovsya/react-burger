@@ -6,6 +6,7 @@ import { IngredientPropTypes, IngredientTabPropTypes } from '../../../utils/shar
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
 import { useSelector } from 'react-redux';
+import { useDrag } from 'react-dnd';
 
 export default function IngredientList ({ tabData }) {
     const [currentIngredient, setCurrentIngredient] = React.useState(undefined);
@@ -31,7 +32,7 @@ export default function IngredientList ({ tabData }) {
                                 count={ i.type === 'bun'
                                     ? (formulaBun && formulaBun._id === i._id ? 2 : 0)
                                     : (formulaOtherIngredients.filter(x => x._id === i._id).length)}
-                                isLocked = {i.type === 'bun' && formulaBun && formulaBun._id === i._id}
+                                isLocked = {i.type === 'bun' && formulaBun !== null && formulaBun._id === i._id}
                                 onShowDetailsClick={openIngredientDetails} />
                         ))}
                     </div>
@@ -53,8 +54,17 @@ IngredientList.propTypes = {
 
 const ElementListItem = ({ ingredient, count, isLocked, onShowDetailsClick }) => {
     const handleClick = () => onShowDetailsClick(ingredient);
+
+    const [{ opacity }, ref] = useDrag({
+        type: ingredient.type === 'bun' ? 'bun' : 'otherIngredient',
+        item: { ingredient },
+        collect: monitor => ({
+          opacity: monitor.isDragging() ? 0.5 : 1
+        })
+      });
+
     return (
-        <div key={ingredient._id} className={`${styles.ingredientCard} mr-4 mt-6`} onClick={handleClick} disabled={isLocked}>
+        <div key={ingredient._id} className={`${styles.ingredientCard} mr-4 mt-6`} onClick={handleClick} disabled={isLocked} ref={ref}>
             <div className={styles.imageBox}>
                 <img src={ingredient.image} className='ml-4' />
                 {count > 0 && <Counter count={count} styles={{zIndex: '3', position: 'absolute'}}/>}

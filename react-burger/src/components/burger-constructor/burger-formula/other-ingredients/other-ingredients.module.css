@@ -9,19 +9,9 @@
     scrollbar-width: thin;
 }
 
-.modalContainer {
-    overflow: hidden;
-}
-
 .elementListItem {
     display: flex;
     justify-content: space-evenly;
     align-items: baseline;
     margin-right: var(--offset-base-size);
-}
-
-.bottom {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
 }
