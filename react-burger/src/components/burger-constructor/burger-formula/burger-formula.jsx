@@ -1,6 +1,6 @@
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { useDispatch } from 'react-redux';
-import { SET_BUN } from '../../../services/actions/burgerFormula';
+import { SET_BUN } from '../../../services/actions/burger-formula';
 import { useDrop } from 'react-dnd';
 import Bun from './bun/bun';
 import OtherIngredients from './other-ingredients/other-ingredients';

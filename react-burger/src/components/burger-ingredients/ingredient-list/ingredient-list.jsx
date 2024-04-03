@@ -6,12 +6,9 @@ import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { SET_CURRENT_INGREDIENT, CLEAR_CURRENT_INGREDIENT } from '../../../services/actions/ingredientDetails';
+import { SET_CURRENT_INGREDIENT, CLEAR_CURRENT_INGREDIENT } from '../../../services/actions/ingredient-details';
 
-export default function IngredientList ({
-    tabData,
-    handleScroll
- }) {
+export default function IngredientList ({ tabData, handleScroll }) {
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const formulaBun = useSelector(store => store.burgerFormula.bun);
     const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
@@ -48,7 +45,6 @@ export default function IngredientList ({
                                 count={ i.type === 'bun'
                                     ? (formulaBun && formulaBun._id === i._id ? 2 : 0)
                                     : (formulaOtherIngredients.filter(x => x._id === i._id).length)}
-                                isLocked = {i.type === 'bun' && formulaBun !== null && formulaBun._id === i._id}
                                 onShowDetailsClick={openIngredientDetails} />
                         ))}
                     </div>
@@ -65,19 +61,27 @@ export default function IngredientList ({
 } 
 
 IngredientList.propTypes = {
-    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired
+    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired,
+    handleScroll: PropTypes.func.isRequired
 }
 
-const ElementListItem = ({ ingredient, count, isLocked, onShowDetailsClick }) => {
+const ElementListItem = ({ ingredient, count, onShowDetailsClick }) => {
     const handleClick = () => onShowDetailsClick(ingredient);
 
-    const [, ref] = useDrag({
+    const [{ opacity }, ref] = useDrag({
         type: ingredient.type === 'bun' ? 'bun' : 'otherIngredient',
-        item: { ingredient }
+        item: { ingredient },
+        collect: monitor => ({
+          opacity: monitor.isDragging() ? 0.5 : 1
+        })
       });
 
     return (
-        <div key={ingredient._id} className={`${styles.ingredientCard} mr-4 mt-6`} onClick={handleClick} disabled={isLocked} ref={ref}>
+        <div key={ingredient._id} 
+            className={`${styles.ingredientCard} mr-4 mt-6`} 
+            onClick={handleClick} 
+            ref={ref}
+            style={{opacity}}>
             <div className={styles.imageBox}>
                 <img src={ingredient.image} className='ml-4' />
                 {count > 0 && <Counter count={count} styles={{zIndex: '3', position: 'absolute'}}/>}
@@ -94,6 +98,5 @@ const ElementListItem = ({ ingredient, count, isLocked, onShowDetailsClick }) =>
 ElementListItem.propTypes = {
     ingredient: IngredientPropTypes.isRequired,
     count: PropTypes.number.isRequired,
-    isLocked: PropTypes.bool.isRequired,
     onShowDetailsClick: PropTypes.func.isRequired
 };

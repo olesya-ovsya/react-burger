@@ -30,7 +30,8 @@ export const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 createOrderRequest: false,
-                createOrderFailed: true
+                createOrderFailed: true,
+                orderNumber: null
             };
         case CLEAR_ORDER_NUMBER:
             return {

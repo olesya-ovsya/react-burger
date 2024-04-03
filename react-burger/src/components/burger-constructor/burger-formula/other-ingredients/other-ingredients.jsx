@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { REMOVE_INGREDIENT, ADD_INGREDIENT, MOVE_INGREDIENT } from '../../../../services/actions/burgerFormula';
+import { REMOVE_INGREDIENT, ADD_INGREDIENT, MOVE_INGREDIENT } from '../../../../services/actions/burger-formula';
 import FakeConstructorElement from '../fake-constructor-element/fake-constructor-element';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
@@ -8,6 +8,8 @@ import styles from './other-ingredients.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import '../../../../index.css';
+import PropTypes from 'prop-types';
+import { IngredientWitIdentityPropTypes } from '../../../../utils/shared-prop-types';
 
 export default function OtherIngredients() {
 
@@ -128,4 +130,10 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
                 handleClose={handleClickRemove}/>
         </div>
     )
+};
+
+OtherIngredient.propTypes = {
+  ingridient: IngredientWitIdentityPropTypes,
+  index: PropTypes.number.isRequired,
+  removeIngredient: PropTypes.func.isRequired
 };

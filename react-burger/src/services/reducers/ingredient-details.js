@@ -1,7 +1,7 @@
 import {
     SET_CURRENT_INGREDIENT,
     CLEAR_CURRENT_INGREDIENT
-} from "../actions/ingredientDetails";
+} from "../actions/ingredient-details";
 
 const initialState = {
     currentIngredient: null

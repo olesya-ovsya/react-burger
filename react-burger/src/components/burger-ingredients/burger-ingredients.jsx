@@ -35,9 +35,7 @@ export default function BurgerIngredients () {
         setState({
             ...state,
             currentTab: differences.sort((a, b) => a.diff - b.diff)[0].id
-        })
-
-        console.log(state.currentTab);
+        });
     }
 
     return(

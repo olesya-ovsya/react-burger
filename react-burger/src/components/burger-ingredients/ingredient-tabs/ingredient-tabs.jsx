@@ -14,5 +14,7 @@ export default function IngredientTabs({ tabData, refTabsContainer, currentTab }
 }
 
 IngredientTabs.propTypes = {
-    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired
+    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired,
+    refTabsContainer: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    currentTab: PropTypes.number.isRequired
 };

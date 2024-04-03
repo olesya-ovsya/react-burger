@@ -3,7 +3,7 @@ import {
     REMOVE_INGREDIENT,
     SET_BUN,
     MOVE_INGREDIENT
-} from "../actions/burgerFormula";
+} from "../actions/burger-formula";
 
 const initialState = {
     bun: null,

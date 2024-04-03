@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { burgerIngredientsReducer } from './burgerIngredients';
-import { burgerFormulaReducer } from './burgerFormula';
+import { burgerIngredientsReducer } from './burger-ingredients';
+import { burgerFormulaReducer } from './burger-formula';
 import { ingredientDetailsReducer } from './ingredient-details';
 import { orderReducer } from './order';
 

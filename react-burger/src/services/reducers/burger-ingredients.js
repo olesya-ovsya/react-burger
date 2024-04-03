@@ -2,7 +2,7 @@ import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED
-} from '../actions/burgerIngredients';
+} from '../actions/burger-ingredients';
 
 const initialState = {
     ingredients: [],
@@ -28,7 +28,8 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredientsRequest: false,
-                ingredientsFailed: true
+                ingredientsFailed: true,
+                ingredients: initialState.ingredients
             }
         default:
             return state;

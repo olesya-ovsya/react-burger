@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import FakeConstructorElement from '../fake-constructor-element/fake-constructor-element';
 import PropTypes from 'prop-types';
