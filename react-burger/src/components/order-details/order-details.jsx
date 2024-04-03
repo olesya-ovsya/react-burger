@@ -10,7 +10,7 @@ export default function OrderDetails()
     return (
         <div className={styles.orderDetailsContainer}>
             {order && order.orderNumber && !order.createOrderFailed
-                ? <>
+                && <>
                     <p className={`text_type_digits-large mt-30 mb-8 ${styles.shadowText} `}>
                         {order.orderNumber}
                     </p>
@@ -18,8 +18,7 @@ export default function OrderDetails()
                     <img width='120px' height='120px' src={orderAcceptedImage} />
                     <p className='text_type_main-default mt-15 mb-1'>Ваш  заказ начали готовить</p>
                     <p className='text_type_main-default text_color_inactive mt-1 mb-30'>Дождитесь готовности на орбитальной станции</p>
-                </>
-                : <p className='text_type_main-medium mb-15 mt-1'>Не удалось создать заказ</p>}
+                </>}
             
         </div>
     );
