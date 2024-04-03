@@ -1,23 +1,34 @@
-import React from 'react';
 import styles from './ingredient-list.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { IngredientPropTypes, IngredientTabPropTypes } from '../../../utils/shared-prop-types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { SET_CURRENT_INGREDIENT, CLEAR_CURRENT_INGREDIENT } from '../../../services/actions/ingredientDetails';
 
 export default function IngredientList ({ tabData }) {
-    const [currentIngredient, setCurrentIngredient] = React.useState(undefined);
-    
-    const openIngredientDetails = (ingredient) => { setCurrentIngredient(ingredient) };
-
-    const closeIngredientDetails = () => { setCurrentIngredient(undefined) };
-
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const formulaBun = useSelector(store => store.burgerFormula.bun);
     const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
+    const currentIngredient = useSelector(store => store.ingredientDetails.currentIngredient);
+
+    const dispatch = useDispatch();
+
+    const openIngredientDetails = (ingredient) =>
+    {
+        dispatch({
+            type: SET_CURRENT_INGREDIENT,
+            currentIngredient: ingredient
+        });
+    };
+
+    const closeIngredientDetails = () => {
+        dispatch({
+            type: CLEAR_CURRENT_INGREDIENT
+        });
+    };
 
     return (
         <div className={styles.ingredientList}>
@@ -39,7 +50,7 @@ export default function IngredientList ({ tabData }) {
                 </div>
             ))}
             <div className={styles.modalContainer} id='igridient-details-modal'>
-                {currentIngredient && (
+                {currentIngredient !== null && (
                     <Modal header='Детали ингредиента' modalContainerId='igridient-details-modal' onClose={closeIngredientDetails}>
                         <IngredientDetails ingredient={currentIngredient} />
                     </Modal>)}
@@ -55,12 +66,9 @@ IngredientList.propTypes = {
 const ElementListItem = ({ ingredient, count, isLocked, onShowDetailsClick }) => {
     const handleClick = () => onShowDetailsClick(ingredient);
 
-    const [{ opacity }, ref] = useDrag({
+    const [, ref] = useDrag({
         type: ingredient.type === 'bun' ? 'bun' : 'otherIngredient',
-        item: { ingredient },
-        collect: monitor => ({
-          opacity: monitor.isDragging() ? 0.5 : 1
-        })
+        item: { ingredient }
       });
 
     return (
