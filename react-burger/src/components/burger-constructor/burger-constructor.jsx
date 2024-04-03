@@ -5,7 +5,8 @@ import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-co
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createOrder, CLEAR_ORDER_NUMBER } from '../../services/actions/order';
 
 export default function BurgerConstructor() {
 
@@ -32,16 +33,38 @@ export default function BurgerConstructor() {
         [bun, otherIngredients]
     );
 
-    const openOrderDetails = () => {
+    const dispatch = useDispatch();
+
+    const createNewOrder = () => {
+
+        if (bun === null) {
+            return;
+        }
+
+        let ingredients = [bun._id];
+
+        if (otherIngredients && otherIngredients.length > 0) {
+            ingredients = ingredients.concat(otherIngredients.map(x => x._id));
+        }
+
+        ingredients = ingredients.concat([bun._id]);
+
+        dispatch(createOrder(ingredients));
+
         if (!state.orderDetailsVisible) {
             setState({
                 ...state,
                 orderDetailsVisible: true
             });
         }
-    }
+    };
 
     const closeOrderDetails = () => {
+
+        dispatch({
+            type: CLEAR_ORDER_NUMBER
+        });
+
         if (state.orderDetailsVisible) {
             setState({
                 ...state,
@@ -58,7 +81,11 @@ export default function BurgerConstructor() {
                     <div className={`${styles.bottom} mt-10`}>
                         <span className='text_type_digits-medium mr-2'>{finalSum}</span>
                         <CurrencyIcon style={{viewBox: '0 0 36 36'}} />
-                        <Button extraClass='ml-10 mr-4' htmlType='submit' onClick={openOrderDetails}>
+                        <Button 
+                            extraClass='ml-10 mr-4'
+                            htmlType='submit'
+                            onClick={createNewOrder}
+                            disabled={bun===null}>
                             <span>Оформить заказ</span>
                         </Button>
                     </div>
