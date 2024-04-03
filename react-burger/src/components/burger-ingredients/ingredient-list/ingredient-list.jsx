@@ -8,7 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { SET_CURRENT_INGREDIENT, CLEAR_CURRENT_INGREDIENT } from '../../../services/actions/ingredientDetails';
 
-export default function IngredientList ({ tabData }) {
+export default function IngredientList ({
+    tabData,
+    handleScroll
+ }) {
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const formulaBun = useSelector(store => store.burgerFormula.bun);
     const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
@@ -31,10 +34,12 @@ export default function IngredientList ({ tabData }) {
     };
 
     return (
-        <div className={styles.ingredientList}>
+        <div className={styles.ingredientList} onScroll={handleScroll}>
             {tabData.map((tab) => (
                 <div key={tab.id} className='mt-10 mb-6'>
-                    <h2 className={`${styles.header} text_type_main-medium`}>{tab.name}</h2>
+                    <h2 className={`${styles.header} text_type_main-medium`} ref={tab.ref}>
+                        {tab.name}
+                    </h2>
                     <div className={styles.ingredientListBlock}>
                         {ingredients.filter(x => x.type === tab.type).map((i)=>(
                             <ElementListItem
