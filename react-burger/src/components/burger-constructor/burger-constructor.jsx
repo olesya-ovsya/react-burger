@@ -89,12 +89,10 @@ export default function BurgerConstructor() {
                             <span>Оформить заказ</span>
                         </Button>
                     </div>
-                    <div className={styles.modalContainer} id='order-details-modal'>
-                        {state.orderDetailsVisible && (
-                            <Modal modalContainerId='order-details-modal' onClose={closeOrderDetails}>
-                                <OrderDetails />
-                            </Modal>)}
-                    </div>
+                    {state.orderDetailsVisible && (
+                        <Modal onClose={closeOrderDetails}>
+                            <OrderDetails />
+                        </Modal>)}
                 </div>
             </div>
         </div>

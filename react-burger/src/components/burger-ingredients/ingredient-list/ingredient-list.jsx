@@ -50,12 +50,10 @@ export default function IngredientList ({ tabData, handleScroll }) {
                     </div>
                 </div>
             ))}
-            <div className={styles.modalContainer} id='igridient-details-modal'>
-                {currentIngredient !== null && (
-                    <Modal header='Детали ингредиента' modalContainerId='igridient-details-modal' onClose={closeIngredientDetails}>
-                        <IngredientDetails ingredient={currentIngredient} />
-                    </Modal>)}
-            </div>
+            {currentIngredient !== null && (
+                <Modal header='Детали ингредиента' modalContainerId='igridient-details-modal' onClose={closeIngredientDetails}>
+                    <IngredientDetails ingredient={currentIngredient} />
+                </Modal>)}
         </div>
     );
 } 
@@ -83,7 +81,7 @@ const ElementListItem = ({ ingredient, count, onShowDetailsClick }) => {
             ref={ref}
             style={{opacity}}>
             <div className={styles.imageBox}>
-                <img src={ingredient.image} className='ml-4' />
+                <img src={ingredient.image} alt={`Изображение ингредиента "${ingredient.name}"`} className='ml-4' />
                 {count > 0 && <Counter count={count} styles={{zIndex: '3', position: 'absolute'}}/>}
             </div>
             <div className='mt-1 mb-1'>
