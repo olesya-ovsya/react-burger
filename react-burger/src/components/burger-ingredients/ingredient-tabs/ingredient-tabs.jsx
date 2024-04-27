@@ -4,14 +4,17 @@ import styles from './ingredient-tabs.module.css';
 import PropTypes from 'prop-types';
 import { IngredientTabPropTypes } from '../../../utils/shared-prop-types';
 
-export default function IngredientTabs({ tabData }) {
+export default function IngredientTabs({ tabData, refTabsContainer, currentTab }) {
     return (
-        <div className={`${styles.tabList} mt-5`}>
-            {tabData.map((tab) => <Tab key={tab.id}>{tab.name}</Tab>)}
+        <div className={`${styles.tabList} mt-5`} ref={refTabsContainer}>
+            {tabData.map((tab) =>
+                <Tab key={tab.id} active={tab.id === currentTab}>{tab.name}</Tab>)}
         </div>
     );
 }
 
 IngredientTabs.propTypes = {
-    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired
+    tabData: PropTypes.arrayOf(IngredientTabPropTypes).isRequired,
+    refTabsContainer: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    currentTab: PropTypes.number.isRequired
 };

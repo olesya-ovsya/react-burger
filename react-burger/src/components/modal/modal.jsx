@@ -7,9 +7,16 @@ import PropTypes from 'prop-types';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 
-export default function Modal({ children, header, modalContainerId, onClose }) {
+export default function Modal({ children, header, onClose }) {
     
     React.useEffect(() => {
+
+        const handleClick = (e) => {
+            if (e.code === "Escape") {
+              onClose();
+            }
+        }
+
         document.addEventListener("keydown", handleClick);
 
         return () => {
@@ -18,13 +25,7 @@ export default function Modal({ children, header, modalContainerId, onClose }) {
     },
     []);
 
-    const handleClick = (e) => {
-        if (e.code === "Escape") {
-          onClose();
-        }
-    };
-
-    const modalRoot = document.getElementById(modalContainerId);
+    const modalRoot = document.getElementById("modals");
     return modalRoot
         ?  ReactDOM.createPortal(
                 (
@@ -47,6 +48,5 @@ export default function Modal({ children, header, modalContainerId, onClose }) {
 Modal.propTypes = {
     children: PropTypes.node,
     header: PropTypes.string,
-    modalContainerId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired
 };

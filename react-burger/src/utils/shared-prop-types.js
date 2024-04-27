@@ -15,6 +15,11 @@ export const IngredientPropTypes = PropTypes.shape({
     __v: PropTypes.number.isRequired
 });
 
+export const IngredientWitIdentityPropTypes = PropTypes.shape({
+    ...IngredientPropTypes,
+    identity: PropTypes.string.isRequired,
+});
+
 export const IngredientTabPropTypes = PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
