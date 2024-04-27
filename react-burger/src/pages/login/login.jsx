@@ -3,11 +3,12 @@ import {
     PasswordInput,
     Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from './login.module.css';
+import '../../index.css';
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
     return (
-      <div className={styles.loginContainer}>
+      <div className='form-container'>
             <form className='mt-20'>
                 <h1 className='text_type_main-medium mb-6'>Вход</h1>
                 <div>
@@ -15,8 +16,12 @@ export default function LoginPage() {
                     <PasswordInput extraClass='mb-6' />
                     <Button size='large' extraClass='mb-20 pr-15 pl-15'>Войти</Button>
                 </div>
-                <p className='mb-4'>Вы - новый пользователь? <a>Зарегистрироваться</a></p>
-                <p>Забыли пароль? <a>Восстановить пароль</a></p>
+                <p className='mb-4 text_type_main-default text_color_inactive'>
+                    Вы - новый пользователь?  <Link className='link-text' to='/register'>Зарегистрироваться</Link>
+                </p>
+                <p className='mb-4 text_type_main-default text_color_inactive'>
+                    Забыли пароль?  <a>Восстановить пароль</a>
+                </p>
             </form>
         </div>
     );
