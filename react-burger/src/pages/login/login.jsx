@@ -20,7 +20,7 @@ export default function LoginPage() {
                     Вы - новый пользователь?  <Link className='link-text' to='/register'>Зарегистрироваться</Link>
                 </p>
                 <p className='mb-4 text_type_main-default text_color_inactive'>
-                    Забыли пароль?  <a>Восстановить пароль</a>
+                    Забыли пароль?  <Link className='link-text' to='/forgot-password'>Восстановить пароль</Link>
                 </p>
             </form>
         </div>

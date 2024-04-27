@@ -23,5 +23,5 @@ export default function RegisterPage() {
                   </p>
               </form>
           </div>
-      );
+    );
 }
