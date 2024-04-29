@@ -7,7 +7,7 @@ import {
 import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { sendRequest } from "../../utils/request-helper";
+import { postResetPassword } from "../../utils/api";
 
 export default function ResetPasswordPage() {
 
@@ -26,15 +26,7 @@ export default function ResetPasswordPage() {
 
         e.preventDefault(); // не даем странице перезагрузиться
 
-        const requestInfo = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(state)
-        };
-
-        sendRequest('password-reset/reset', requestInfo)
+        postResetPassword(state)
         .then((model) => {
             if (model && model.success) {
                 navigate('/', { replace: true });

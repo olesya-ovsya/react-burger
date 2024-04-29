@@ -5,8 +5,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import { Link } from 'react-router-dom';
-import { sendRequest } from "../../utils/request-helper";
 import { useNavigate } from "react-router-dom";
+import { postCheckPasswordResetAvailable } from "../../utils/api";
 
 export default function ForgotPasswordPage() {
 
@@ -18,15 +18,7 @@ export default function ForgotPasswordPage() {
 
         e.preventDefault(); // не даем странице перезагрузиться
 
-        const requestInfo = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({ email })
-        };
-
-        sendRequest("password-reset", requestInfo)
+        postCheckPasswordResetAvailable(email)
         .then((model) => {
             if (model && model.success) {
                 navigate('/reset-password', { replace: true });

@@ -8,7 +8,7 @@ import {
 import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { sendRequest } from "../../utils/request-helper";
+import { postRegister } from "../../utils/api";
 
 export default function RegisterPage() {
 
@@ -28,15 +28,7 @@ export default function RegisterPage() {
 
         e.preventDefault(); // не даем странице перезагрузиться
 
-        const requestInfo = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(state)
-        };
-
-        sendRequest("auth/register", requestInfo)
+        postRegister(state)
         .then((model) => {
             if (model && model.success) {
                 navigate('/', { replace: true });
