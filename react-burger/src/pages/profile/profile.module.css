@@ -1,0 +1,33 @@
+.profileContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.menu {
+    list-style-type: none;
+    text-align: left;
+    margin: auto;
+    padding: auto;
+}
+
+.link {
+    color: var(--text-inactive-color);
+}
+
+.link:active {
+    color: var(--text-primary-color);
+}
+
+.info {
+    color: var(--background-element);
+    text-align: left;
+    font-weight: bold;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
