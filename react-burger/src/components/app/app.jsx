@@ -1,4 +1,4 @@
-import MainPage from '../../pages/main/main';
+import HomePage from '../../pages/home/home';
 import NotFoundPage from '../../pages/not-found/not-found';
 import LoginPage from '../../pages/login/login';
 import RegisterPage from '../../pages/register/register';
@@ -16,7 +16,7 @@ export default function App() {
       <AppHeader />
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<MainPage />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
