@@ -34,7 +34,7 @@ export function getUser() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
-          Authorization: 'Bearer ' + getCookie('token')
+          Authorization: 'Bearer ' + getCookie('accessToken')
         },
     };
 

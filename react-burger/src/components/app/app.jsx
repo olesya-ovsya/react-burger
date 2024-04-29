@@ -6,6 +6,7 @@ import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password/reset-password';
 import ProfilePage from '../../pages/profile/profile';
 import { Routes, Route } from 'react-router-dom';
+import { ProtectedRouteElement } from '../protected-route/protected-route';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
@@ -20,7 +21,7 @@ export default function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
           <Route path='/reset-password' element={<ResetPasswordPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/profile' element={<ProtectedRouteElement element={<ProfilePage />}/>} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
     </div>
