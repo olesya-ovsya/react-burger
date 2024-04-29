@@ -5,7 +5,7 @@ import RegisterPage from '../../pages/register/register';
 import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password/reset-password';
 import ProfilePage from '../../pages/profile/profile';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
@@ -14,7 +14,6 @@ export default function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
@@ -24,7 +23,6 @@ export default function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }
