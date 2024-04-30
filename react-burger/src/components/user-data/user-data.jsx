@@ -1,4 +1,3 @@
-import React from "react";
 import { 
     Input,
     EmailInput,
@@ -7,17 +6,42 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import styles from './user-data.module.css';
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState, useRef } from "react";
+import { getCurrentUser } from "../../services/actions/user";
+import { Loader } from "../loader/loader";
+import { Message } from "../message/message";
 
 export default function UserData() {
 
-    const [state, setState] = React.useState({
-        email: 'lesya667@yandex.ru',
+    const getUserRequest = useSelector(store => store.user.getUserRequest);
+    const getUserFailed = useSelector(store => store.user.getUserFailed);
+    const email = useSelector(store => store.user.email);
+    const name = useSelector(store => store.user.name);
+
+    const [form, setForm] = useState({
+        email: '',
         password: '',
-        name: 'Олеся'
+        name: ''
     });
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCurrentUser());
+    }, []);
+
+    useEffect(() => {
+        setForm({ ...form, email: email, name: name });
+    }, [name, email])
+
+
+    if (getUserRequest) {
+        return <Loader text='Загружаем информацию о пользователе...' />
+    }
+
     const onChangeForm = e => {
-        setState({...state, [e.target.name]: e.target.value });
+        setForm({...form, [e.target.name]: e.target.value });
     };
 
     const submit = e => {
@@ -25,44 +49,45 @@ export default function UserData() {
     };
 
     const cancel = () => {
-
+        setForm({...form, password: '', email: email, name: name });
     };
 
     return (
         <form className='mt-20'>
                   <div>
                       <NameEditInput name='name' 
-                        value={state.name} 
+                        value={form.name} 
                         placeholder='Имя'
                         onChange={onChangeForm}
                         isIcon={true}
                         extraClass="mb-6" />  
                       <EmailInput name='email'
-                        value={state.email}
+                        value={form.email}
                         onChange={onChangeForm}
                         isIcon={true}
                         extraClass='mb-6' />
                       <PasswordInput
                         name='password'
                         onChange={onChangeForm}
-                        value={state.password}
+                        value={form.password}
                         icon='EditIcon' />
                   </div>
-                  <div className={`${styles.buttonsContainer} mt-10`}>
-                    <Button htmlType='reset'
-                        type='secondary'
-                        size='medium'
-                        onClick={cancel}
-                        extraClass='mr-5'>
-                            Отмена
-                    </Button>
-                    <Button htmlType='submit'
-                        type='primary'
-                        size='medium'
-                        onClick={submit}>
-                            Сохранить
-                    </Button>
-                  </div>
+                  { (name !== form.name || email !== form.email || form.password?.length > 0) 
+                    && <div className={`${styles.buttonsContainer} mt-10`}>
+                        <Button htmlType='reset'
+                            type='secondary'
+                            size='medium'
+                            onClick={cancel}
+                            extraClass='mr-5'>
+                                Отмена
+                        </Button>
+                        <Button htmlType='submit'
+                            type='primary'
+                            size='medium'
+                            onClick={submit}>
+                                Сохранить
+                        </Button>
+                    </div>}
               </form>
     );
 }
@@ -72,12 +97,13 @@ const NameEditInput = ({
     value,
     isIcon,
     extraClass,
-    onChange }) => {
-    const [fieldDisabled, setDisabled] = React.useState(isIcon);
+    onChange 
+    }) => {
+    const [fieldDisabled, setDisabled] = useState(isIcon);
 
-    const [error, setError] = React.useState(false);
+    const [error, setError] = useState(false);
 
-    const inputRef = React.useRef(null);
+    const inputRef = useRef(null);
 
     const onIconClick = () => {
         setDisabled(false);

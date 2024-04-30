@@ -8,7 +8,10 @@ import {
     NEED_UPDATE_TOKEN,
     UPDATE_TOKEN_REQUEST,
     UPDATE_TOKEN_SUCCESS,
-    UPDATE_TOKEN_FAILED
+    UPDATE_TOKEN_FAILED,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -20,7 +23,9 @@ const initialState = {
     loginRequest: false,
     loginFailed: false,
     updateTokenRequest: false,
-    updateTokenFailed: false
+    updateTokenFailed: false,
+    logoutRequest: false,
+    logoutFailed: false
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -87,6 +92,28 @@ export const userReducer = (state = initialState, action) => {
                 updateTokenRequest: false,
                 updateTokenFailed: false,
                 authorized: true
+            }
+        }
+        case LOGOUT_REQUEST: {
+            return {
+                ...state,
+                logoutRequest: true,
+                logoutFailed: false
+            }
+        }
+        case LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                logoutRequest: false,
+                logoutFailed: false,
+                authorized: false
+            }
+        }
+        case LOGOUT_FAILED: {
+            return {
+                ...state,
+                logoutRequest: false,
+                logoutFailed: true
             }
         }
         default:

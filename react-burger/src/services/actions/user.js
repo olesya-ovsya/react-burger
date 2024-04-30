@@ -1,4 +1,4 @@
-import { getUser, postLogin, sendRequest, postToken } from "../../utils/api";
+import { getUser, postLogin, sendRequest, postToken, postLogout } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
@@ -116,3 +116,51 @@ export function updateToken(refreshToken) {
     .catch(e => dispatch({ type: UPDATE_TOKEN_FAILED }));
   }
 }
+
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+
+export function logout() {
+  return function(dispatch) {
+    dispatch({ type: LOGOUT_REQUEST });
+
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    postLogout(refreshToken)
+    .then((model) => {
+        if (model && model.success) {
+          localStorage.removeItem('refreshToken');
+          deleteCookie('accessToken');
+          dispatch({ type: LOGOUT_SUCCESS });
+        } else {
+          throw new Error('Failed to receive data from the server. In the response model "success":false');
+        }
+      })
+    .catch(e => dispatch({ type: LOGOUT_FAILED }));
+  }
+}
+
+/*export const UPDATE_USER_DATA_REQUEST = 'UPDATE_USER_DATA_REQUEST';
+export const UPDATE_USER_DATA_SUCCESS = 'UPDATE_USER_DATA_SUCCESS';
+export const UPDATE_USER_DATA_FAILED = 'UPDATE_USER_DATA_FAILED';
+
+export function updateUserData() {
+  return function(dispatch) {
+    dispatch({ type: UPDATE_TOKEN_REQUEST });
+
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    postLogout(refreshToken)
+    .then((model) => {
+        if (model && model.success) {
+          localStorage.removeItem('refreshToken');
+          deleteCookie('accessToken');
+          dispatch({ type: LOGOUT_SUCCESS });
+        } else {
+          throw new Error('Failed to receive data from the server. In the response model "success":false');
+        }
+      })
+    .catch(e => dispatch({ type: LOGOUT_FAILED }));
+  }
+}*/

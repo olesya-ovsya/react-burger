@@ -2,18 +2,32 @@ import '../../index.css';
 import styles from './profile.module.css';
 import { Outlet } from "react-router-dom";
 import { useLocation, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../services/actions/user';
+import { Loader } from '../../components/loader/loader';
+import { Message } from '../../components/message/message';
 
 export default function ProfilePage() {
 
     const location = useLocation();
     const pathname = location.pathname;
 
-    const logout = () => {
+    const dispatch = useDispatch();
+    const logoutRequest = useSelector(store => store.user.logoutRequest);
+    const logoutFailed = useSelector(store => store.user.logoutFailed);
 
+    const signOut = () => {
+        dispatch(logout());
     };
 
+    if (logoutRequest) {
+        return <Loader text='Выход из системы...' />;
+    }
+
     return (
-        <div className={styles.profileContainer}>
+        <div className={styles.container}>
+            {logoutFailed && <Message type='error' text='Не удалось выйти из системы. Повторите попытку.'/>}
+            <div className={styles.profileContainer}>
             <div className='mt-20 mr-15'>
                 <ul className={`${styles.menu} text_type_main-medium`}>
                     <li className='pt-5 pb-5'>
@@ -28,7 +42,7 @@ export default function ProfilePage() {
                         </Link>
                     </li>
                     <li className='pt-5 pb-5'>
-                        <span className={styles.link}>
+                        <span className={styles.link} onClick={signOut}>
                             Выход
                         </span>
                     </li>
@@ -39,5 +53,6 @@ export default function ProfilePage() {
             </div>
             <Outlet />
           </div>
+        </div>
     );
 }
