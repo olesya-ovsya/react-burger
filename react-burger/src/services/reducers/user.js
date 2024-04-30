@@ -11,7 +11,10 @@ import {
     UPDATE_TOKEN_FAILED,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_FAILED
+    LOGOUT_FAILED,
+    UPDATE_USER_DATA_REQUEST,
+    UPDATE_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -25,7 +28,9 @@ const initialState = {
     updateTokenRequest: false,
     updateTokenFailed: false,
     logoutRequest: false,
-    logoutFailed: false
+    logoutFailed: false,
+    updateUserDataRequest: false,
+    updateUserDataFailed: false
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -114,6 +119,29 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 logoutRequest: false,
                 logoutFailed: true
+            }
+        }
+        case UPDATE_USER_DATA_REQUEST: {
+            return {
+                ...state,
+                updateUserDataRequest: true,
+                updateUserDataFailed: false
+            }
+        }
+        case UPDATE_USER_DATA_SUCCESS: {
+            return {
+                ...state,
+                updateUserDataRequest: false,
+                updateUserDataFailed: false,
+                email: action.user.email,
+                name: action.user.name
+            }
+        }
+        case UPDATE_USER_DATA_FAILED: {
+            return {
+                ...state,
+                updateUserDataRequest: false,
+                updateUserDataFailed: true
             }
         }
         default:

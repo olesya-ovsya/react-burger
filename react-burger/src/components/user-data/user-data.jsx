@@ -8,7 +8,7 @@ import '../../index.css';
 import styles from './user-data.module.css';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { getCurrentUser } from "../../services/actions/user";
+import { getCurrentUser, updateUserData } from "../../services/actions/user";
 import { Loader } from "../loader/loader";
 import { Message } from "../message/message";
 
@@ -16,6 +16,8 @@ export default function UserData() {
 
     const getUserRequest = useSelector(store => store.user.getUserRequest);
     const getUserFailed = useSelector(store => store.user.getUserFailed);
+    const updateUserDataRequest = useSelector(store => store.user.updateUserDataRequest);
+    const updateUserDataFailed = useSelector(store => store.user.updateUserDataFailed);
     const email = useSelector(store => store.user.email);
     const name = useSelector(store => store.user.name);
 
@@ -25,6 +27,8 @@ export default function UserData() {
         name: ''
     });
 
+    const [errorText, setErrorText] = useState(null);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,27 +37,43 @@ export default function UserData() {
 
     useEffect(() => {
         setForm({ ...form, email: email, name: name });
-    }, [name, email])
+    }, [name, email]);
 
-
-    if (getUserRequest) {
-        return <Loader text='Загружаем информацию о пользователе...' />
-    }
+    useEffect(() => {
+        if (updateUserDataFailed) {
+            setErrorText('Не удалось обновить данные пользователя');
+        } else if (getUserFailed) {
+            setErrorText('Не удалось получить данные пользователя');
+        } else {
+            setErrorText(null);
+        }
+    }, [updateUserDataFailed, getUserFailed])
 
     const onChangeForm = e => {
         setForm({...form, [e.target.name]: e.target.value });
     };
 
     const submit = e => {
-        e.preventDefault(); // не даем странице перезагрузиться
+        e.preventDefault();
+        dispatch(updateUserData(form));
     };
 
     const cancel = () => {
         setForm({...form, password: '', email: email, name: name });
     };
 
+    if (getUserRequest) {
+        return <Loader text='Загружаем информацию о пользователе...' />
+    }
+
+    if (updateUserDataRequest) {
+        return <Loader text='Обновляем информацию о пользователе...' />
+    }
+
     return (
-        <form className='mt-20'>
+        <div>
+            {errorText && <Message type='error' text={errorText} />}
+            <form className='mt-20'>
                   <div>
                       <NameEditInput name='name' 
                         value={form.name} 
@@ -89,6 +109,7 @@ export default function UserData() {
                         </Button>
                     </div>}
               </form>
+        </div>
     );
 }
 

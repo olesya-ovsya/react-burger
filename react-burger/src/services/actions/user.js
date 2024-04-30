@@ -1,4 +1,9 @@
-import { getUser, postLogin, sendRequest, postToken, postLogout } from "../../utils/api";
+import {
+  getUser,
+  postLogin,
+  postToken,
+  postLogout,
+  patchUser } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
@@ -35,22 +40,9 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 export function login(email, password) {
   return function(dispatch) {
-    dispatch({
-      type: LOGIN_REQUEST
-    });
+    dispatch({ type: LOGIN_REQUEST });
 
-    console.log(email);
-    console.log(password);
-
-    const requestInfo = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({email, password})
-  };
-
-  sendRequest("auth/login", requestInfo)
+    postLogin({email, password})
     .then((model) => {
         if (model && model.success) {
 
@@ -141,26 +133,22 @@ export function logout() {
   }
 }
 
-/*export const UPDATE_USER_DATA_REQUEST = 'UPDATE_USER_DATA_REQUEST';
+export const UPDATE_USER_DATA_REQUEST = 'UPDATE_USER_DATA_REQUEST';
 export const UPDATE_USER_DATA_SUCCESS = 'UPDATE_USER_DATA_SUCCESS';
 export const UPDATE_USER_DATA_FAILED = 'UPDATE_USER_DATA_FAILED';
 
-export function updateUserData() {
+export function updateUserData(model) {
   return function(dispatch) {
-    dispatch({ type: UPDATE_TOKEN_REQUEST });
+    dispatch({ type: UPDATE_USER_DATA_REQUEST });
 
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    postLogout(refreshToken)
+    patchUser(model)
     .then((model) => {
         if (model && model.success) {
-          localStorage.removeItem('refreshToken');
-          deleteCookie('accessToken');
-          dispatch({ type: LOGOUT_SUCCESS });
+          dispatch({ type: UPDATE_USER_DATA_SUCCESS, user: model.user });
         } else {
           throw new Error('Failed to receive data from the server. In the response model "success":false');
         }
       })
-    .catch(e => dispatch({ type: LOGOUT_FAILED }));
+    .catch(e => dispatch({ type: UPDATE_USER_DATA_FAILED }));
   }
-}*/
+}

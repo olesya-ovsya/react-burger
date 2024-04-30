@@ -2,7 +2,7 @@ import { getCookie } from "./utils";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export function sendRequest(endpoint, options) {
+function sendRequest(endpoint, options) {
     return fetch(`${BASE_URL}/${endpoint}/`, options).then(checkResponse);
 }
 
@@ -46,7 +46,7 @@ export function patchUser(model) {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
-          Authorization: 'Bearer ' + getCookie('token')
+          Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify(model)
     };
