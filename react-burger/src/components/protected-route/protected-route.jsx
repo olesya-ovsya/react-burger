@@ -12,7 +12,7 @@ export const ProtectedRouteElement = ({ element }) => {
   const [state, setState] = useState({
     accessToken: getCookie('accessToken') ?? null,
     refreshToken: localStorage.getItem('refreshToken') ?? null
-  })
+  });
   
   const dispatch = useDispatch();
   const location = useLocation();

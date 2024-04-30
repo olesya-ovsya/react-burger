@@ -28,3 +28,8 @@ code {
     text-align: center;
     color: var(--colors-interface-accent);
 }
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}

@@ -13,6 +13,8 @@
 }
 
 .link {
+    text-decoration: none;
+    text-align: center;
     color: var(--text-inactive-color);
 }
 
@@ -20,14 +22,12 @@
     color: var(--text-primary-color);
 }
 
+.link:hover {
+    color: var(--colors-interface-accent);
+}
+
 .info {
     color: var(--background-element);
     text-align: left;
     font-weight: bold;
-}
-
-.buttonsContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
 }

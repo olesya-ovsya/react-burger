@@ -4,7 +4,7 @@ import {
     Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Message } from "../../components/message/message";
 import { useState, useEffect } from 'react';

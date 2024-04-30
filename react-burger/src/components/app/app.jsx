@@ -5,6 +5,9 @@ import RegisterPage from '../../pages/register/register';
 import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password/reset-password';
 import ProfilePage from '../../pages/profile/profile';
+import Orders from '../orders/orders';
+import OrderDetails from '../order-details/order-details';
+import UserData from '../user-data/user-data';
 import { Routes, Route } from 'react-router-dom';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
 import styles from './app.module.css';
@@ -21,7 +24,11 @@ export default function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
           <Route path='/reset-password' element={<ResetPasswordPage />} />
-          <Route path='/profile' element={<ProtectedRouteElement element={<ProfilePage />}/>} />
+          <Route path='/profile' element={<ProtectedRouteElement element={<ProfilePage />}/>}>
+            <Route index element={<ProtectedRouteElement element={<UserData />}/>} />
+            <Route path='orders' element={<ProtectedRouteElement element={<Orders />} />} />
+            <Route path='orders/:number' element={<ProtectedRouteElement element={<OrderDetails />}/>} />
+          </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
     </div>
