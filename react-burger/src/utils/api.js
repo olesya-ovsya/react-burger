@@ -2,7 +2,7 @@ import { getCookie } from "./utils";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-function sendRequest(endpoint, options) {
+export function sendRequest(endpoint, options) {
     return fetch(`${BASE_URL}/${endpoint}/`, options).then(checkResponse);
 }
 

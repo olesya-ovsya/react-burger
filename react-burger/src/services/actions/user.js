@@ -1,4 +1,5 @@
-import { getUser } from "../../utils/api";
+import { getUser, postLogin, sendRequest, postToken } from "../../utils/api";
+import { setCookie, deleteCookie } from "../../utils/utils";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -13,7 +14,10 @@ export function getCurrentUser() {
       getUser()
       .then((model) => {
           if (model && model.success) {
-              dispatch({
+
+            console.log(model)
+
+            dispatch({
                   type: GET_USER_SUCCESS,
                   user: model.user
               });
@@ -23,4 +27,92 @@ export function getCurrentUser() {
         })
       .catch(e => dispatch({ type: GET_USER_FAILED }));
     }
+}
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+
+export function login(email, password) {
+  return function(dispatch) {
+    dispatch({
+      type: LOGIN_REQUEST
+    });
+
+    console.log(email);
+    console.log(password);
+
+    const requestInfo = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({email, password})
+  };
+
+  sendRequest("auth/login", requestInfo)
+    .then((model) => {
+        if (model && model.success) {
+
+          console.log(model);
+
+          localStorage.setItem('refreshToken', model.refreshToken);
+
+          let accessToken;
+
+          if (model.accessToken.indexOf('Bearer') === 0) {
+            accessToken = model.accessToken.split('Bearer ')[1];
+          }
+
+          deleteCookie('accessToken');
+          setCookie('accessToken', accessToken, { expires: 2000 });
+
+            dispatch({
+                type: LOGIN_SUCCESS,
+                user: model.user
+            });
+        } else {
+          throw new Error('Failed to receive data from the server. In the response model "success":false');
+        }
+      })
+    .catch(e => dispatch({ type: LOGIN_FAILED }));
   }
+}
+
+export const NEED_UPDATE_TOKEN = 'NEED_UPDATE_TOKEN';
+export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN';
+export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
+export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
+
+export function updateToken(refreshToken) {
+  return function(dispatch) {
+    dispatch({
+      type: UPDATE_TOKEN_REQUEST
+    });
+
+    postToken(refreshToken)
+    .then((model) => {
+        if (model && model.success) {
+
+          let accessToken;
+
+          localStorage.setItem('refreshToken', model.refreshToken);
+
+          if (model.accessToken.indexOf('Bearer') === 0) {
+            accessToken = model.accessToken.split('Bearer ')[1];
+          }
+
+          deleteCookie('accessToken');
+          setCookie('accessToken', accessToken, { expires: 2000 });
+
+            dispatch({
+                type: UPDATE_TOKEN_SUCCESS,
+                user: model.user
+            });
+        } else {
+          throw new Error('Failed to receive data from the server. In the response model "success":false');
+        }
+      })
+    .catch(e => dispatch({ type: UPDATE_TOKEN_FAILED }));
+  }
+}
