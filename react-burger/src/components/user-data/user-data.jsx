@@ -76,13 +76,13 @@ export default function UserData() {
             <form className='mt-20'>
                   <div>
                       <NameEditInput name='name' 
-                        value={form.name} 
+                        value={form.name ?? ''} 
                         placeholder='Имя'
                         onChange={onChangeForm}
                         isIcon={true}
                         extraClass="mb-6" />  
                       <EmailInput name='email'
-                        value={form.email}
+                        value={form.email ?? ''}
                         onChange={onChangeForm}
                         isIcon={true}
                         extraClass='mb-6' />

@@ -6,9 +6,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     NEED_UPDATE_TOKEN,
-    UPDATE_TOKEN_REQUEST,
-    UPDATE_TOKEN_SUCCESS,
-    UPDATE_TOKEN_FAILED,
+    USER_AUTHORIZED,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILED,
@@ -28,8 +26,6 @@ const initialState = {
     getUserFailed: false,
     loginRequest: false,
     loginFailed: false,
-    updateTokenRequest: false,
-    updateTokenFailed: false,
     logoutRequest: false,
     logoutFailed: false,
     updateUserDataRequest: false,
@@ -84,23 +80,9 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 authorized: false
             }
-        case UPDATE_TOKEN_REQUEST:
+        case USER_AUTHORIZED: {
             return {
                 ...state,
-                updateTokenRequest: true,
-                updateTokenFailed: false
-            }
-        case UPDATE_TOKEN_FAILED:
-            return {
-                ...state,
-                updateTokenRequest: false,
-                updateTokenFailed: true
-            }
-        case UPDATE_TOKEN_SUCCESS: {
-            return {
-                ...state,
-                updateTokenRequest: false,
-                updateTokenFailed: false,
                 authorized: true
             }
         }

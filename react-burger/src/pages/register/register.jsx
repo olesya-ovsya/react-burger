@@ -8,7 +8,6 @@ import {
 import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { postRegister } from "../../utils/api";
 import { register } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../components/loader/loader";

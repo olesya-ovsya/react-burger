@@ -1,7 +1,6 @@
 import {
   getUser,
   postLogin,
-  postToken,
   postLogout,
   patchUser,
   postRegister
@@ -70,42 +69,7 @@ export function login(email, password) {
 }
 
 export const NEED_UPDATE_TOKEN = 'NEED_UPDATE_TOKEN';
-export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN';
-export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
-export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
-
-export function updateToken(refreshToken) {
-  return function(dispatch) {
-    dispatch({
-      type: UPDATE_TOKEN_REQUEST
-    });
-
-    postToken(refreshToken)
-    .then((model) => {
-        if (model && model.success) {
-
-          let accessToken;
-
-          localStorage.setItem('refreshToken', model.refreshToken);
-
-          if (model.accessToken.indexOf('Bearer') === 0) {
-            accessToken = model.accessToken.split('Bearer ')[1];
-          }
-
-          deleteCookie('accessToken');
-          setCookie('accessToken', accessToken, { expires: 2000 });
-
-            dispatch({
-                type: UPDATE_TOKEN_SUCCESS,
-                user: model.user
-            });
-        } else {
-          throw new Error('Failed to receive data from the server. In the response model "success":false');
-        }
-      })
-    .catch(e => dispatch({ type: UPDATE_TOKEN_FAILED }));
-  }
-}
+export const USER_AUTHORIZED = 'USER_AUTHORIZED';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
