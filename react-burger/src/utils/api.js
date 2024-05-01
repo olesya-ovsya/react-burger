@@ -1,4 +1,4 @@
-import { getCookie } from "./utils";
+import { getAccessToken } from "./utils";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
@@ -34,7 +34,7 @@ export function getUser() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
-          Authorization: 'Bearer ' + getCookie('accessToken')
+          Authorization: 'Bearer ' + getAccessToken()
         },
     };
 
@@ -46,7 +46,7 @@ export function patchUser(model) {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
-          Authorization: 'Bearer ' + getCookie('accessToken')
+          Authorization: 'Bearer ' + getAccessToken()
         },
         body: JSON.stringify(model)
     };

@@ -5,7 +5,7 @@ import {
   patchUser,
   postRegister
 } from "../../utils/api";
-import { setCookie, deleteCookie } from "../../utils/utils";
+import { setAccessToken, deleteAccessToken, setRefreshToken, getRefreshToken, deleteRefreshToken } from "../../utils/utils";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -45,7 +45,7 @@ export function login(email, password) {
     .then((model) => {
         if (model && model.success) {
 
-          localStorage.setItem('refreshToken', model.refreshToken);
+          setRefreshToken(model.refreshToken);
 
           let accessToken;
 
@@ -53,8 +53,8 @@ export function login(email, password) {
             accessToken = model.accessToken.split('Bearer ')[1];
           }
 
-          deleteCookie('accessToken');
-          setCookie('accessToken', accessToken, { expires: 2000 });
+          deleteAccessToken();
+          setAccessToken(accessToken);
 
             dispatch({
                 type: LOGIN_SUCCESS,
@@ -79,13 +79,13 @@ export function logout() {
   return function(dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
 
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = getRefreshToken();
 
     postLogout(refreshToken)
     .then((model) => {
         if (model && model.success) {
-          localStorage.removeItem('refreshToken');
-          deleteCookie('accessToken');
+          deleteRefreshToken();
+          deleteAccessToken();
           dispatch({ type: LOGOUT_SUCCESS });
         } else {
           throw new Error('Failed to receive data from the server. In the response model "success":false');
@@ -127,7 +127,7 @@ export function register(model) {
     .then((model) => {
         if (model && model.success) {
 
-          localStorage.setItem('refreshToken', model.refreshToken);
+          setRefreshToken(model.refreshToken);
 
           let accessToken;
 
@@ -135,8 +135,8 @@ export function register(model) {
             accessToken = model.accessToken.split('Bearer ')[1];
           }
 
-          deleteCookie('accessToken');
-          setCookie('accessToken', accessToken, { expires: 2000 });
+          deleteAccessToken();
+          setAccessToken(accessToken);
 
           dispatch({ type: REGISTER_SUCCESS, user: model.user });
         } else {

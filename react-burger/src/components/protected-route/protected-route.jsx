@@ -1,29 +1,31 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getCookie, setCookie, deleteCookie } from '../../utils/utils';
-import { useDispatch, useSelector } from 'react-redux';
-import { NEED_UPDATE_TOKEN, USER_AUTHORIZED } from '../../services/actions/user';
+import {
+    getAccessToken,
+    setAccessToken,
+    deleteAccessToken,
+    getRefreshToken,
+    setRefreshToken,
+    isAuthorized
+} from '../../utils/utils';
+import { useDispatch } from 'react-redux';
 import {Loader} from '../loader/loader';
 import { postToken } from '../../utils/api';
-
+import PropTypes from 'prop-types';
 
 export function ProtectedRouteElement ({ element }) {
 
   const [isLoading, setLoading] = useState(true);
   const [redirect, setRedirect] = useState(null);
 
-  const authorized = useSelector(store => store.user.authorized);
-
   const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(authorized);
+    setLoading(true);
 
     const pathname = location.pathname;
-
     let pageType = 'unknown';
-
     if (pathname.includes('/profile')) {
       pageType = 'profile';
     } else if (pathname.includes('/login') 
@@ -33,47 +35,44 @@ export function ProtectedRouteElement ({ element }) {
       pageType = 'unauthorizedOnly';
     }
 
-    let accessToken = getCookie('accessToken') ?? null;
-    const refreshToken = localStorage.getItem('refreshToken') ?? null;
+    let accessToken = getAccessToken() ?? null;
+    const refreshToken = getRefreshToken();
+
+    const authorized = isAuthorized();
 
     switch (pageType) {
       case 'profile': {
-        if (accessToken?.length > 0 && refreshToken?.length > 0) {
-          if (!authorized) {
-            dispatch({ type: USER_AUTHORIZED});
-          }
-          break;
+        if (authorized) {
+          setRedirect(element);
+          setLoading(false);
         } else if (refreshToken === null) {
-          setRedirect(<Navigate to='/login' state={{from: pathname }} />);
+          setRedirect(<Navigate to='/login' state={{from: location.pathname }} />);
           setLoading(false);
           return;
         } else {
-          dispatch({ type: NEED_UPDATE_TOKEN });
           postToken(refreshToken)
           .then((model) => {
             if (model && model.success) {
-              localStorage.setItem('refreshToken', model.refreshToken);
+              setRefreshToken(model.refreshToken);
 
               if (model.accessToken.indexOf('Bearer') === 0) {
                 accessToken = model.accessToken.split('Bearer ')[1];
               }
 
-              deleteCookie('accessToken');
-              setCookie('accessToken', accessToken, { expires: 2000 });
-              dispatch({ type: USER_AUTHORIZED });
+              deleteAccessToken();
+              setAccessToken(accessToken);
 
               setRedirect(element);
               setLoading(false);
               return;
-
             } else {
-              setRedirect(<Navigate to='/login' state={{from: pathname }} />);
+              setRedirect(<Navigate to='/login' state={{from: location.pathname }} />);
               setLoading(false);
               return;
             }
       })
       .catch(e => {
-        setRedirect(<Navigate to='/login' state={{from: pathname }} />);
+        setRedirect(<Navigate to='/login' state={{from: location.pathname }} />);
         setLoading(false);
         return;
       });
@@ -81,27 +80,29 @@ export function ProtectedRouteElement ({ element }) {
       break;
       }
       case 'unauthorizedOnly': {
-        if (accessToken?.length > 0 && refreshToken?.length > 0) {
-          dispatch({ type: USER_AUTHORIZED});
-        }
-        
         if (!authorized) {
-          break;
+          setRedirect(element);
+          setLoading(false);
         } else {
           setRedirect(<Navigate to='/' />);
           setLoading(false);
           return;
         }
       }
-      default: break;
+      default: {
+        setRedirect(element);
+        setLoading(false);
+      }
     }
-    setRedirect(element);
-    setLoading(false);
-  }, [location.pathname, authorized, dispatch, element]);
+  }, [location.pathname, dispatch, element]);
 
   if (isLoading) {
     return <Loader text='Загружаем страницу...' />
   }
 
   return redirect;
+}
+
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.node.isRequired
 }

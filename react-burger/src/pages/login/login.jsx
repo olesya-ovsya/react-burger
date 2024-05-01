@@ -4,12 +4,13 @@ import {
     Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
-import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Message } from "../../components/message/message";
 import { useState, useEffect } from 'react';
 import { login } from "../../services/actions/user";
 import { Loader } from "../../components/loader/loader";
+import { isAuthorized } from "../../utils/utils";
 
 export default function LoginPage() {
 
@@ -17,7 +18,7 @@ export default function LoginPage() {
 
     const loginFailed = useSelector(store => store.user.loginFailed);
     const loginRequest = useSelector(store => store.user.loginRequest);
-    const authorized = useSelector(store => store.user.authorized);
+    const authorized = isAuthorized();
 
     const location = useLocation();
 
@@ -36,7 +37,6 @@ export default function LoginPage() {
     useEffect(() => {
         if (authorized) {
             if (location?.state?.from) {
-                console.log('redirect')
                 navigate(location.state.from, {replace: true});
             } else {
                 navigate('/');
