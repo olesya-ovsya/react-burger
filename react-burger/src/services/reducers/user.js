@@ -5,8 +5,6 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
-    NEED_UPDATE_TOKEN,
-    USER_AUTHORIZED,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILED,
@@ -78,17 +76,6 @@ export const userReducer = (state = initialState, action) => {
                 loginFailed: true,
                 loginRequest: false
             }
-        case NEED_UPDATE_TOKEN:
-            return {
-                ...state,
-                authorized: false
-            }
-        case USER_AUTHORIZED: {
-            return {
-                ...state,
-                authorized: true
-            }
-        }
         case LOGOUT_REQUEST: {
             return {
                 ...state,

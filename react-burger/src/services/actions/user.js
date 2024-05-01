@@ -68,9 +68,6 @@ export function login(email, password) {
   }
 }
 
-export const NEED_UPDATE_TOKEN = 'NEED_UPDATE_TOKEN';
-export const USER_AUTHORIZED = 'USER_AUTHORIZED';
-
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
