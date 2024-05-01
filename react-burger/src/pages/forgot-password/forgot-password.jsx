@@ -7,6 +7,8 @@ import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from "react-router-dom";
 import { postCheckPasswordResetAvailable } from "../../utils/api";
+import { Loader } from "../../components/loader/loader";
+import { Message } from "../../components/message/message";
 
 export default function ForgotPasswordPage() {
 
@@ -14,28 +16,38 @@ export default function ForgotPasswordPage() {
     const location = useLocation();
 
     const [email, setEmail] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
 
     const onClick = e => {
-
         e.preventDefault();
-
+        setLoading(true);
         postCheckPasswordResetAvailable(email)
         .then((model) => {
             if (model && model.success) {
                 navigate('/reset-password', { replace: true, state: { from: location.pathname} });
             } else {
+                setLoading(false);
               throw new Error('Failed to receive data from the server. In the response model "success":false');
             }
           })
-        .catch(e => {});
+        .catch(e => {
+            setError('Не удалось проверить почту для сброса пароля');
+            setLoading(false);
+        });
     };
 
     const onChangeEmail = e => {
         setEmail(e.target.value);
     };
 
+    if (loading) {
+        return <Loader text='Проверяем почту...' />
+    }
+
     return (
         <div className='form-container'>
+            {error && <Message type='error' text={error} />}
               <form className='mt-20'>
                   <h1 className='text_type_main-medium mb-6'>Восстановление пароля</h1>
                   <div>

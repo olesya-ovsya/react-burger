@@ -8,13 +8,18 @@ import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from "react-router-dom";
 import { postResetPassword } from "../../utils/api";
+import { Loader } from "../../components/loader/loader";
+import { Message } from "../../components/message/message";
 
 export default function ResetPasswordPage() {
 
-    const [state, setState] = useState({
+    const [form, setForm] = useState({
         password: '',
         token: ''
     });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -26,33 +31,44 @@ export default function ResetPasswordPage() {
     }, [location, navigate]);
 
     const onChangeForm = e => {
-        setState({...state, [e.target.name]: e.target.value });
+        setForm({...form, [e.target.name]: e.target.value });
     };
 
     const onClick = e => {
         e.preventDefault();
-
-        postResetPassword(state)
+        setLoading(true);
+        postResetPassword(form)
         .then((model) => {
             if (model && model.success) {
                 navigate('/', { replace: true });
             } else {
+              setLoading(false);
               throw new Error('Failed to receive data from the server. In the response model "success":false');
             }
           })
-        .catch(e => {});
+        .catch(e => {
+          setError('Не удалось сменить пароль');
+          setLoading(false);
+        });
     };
+
+    if (loading) {
+      return <Loader text='Смена пароля...' />
+    }
     
     return (
         <div className='form-container'>
+              {error && <Message type='error' text={error} />}
               <form className='mt-20'>
                   <h1 className='text_type_main-medium mb-6'>Восстановление пароля</h1>
                   <div>
                       <PasswordInput name='password'
+                        value={form.password}
                         placeholder='Введите новый пароль'
                         onChange={onChangeForm}
                         extraClass='mb-6' />
                       <Input name='token'
+                        value={form.token}
                         placeholder='Введите код из письма'
                         onChange={onChangeForm}
                         extraClass="mb-6" />

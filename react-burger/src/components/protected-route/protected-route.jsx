@@ -5,8 +5,7 @@ import {
     setAccessToken,
     deleteAccessToken,
     getRefreshToken,
-    setRefreshToken,
-    isAuthorized
+    setRefreshToken
 } from '../../utils/utils';
 import { useDispatch } from 'react-redux';
 import {Loader} from '../loader/loader';
@@ -38,11 +37,9 @@ export function ProtectedRouteElement ({ element }) {
     let accessToken = getAccessToken() ?? null;
     const refreshToken = getRefreshToken();
 
-    const authorized = isAuthorized();
-
     switch (pageType) {
       case 'profile': {
-        if (authorized) {
+        if (accessToken !== null && refreshToken !== null) {
           setRedirect(element);
           setLoading(false);
         } else if (refreshToken === null) {
@@ -80,7 +77,7 @@ export function ProtectedRouteElement ({ element }) {
       break;
       }
       case 'unauthorizedOnly': {
-        if (!authorized) {
+        if (accessToken === null || refreshToken === null) {
           setRedirect(element);
           setLoading(false);
         } else {
