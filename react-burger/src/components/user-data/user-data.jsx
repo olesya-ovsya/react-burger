@@ -11,6 +11,7 @@ import { useEffect, useState, useRef } from "react";
 import { getCurrentUser, updateUserData } from "../../services/actions/user";
 import { Loader } from "../loader/loader";
 import { Message } from "../message/message";
+import PropTypes from 'prop-types';
 
 export default function UserData() {
 
@@ -118,7 +119,8 @@ const NameEditInput = ({
     value,
     isIcon,
     extraClass,
-    onChange 
+    onChange,
+    ...rest 
     }) => {
     const [fieldDisabled, setDisabled] = useState(isIcon);
 
@@ -140,6 +142,7 @@ const NameEditInput = ({
     };
 
     return <Input
+        type='text'
         placeholder={placeholder}
         icon='EditIcon'
         value={value}
@@ -151,5 +154,14 @@ const NameEditInput = ({
         disabled={fieldDisabled}
         onIconClick={onIconClick}
         extraClass={extraClass}
-        errorText={'Ой, произошла ошибка!'} />
+        errorText={'Ой, произошла ошибка!'}
+        {...rest} />
 }
+
+NameEditInput.propTypes = {
+    placeholder: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    isIcon: PropTypes.bool.isRequired,
+    extraClass: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired 
+};
