@@ -32,7 +32,7 @@ export default function IngredientDetails()
     }
 
     return (
-        <>
+        <div className={styles.container}>
         {ingredient && (<>
             <img src={ingredient.image_large} 
                 alt={`Изображение ингредиента "${ingredient.name}"`}
@@ -46,6 +46,6 @@ export default function IngredientDetails()
         {getIngredientsFailed  &&
             <Message type='error' text='Не удалось загрузить информацию об ингредиенте' />
         }
-        </>
+        </div>
     );
 }

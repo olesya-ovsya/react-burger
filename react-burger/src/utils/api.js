@@ -21,7 +21,9 @@ export function postCreateOrder(ingredients) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: 'Bearer ' + getAccessToken()
         },
         body: JSON.stringify({ ingredients })
     };
@@ -34,8 +36,9 @@ export function getUser() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
           Authorization: 'Bearer ' + getAccessToken()
-        },
+        }
     };
 
     return sendRequest('auth/user', requestInfo);
@@ -46,6 +49,7 @@ export function patchUser(model) {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
           Authorization: 'Bearer ' + getAccessToken()
         },
         body: JSON.stringify(model)
@@ -58,7 +62,8 @@ export function postRegister(model) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(model)
     };
@@ -70,7 +75,8 @@ export function postLogin(model) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(model)
     };
@@ -82,7 +88,8 @@ export function postLogout(refreshToken) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({ token: refreshToken })
     };
@@ -94,7 +101,8 @@ export function postToken(refreshToken) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({ token: refreshToken })
     };
@@ -106,7 +114,8 @@ export function postCheckPasswordResetAvailable(email) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({ email })
     };
@@ -118,7 +127,8 @@ export function postResetPassword(model) {
     const requestInfo = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(model)
     };
