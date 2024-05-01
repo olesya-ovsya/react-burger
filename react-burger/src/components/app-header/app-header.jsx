@@ -7,21 +7,35 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import PropTypes from 'prop-types';
-import { useMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function AppHeader() {
+
+    const location = useLocation();
 
     return (
         <Navigation>
             <NavigationBlock className={styles.blockMenu}>
-                <NavigationBlockItem text='Конструктор' path='/' icon={<BurgerIcon type='secondary' />}/>
-                <NavigationBlockItem text='Лента заказов' path='/orders' icon={<ListIcon type='secondary' />} />
+                <NavigationBlockItem text='Конструктор'
+                    to='/'
+                    path={location.pathname}
+                    icon={<BurgerIcon 
+                    type='secondary' />}/>
+                <NavigationBlockItem text='Лента заказов'
+                    to='/orders'
+                    path={location.pathname}
+                    icon={<ListIcon 
+                    type='secondary' />} />
             </NavigationBlock>
             <NavigationBlock className={styles.blockLogo}>
                 <Logo />
             </NavigationBlock>
             <NavigationBlock className={styles.blockProfile}>
-                <NavigationBlockItem text='Личный кабинет' path='/profile' icon={<ProfileIcon type='secondary' />}/>
+                <NavigationBlockItem text='Личный кабинет'
+                    to='/profile'
+                    path={location.pathname}
+                    icon={<ProfileIcon 
+                    type='secondary' />}/>
             </NavigationBlock>
         </Navigation>
     );
@@ -54,14 +68,12 @@ NavigationBlock.propTypes = {
     children: PropTypes.node
 };
 
-const NavigationBlockItem = ({ icon, text, path }) => {
-
-    const match = useMatch(path);
+const NavigationBlockItem = ({ icon, text, to, path }) => {
 
     const navigate = useNavigate();
 
     const onClick = () => {
-        navigate(path);
+        navigate(to);
     };
 
     return(
@@ -71,7 +83,7 @@ const NavigationBlockItem = ({ icon, text, path }) => {
             onClick={onClick}
             extraClass='p-5 mt-4 mb-4 mr-2'>
                 {icon}
-                <span className={`${styles.name} ml-2 ${match?.pathname === path ? 'text_color_primary' : ''}`}>
+                <span className={`${styles.name} ml-2 ${(to === '/' ? to === path  : path.includes(to)) ? 'text_color_primary' : ''}`}>
                     {text}
                 </span>
         </Button>
@@ -81,5 +93,6 @@ const NavigationBlockItem = ({ icon, text, path }) => {
 NavigationBlockItem.propTypes = {
     icon: PropTypes.element.isRequired,
     text: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired
+    path: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired
 };
