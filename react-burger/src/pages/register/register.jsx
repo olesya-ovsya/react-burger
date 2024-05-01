@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { 
     Input,
     EmailInput,
@@ -9,16 +9,25 @@ import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { postRegister } from "../../utils/api";
+import { register } from "../../services/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { Loader } from "../../components/loader/loader";
+import { Message } from "../../components/message/message";
 
 export default function RegisterPage() {
 
-    const [state, setState] = React.useState({
+    const registerRequest = useSelector(store => store.user.registerRequest);
+    const registerFailed = useSelector(store => store.user.registerFailed);
+    const authorized = useSelector(store => store.user.authorized);
+
+    const [state, setState] = useState({
         email: '',
         password: '',
         name: ''
     });
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onChangeForm = e => {
         setState({...state, [e.target.name]: e.target.value });
@@ -26,21 +35,24 @@ export default function RegisterPage() {
 
     const onClick = e => {
 
-        e.preventDefault(); // не даем странице перезагрузиться
+        e.preventDefault();
 
-        postRegister(state)
-        .then((model) => {
-            if (model && model.success) {
-                navigate('/', { replace: true });
-            } else {
-              throw new Error('Failed to receive data from the server. In the response model "success":false');
-            }
-          })
-        .catch(e => {});
+        dispatch(register(state));
     };
 
+    useEffect(() => {
+      if (authorized) {
+        navigate('/', { replace: true });
+      }
+    }, [authorized]);
+
+    if (registerRequest) {
+      return <Loader text='Регистрируем пользователя...' />
+    }
+
     return (
-        <div className='form-container'>
+        <div className='form-container' style={{flexDirection: 'column'}}>
+              {registerFailed && <Message type='error' text='Не удалось зарегистрировать пользователя' />}
               <form className='mt-20'>
                   <h1 className='text_type_main-medium mb-6'>Регистрация</h1>
                   <div>

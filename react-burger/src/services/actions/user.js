@@ -3,7 +3,9 @@ import {
   postLogin,
   postToken,
   postLogout,
-  patchUser } from "../../utils/api";
+  patchUser,
+  postRegister
+} from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
@@ -19,8 +21,6 @@ export function getCurrentUser() {
       getUser()
       .then((model) => {
           if (model && model.success) {
-
-            console.log(model)
 
             dispatch({
                   type: GET_USER_SUCCESS,
@@ -45,8 +45,6 @@ export function login(email, password) {
     postLogin({email, password})
     .then((model) => {
         if (model && model.success) {
-
-          console.log(model);
 
           localStorage.setItem('refreshToken', model.refreshToken);
 
@@ -150,5 +148,37 @@ export function updateUserData(model) {
         }
       })
     .catch(e => dispatch({ type: UPDATE_USER_DATA_FAILED }));
+  }
+}
+
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+
+export function register(model) {
+  return function(dispatch) {
+    dispatch({ type: REGISTER_REQUEST });
+
+    postRegister(model)
+    .then((model) => {
+        if (model && model.success) {
+
+          localStorage.setItem('refreshToken', model.refreshToken);
+
+          let accessToken;
+
+          if (model.accessToken.indexOf('Bearer') === 0) {
+            accessToken = model.accessToken.split('Bearer ')[1];
+          }
+
+          deleteCookie('accessToken');
+          setCookie('accessToken', accessToken, { expires: 2000 });
+
+          dispatch({ type: REGISTER_SUCCESS, user: model.user });
+        } else {
+          throw new Error('Failed to receive data from the server. In the response model "success":false');
+        }
+      })
+    .catch(e => dispatch({ type: REGISTER_FAILED }));
   }
 }

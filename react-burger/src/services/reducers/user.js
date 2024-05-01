@@ -14,7 +14,10 @@ import {
     LOGOUT_FAILED,
     UPDATE_USER_DATA_REQUEST,
     UPDATE_USER_DATA_SUCCESS,
-    UPDATE_USER_DATA_FAILED
+    UPDATE_USER_DATA_FAILED,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAILED
 } from "../actions/user";
 
 const initialState = {
@@ -30,7 +33,9 @@ const initialState = {
     logoutRequest: false,
     logoutFailed: false,
     updateUserDataRequest: false,
-    updateUserDataFailed: false
+    updateUserDataFailed: false,
+    registerRequest: false,
+    registerFailed: false
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -142,6 +147,31 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 updateUserDataRequest: false,
                 updateUserDataFailed: true
+            }
+        }
+        case REGISTER_REQUEST: {
+            return {
+                ...state,
+                registerRequest: true,
+                registerFailed: false,
+                authorized: false
+            }
+        }
+        case REGISTER_SUCCESS: {
+            return {
+                ...state,
+                registerRequest: false,
+                registerFailed: false,
+                email: action.user.email,
+                name: action.user.name,
+                authorized: true
+            }
+        }
+        case REGISTER_FAILED: {
+            return {
+                ...state,
+                registerRequest: false,
+                registerFailed: true
             }
         }
         default:
