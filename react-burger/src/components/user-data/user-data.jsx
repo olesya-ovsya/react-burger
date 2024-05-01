@@ -33,7 +33,7 @@ export default function UserData() {
 
     useEffect(() => {
         dispatch(getCurrentUser());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         setForm({ ...form, email: email, name: name });

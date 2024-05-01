@@ -39,7 +39,10 @@ export const userReducer = (state = initialState, action) => {
         case GET_USER_REQUEST:
             return {
                 ...state,
-                getUserRequest: true
+                getUserRequest: true,
+                getUserFailed: false,
+                loginFailed: false,
+                logoutFailed: false
             };
         case GET_USER_SUCCESS:
             return {

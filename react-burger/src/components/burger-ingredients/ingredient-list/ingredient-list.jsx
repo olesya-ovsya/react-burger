@@ -7,28 +7,13 @@ import IngredientDetails from '../../ingredient-details/ingredient-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { SET_CURRENT_INGREDIENT, CLEAR_CURRENT_INGREDIENT } from '../../../services/actions/ingredient-details';
+import { useLocation, Link } from 'react-router-dom';
 
 export default function IngredientList ({ tabData, handleScroll }) {
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const formulaBun = useSelector(store => store.burgerFormula.bun);
     const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
-    const currentIngredient = useSelector(store => store.ingredientDetails.currentIngredient);
-
-    const dispatch = useDispatch();
-
-    const openIngredientDetails = (ingredient) =>
-    {
-        dispatch({
-            type: SET_CURRENT_INGREDIENT,
-            currentIngredient: ingredient
-        });
-    };
-
-    const closeIngredientDetails = () => {
-        dispatch({
-            type: CLEAR_CURRENT_INGREDIENT
-        });
-    };
+    const location = useLocation();
 
     return (
         <div className={styles.ingredientList} onScroll={handleScroll}>
@@ -45,15 +30,11 @@ export default function IngredientList ({ tabData, handleScroll }) {
                                 count={ i.type === 'bun'
                                     ? (formulaBun && formulaBun._id === i._id ? 2 : 0)
                                     : (formulaOtherIngredients.filter(x => x._id === i._id).length)}
-                                onShowDetailsClick={openIngredientDetails} />
+                                location={location} />
                         ))}
                     </div>
                 </div>
             ))}
-            {currentIngredient !== null && (
-                <Modal header='Детали ингредиента' modalContainerId='igridient-details-modal' onClose={closeIngredientDetails}>
-                    <IngredientDetails ingredient={currentIngredient} />
-                </Modal>)}
         </div>
     );
 } 
@@ -63,8 +44,7 @@ IngredientList.propTypes = {
     handleScroll: PropTypes.func.isRequired
 }
 
-const ElementListItem = ({ ingredient, count, onShowDetailsClick }) => {
-    const handleClick = () => onShowDetailsClick(ingredient);
+const ElementListItem = ({ ingredient, count, location }) => {
 
     const [{ opacity }, ref] = useDrag({
         type: ingredient.type === 'bun' ? 'bun' : 'otherIngredient',
@@ -77,9 +57,15 @@ const ElementListItem = ({ ingredient, count, onShowDetailsClick }) => {
     return (
         <div key={ingredient._id} 
             className={`${styles.ingredientCard} mr-4 mt-6`} 
-            onClick={handleClick} 
             ref={ref}
             style={{opacity}}>
+                <Link 
+            // Тут мы формируем динамический путь для нашего ингредиента
+            to={`/ingredients/${ingredient._id}`}
+            // а также сохраняем в свойство background роут,
+            // на котором была открыта наша модалка
+            state={{ background: location }}
+        >
             <div className={styles.imageBox}>
                 <img src={ingredient.image} alt={`Изображение ингредиента "${ingredient.name}"`} className='ml-4' />
                 {count > 0 && <Counter count={count} styles={{zIndex: '3', position: 'absolute'}}/>}
@@ -89,12 +75,12 @@ const ElementListItem = ({ ingredient, count, onShowDetailsClick }) => {
                 <CurrencyIcon />
             </div>
             <span className='text_type_main-default'>{ingredient.name}</span>
+            </Link>
         </div>
     )
 };
 
 ElementListItem.propTypes = {
     ingredient: IngredientPropTypes.isRequired,
-    count: PropTypes.number.isRequired,
-    onShowDetailsClick: PropTypes.func.isRequired
+    count: PropTypes.number.isRequired
 };

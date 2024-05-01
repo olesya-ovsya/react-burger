@@ -5,23 +5,24 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { postCheckPasswordResetAvailable } from "../../utils/api";
 
 export default function ForgotPasswordPage() {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [email, setEmail] = React.useState('');
 
     const onClick = e => {
 
-        e.preventDefault(); // не даем странице перезагрузиться
+        e.preventDefault();
 
         postCheckPasswordResetAvailable(email)
         .then((model) => {
             if (model && model.success) {
-                navigate('/reset-password', { replace: true });
+                navigate('/reset-password', { replace: true, state: { from: location.pathname} });
             } else {
               throw new Error('Failed to receive data from the server. In the response model "success":false');
             }

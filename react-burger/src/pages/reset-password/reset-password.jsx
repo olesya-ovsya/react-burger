@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { 
     Input,
     PasswordInput,
@@ -6,25 +6,31 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { postResetPassword } from "../../utils/api";
 
 export default function ResetPasswordPage() {
 
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         password: '',
         token: ''
     });
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+      if (location.state?.from !== '/forgot-password') {
+        navigate('/forgot-password', { replace: true });
+      }
+    }, [location, navigate]);
 
     const onChangeForm = e => {
         setState({...state, [e.target.name]: e.target.value });
     };
 
     const onClick = e => {
-
-        e.preventDefault(); // не даем странице перезагрузиться
+        e.preventDefault();
 
         postResetPassword(state)
         .then((model) => {
