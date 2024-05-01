@@ -25,7 +25,7 @@ export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onClick = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
         dispatch(login(form.email, form.password));
     };
@@ -51,7 +51,7 @@ export default function LoginPage() {
     return (
       <div className='form-container mt-20' style={{flexDirection: 'column'}}>
             {loginFailed && <Message type='error' text='Не удалось авторизоваться в системе' />}
-            <form>
+            <form onSubmit={onSubmit}>
                 <h1 className='text_type_main-medium mb-6'>Вход</h1>
                 <div>
                     <EmailInput name='email'
@@ -64,7 +64,6 @@ export default function LoginPage() {
                         extraClass='mb-6' />
                     <Button htmlType='submit'
                         size='large'
-                        onClick={onClick}
                         extraClass='mb-20 pr-15 pl-15'>
                             Войти
                     </Button>

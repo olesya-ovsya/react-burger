@@ -34,7 +34,7 @@ export default function ResetPasswordPage() {
         setForm({...form, [e.target.name]: e.target.value });
     };
 
-    const onClick = e => {
+    const onSubmit = e => {
         e.preventDefault();
         setLoading(true);
         postResetPassword(form)
@@ -59,7 +59,7 @@ export default function ResetPasswordPage() {
     return (
         <div className='form-container'>
               {error && <Message type='error' text={error} />}
-              <form className='mt-20'>
+              <form className='mt-20' onSubmit={onSubmit}>
                   <h1 className='text_type_main-medium mb-6'>Восстановление пароля</h1>
                   <div>
                       <PasswordInput name='password'
@@ -74,7 +74,6 @@ export default function ResetPasswordPage() {
                         extraClass="mb-6" />
                       <Button htmlType='submit'
                         size='large'
-                        onClick={onClick}
                         extraClass='mb-20 pr-15 pl-15'>Сохранить</Button>
                   </div>
                   <p className='text_type_main-default text_color_inactive'>

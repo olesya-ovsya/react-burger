@@ -74,7 +74,7 @@ export default function UserData() {
     return (
         <div>
             {errorText && <Message type='error' text={errorText} />}
-            <form className='mt-20'>
+            <form className='mt-20' onSubmit={submit}>
                   <div>
                       <NameEditInput name='name' 
                         value={form.name ?? ''} 
@@ -104,8 +104,7 @@ export default function UserData() {
                         </Button>
                         <Button htmlType='submit'
                             type='primary'
-                            size='medium'
-                            onClick={submit}>
+                            size='medium'>
                                 Сохранить
                         </Button>
                     </div>}

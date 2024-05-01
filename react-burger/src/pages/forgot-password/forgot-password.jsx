@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
 
-    const onClick = e => {
+    const onSubmit = e => {
         e.preventDefault();
         setLoading(true);
         postCheckPasswordResetAvailable(email)
@@ -48,11 +48,11 @@ export default function ForgotPasswordPage() {
     return (
         <div className='form-container'>
             {error && <Message type='error' text={error} />}
-              <form className='mt-20'>
+              <form className='mt-20' onSubmit={onSubmit}>
                   <h1 className='text_type_main-medium mb-6'>Восстановление пароля</h1>
                   <div>
                       <EmailInput value={email} onChange={onChangeEmail} extraClass='mb-6' placeholder='Укажите e-mail' />
-                      <Button  htmlType='submit' size='large' onClick={onClick} extraClass='mb-20 pr-15 pl-15'>Восстановить</Button>
+                      <Button  htmlType='submit' size='large' extraClass='mb-20 pr-15 pl-15'>Восстановить</Button>
                   </div>
                   <p className='text_type_main-default text_color_inactive'>
                     Вспомнили пароль?  <Link className='link-text' to='/login'>Войти</Link>

@@ -32,7 +32,7 @@ export default function RegisterPage() {
         setState({...state, [e.target.name]: e.target.value });
     };
 
-    const onClick = e => {
+    const onSubmit = e => {
 
         e.preventDefault();
 
@@ -52,7 +52,7 @@ export default function RegisterPage() {
     return (
         <div className='form-container' style={{flexDirection: 'column'}}>
               {registerFailed && <Message type='error' text='Не удалось зарегистрировать пользователя' />}
-              <form className='mt-20'>
+              <form className='mt-20' onSubmit={onSubmit}>
                   <h1 className='text_type_main-medium mb-6'>Регистрация</h1>
                   <div>
                       <Input name='name' 
@@ -70,7 +70,6 @@ export default function RegisterPage() {
                         value={state.password}
                         extraClass='mb-6' />
                       <Button htmlType='submit'
-                        onClick={onClick}
                         size='large'
                         extraClass='mb-20 pr-15 pl-15'>Зарегистрироваться</Button>
                   </div>
