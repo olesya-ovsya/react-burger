@@ -25,3 +25,11 @@ export const IngredientTabPropTypes = PropTypes.shape({
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
 });
+
+export const LocationPropTypes = PropTypes.shape({
+    hash: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
+    state: PropTypes.object
+});

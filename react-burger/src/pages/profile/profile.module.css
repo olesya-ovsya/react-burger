@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.profileContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.menu {
+    list-style-type: none;
+    text-align: left;
+    margin: auto;
+    padding: auto;
+}
+
+.link {
+    text-decoration: none;
+    text-align: center;
+    color: var(--text-inactive-color);
+}
+
+.link:active {
+    color: var(--text-primary-color);
+}
+
+.link:hover {
+    color: var(--colors-interface-accent);
+}
+
+.info {
+    color: var(--background-element);
+    text-align: left;
+    font-weight: bold;
+}

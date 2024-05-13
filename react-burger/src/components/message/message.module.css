@@ -1,0 +1,19 @@
+.container {
+    border: 1rem white;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+}
+
+.error {
+    background-color: var(--colors-interface-error);
+}
+
+.info {
+    background-color: var(--text-inactive-color);
+}
+
+.success {
+    background-color: var(--colors-interface-success);
+}

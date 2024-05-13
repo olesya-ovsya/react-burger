@@ -7,12 +7,16 @@ import OrderDetails from '../order-details/order-details';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createOrder, CLEAR_ORDER_NUMBER } from '../../services/actions/order';
+import { isAuthorized } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 export default function BurgerConstructor() {
 
     const [state, setState] = React.useState({
         orderDetailsVisible: false
     });
+    
+    const navigate = useNavigate();
 
     const { bun, otherIngredients } = useSelector(store => store.burgerFormula);
 
@@ -36,9 +40,14 @@ export default function BurgerConstructor() {
     const dispatch = useDispatch();
 
     const createNewOrder = () => {
-
         if (bun === null) {
             return;
+        }
+
+        const authorized = isAuthorized();
+
+        if (!authorized) {
+            navigate('/login', { state: { from: '/' }});
         }
 
         let ingredients = [bun._id];

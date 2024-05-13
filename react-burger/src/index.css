@@ -16,3 +16,20 @@ code {
   box-shadow: 0px 0px 2px 2px var(--colors-interface-accent);
   outline: 3px dotted var(--text-inactive-color);
 }
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link-text {
+    text-decoration: none;
+    text-align: center;
+    color: var(--colors-interface-accent);
+}
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}

@@ -7,19 +7,35 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function AppHeader() {
+
+    const location = useLocation();
+
     return (
         <Navigation>
             <NavigationBlock className={styles.blockMenu}>
-                <NavigationBlockItem text='Конструктор' icon={<BurgerIcon type='secondary' />}/>
-                <NavigationBlockItem text='Лента заказов' icon={<ListIcon type='secondary' />} />
+                <NavigationBlockItem text='Конструктор'
+                    to='/'
+                    path={location.pathname}
+                    icon={<BurgerIcon 
+                    type='secondary' />}/>
+                <NavigationBlockItem text='Лента заказов'
+                    to='/orders'
+                    path={location.pathname}
+                    icon={<ListIcon 
+                    type='secondary' />} />
             </NavigationBlock>
             <NavigationBlock className={styles.blockLogo}>
                 <Logo />
             </NavigationBlock>
             <NavigationBlock className={styles.blockProfile}>
-                <NavigationBlockItem text='Личный кабинет' icon={<ProfileIcon type='secondary' />}/>
+                <NavigationBlockItem text='Личный кабинет'
+                    to='/profile'
+                    path={location.pathname}
+                    icon={<ProfileIcon 
+                    type='secondary' />}/>
             </NavigationBlock>
         </Navigation>
     );
@@ -52,16 +68,31 @@ NavigationBlock.propTypes = {
     children: PropTypes.node
 };
 
-const NavigationBlockItem = ({ icon, text }) => {
+const NavigationBlockItem = ({ icon, text, to, path }) => {
+
+    const navigate = useNavigate();
+
+    const onClick = () => {
+        navigate(to);
+    };
+
     return(
-        <Button htmlType='button' size='medium' type='secondary' extraClass='p-5 mt-4 mb-4 mr-2'>
+        <Button htmlType='button'
+            size='medium'
+            type='secondary'
+            onClick={onClick}
+            extraClass='p-5 mt-4 mb-4 mr-2'>
                 {icon}
-                <span className={`${styles.name} ml-2`}>{text}</span>
+                <span className={`${styles.name} ml-2 ${(to === '/' ? to === path  : path.includes(to)) ? 'text_color_primary' : ''}`}>
+                    {text}
+                </span>
         </Button>
     );
 };
 
 NavigationBlockItem.propTypes = {
     icon: PropTypes.element.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired
 };

@@ -1,4 +1,4 @@
-import { sendRequest } from '../../utils/request-helper';
+import { postCreateOrder } from "../../utils/api";
 
 export const CREATE_ORDER_REQUEST = 'REATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'REATE_ORDER_SUCCESS';
@@ -11,15 +11,7 @@ export function createOrder(ingredients) {
         type: CREATE_ORDER_REQUEST
     });
 
-    const requestInfo = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({ ingredients })
-    };
-
-    sendRequest("orders", requestInfo)
+    postCreateOrder(ingredients)
     .then((model) => {
         if (model && model.success) {
             dispatch({

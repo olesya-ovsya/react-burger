@@ -19,7 +19,7 @@ NutritionElement.propTypes = {
 
 const NutritionElementText = ({name, value}) => {
     return (
-        <p className={`${styles.nutritionText} text_type_main-default text_color_inactive mr-5`}>
+        <p className={`${styles.nutritionText} text_type_main-default text_color_inactive ml-3`}>
             {name}
             <br/>
             <span className='text_type_digits-default'>{value}</span>

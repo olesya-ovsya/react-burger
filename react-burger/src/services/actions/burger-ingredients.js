@@ -1,4 +1,4 @@
-import { sendRequest } from '../../utils/request-helper';
+import { getIngredients } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -10,7 +10,7 @@ export function getBurgerIngredients() {
             type: GET_INGREDIENTS_REQUEST
         });
 
-        sendRequest("ingredients")
+        getIngredients()
         .then((model) => {
             if (model && model.success) {
               dispatch({ type: GET_INGREDIENTS_SUCCESS, data: model.data });
