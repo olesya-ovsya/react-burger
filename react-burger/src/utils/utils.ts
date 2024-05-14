@@ -5,13 +5,14 @@ export function getAccessToken() {
   return matches ? decodeURIComponent(matches[1]) : null;
 }
 
-export function setAccessToken(value) {
+export function setAccessToken(value: string | null) {
   const d = new Date();
   let exp = 1200;
   d.setTime(d.getTime() + exp * 1000);
-  exp = d;
-  value = encodeURIComponent(value);
-  let updatedCookie = 'accessToken' + '=' + value + '; ' + 'expires=' + exp;
+  if (value !== null) {
+    value = encodeURIComponent(value);
+  }
+  let updatedCookie = 'accessToken' + '=' + value + '; ' + 'expires=' + d;
   document.cookie = updatedCookie;
 }
 
@@ -24,7 +25,7 @@ export function getRefreshToken() {
   return localStorage.getItem('refreshToken') ?? null;
 }
 
-export function setRefreshToken(value) {
+export function setRefreshToken(value: string) {
   localStorage.setItem('refreshToken', value);
 }
 

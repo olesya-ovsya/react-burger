@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, BaseSyntheticEvent, SyntheticEvent } from "react";
 import { 
     Input,
     EmailInput,
@@ -12,14 +12,18 @@ import { register } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
+import { FC } from "react";
+import { IUserDataModel } from "../../utils/shared-prop-types";
 
-export default function RegisterPage() {
-
+export const RegisterPage: FC = () => {
+    // @ts-ignore
     const registerRequest = useSelector(store => store.user.registerRequest);
+    // @ts-ignore
     const registerFailed = useSelector(store => store.user.registerFailed);
+    // @ts-ignore
     const authorized = useSelector(store => store.user.authorized);
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<IUserDataModel>({
         email: '',
         password: '',
         name: ''
@@ -28,14 +32,15 @@ export default function RegisterPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const onChangeForm = e => {
+    const onChangeForm = (e: BaseSyntheticEvent) => {
         setState({...state, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = e => {
+    const onSubmit = (e: SyntheticEvent) => {
 
         e.preventDefault();
 
+        // @ts-ignore
         dispatch(register(state));
     };
 
@@ -55,11 +60,13 @@ export default function RegisterPage() {
               <form className='mt-20' onSubmit={onSubmit}>
                   <h1 className='text_type_main-medium mb-6'>Регистрация</h1>
                   <div>
-                      <Input name='name' 
-                        value={state.name} 
+                      <Input name='name'
+                        value={state.name}
                         placeholder='Имя'
                         onChange={onChangeForm}
-                        extraClass="mb-6" />  
+                        extraClass="mb-6"
+                        onPointerEnterCapture={() => {}}
+                        onPointerLeaveCapture={() => {}} />  
                       <EmailInput name='email'
                         value={state.email}
                         onChange={onChangeForm}

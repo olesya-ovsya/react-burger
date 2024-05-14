@@ -1,8 +1,12 @@
 import styles from './nutrition-element.module.css';
-import PropTypes from 'prop-types';
-import { IngredientPropTypes } from '../../../utils/shared-prop-types';
+import { FC } from 'react';
+import { IApiIngredient } from '../../../utils/shared-prop-types';
 
-export default function NutritionElement({ ingredient }) {
+interface INutritionElementProps {
+    ingredient: IApiIngredient
+}
+
+export const NutritionElement: FC<INutritionElementProps> = ({ ingredient }) => {
     return (
         <div className={`${styles.nutritionBlock} mb-15`}>
             <NutritionElementText name='Калории, ккал' value={ingredient.calories} />
@@ -13,11 +17,12 @@ export default function NutritionElement({ ingredient }) {
     );
 }
 
-NutritionElement.propTypes = {
-    ingredient: IngredientPropTypes
-};
+interface INutritionElementTextProps {
+    name: string,
+    value: number
+}
 
-const NutritionElementText = ({name, value}) => {
+const NutritionElementText: FC<INutritionElementTextProps> = ({name, value}) => {
     return (
         <p className={`${styles.nutritionText} text_type_main-default text_color_inactive ml-3`}>
             {name}
@@ -26,8 +31,3 @@ const NutritionElementText = ({name, value}) => {
         </p>
     );
 }
-
-NutritionElementText.propTypes = {
-    name: PropTypes.string.isRequired, 
-    value: PropTypes.number.isRequired
-};

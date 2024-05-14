@@ -1,30 +1,31 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { REMOVE_INGREDIENT, ADD_INGREDIENT, MOVE_INGREDIENT } from '../../../../services/actions/burger-formula';
-import FakeConstructorElement from '../fake-constructor-element/fake-constructor-element';
+import { FakeConstructorElement } from '../fake-constructor-element/fake-constructor-element';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './other-ingredients.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import '../../../../index.css';
-import PropTypes from 'prop-types';
-import { IngredientWitIdentityPropTypes } from '../../../../utils/shared-prop-types';
+import { IApiIngredient, IIngredient } from '../../../../utils/shared-prop-types';
+import { FC } from 'react';
 
 export default function OtherIngredients() {
 
+    // @ts-ignore
     const otherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
 
     const dispatch = useDispatch();
 
-    const removeIngredient = (ingredientIdentity) => {
+    const removeIngredient = (ingredientIdentity: string) => {
         dispatch({
             type: REMOVE_INGREDIENT,
             identity: ingredientIdentity
         });
     }
 
-    const addIngredient = (newIngredient) => {
+    const addIngredient = (newIngredient: IApiIngredient) => {
         dispatch({
           type: ADD_INGREDIENT,
           newIngredient: { ...newIngredient, identity: uuidv4()}
@@ -36,7 +37,7 @@ export default function OtherIngredients() {
         collect: monitor => ({
           isHover: monitor.isOver()
         }),
-        drop(item) {
+        drop(item: any) {
           addIngredient(item.ingredient);
         },
     });
@@ -45,7 +46,7 @@ export default function OtherIngredients() {
         <div ref={dropTarget}>
             {otherIngredients && otherIngredients.length > 0 
             ?   <div className={styles.ingredientListContainer}>
-                    {otherIngredients.map((ingredient, index) =>
+                    {otherIngredients.map((ingredient: IIngredient, index: number) =>
                         <OtherIngredient 
                             key={ingredient.identity}
                             index={index}
@@ -59,11 +60,16 @@ export default function OtherIngredients() {
     );
 }
 
-const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
+const OtherIngredient : FC<{
+  ingredient: IIngredient,
+  index: number,
+  removeIngredient: (ingredientIdentity: string) => void 
+  }> = ({ ingredient, index, removeIngredient }) => {
     const handleClickRemove = () => removeIngredient(ingredient.identity);
 
     const dispatch = useDispatch();
 
+    // @ts-ignore
     const otherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
 
     const [{ isDragging }, drag] = useDrag({
@@ -76,11 +82,11 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
 
     const opacity = isDragging ? 0 : 1;
 
-    const ref = React.useRef(null);
+    const ref = React.useRef<HTMLDivElement>(null);
 
     const [, drop] = useDrop({
         accept: 'constructorElement',
-        hover(item, monitor) {
+        hover(item: any, monitor) {
           if (!ref.current) {
             return;
           }
@@ -93,7 +99,7 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
           const hoverBoundingRect = ref.current.getBoundingClientRect()
           const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
           const clientOffset = monitor.getClientOffset();
-          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+          const hoverClientY = clientOffset === null ? -1 : clientOffset.y - hoverBoundingRect.top;
           
           if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
             return;
@@ -106,7 +112,8 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
         },
     });
 
-    const moveElement = React.useCallback(
+    type moveElementCallback = (dragIndex: number, hoverIndex: number) => void;
+    const moveElement = React.useCallback<moveElementCallback>(
         (dragIndex, hoverIndex) => {
             dispatch({
                 type: MOVE_INGREDIENT,
@@ -121,7 +128,7 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
 
     return (
         <div className={styles.elementListItem} style={{opacity}} ref={ref}>
-            <DragIcon/>
+            <DragIcon type='primary' />
             <ConstructorElement
                 text={ingredient.name}
                 thumbnail={ingredient.image_mobile}
@@ -130,10 +137,4 @@ const OtherIngredient = ({ ingredient, index, removeIngredient }) => {
                 handleClose={handleClickRemove}/>
         </div>
     )
-};
-
-OtherIngredient.propTypes = {
-  ingridient: IngredientWitIdentityPropTypes,
-  index: PropTypes.number.isRequired,
-  removeIngredient: PropTypes.func.isRequired
 };

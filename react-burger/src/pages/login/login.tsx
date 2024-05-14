@@ -7,16 +7,19 @@ import '../../index.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Message } from "../../components/message/message";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react';
 import { login } from "../../services/actions/user";
 import { Loader } from "../../components/loader/loader";
 import { isAuthorized } from "../../utils/utils";
+import { FC } from "react";
+import { ILoginModel } from "../../utils/shared-prop-types";
 
-export default function LoginPage() {
+export const LoginPage: FC = () => {
+    const [form, setForm] = useState<ILoginModel>({ email: '', password: '' });
 
-    const [form, setForm] = useState({ email: '', password: '' });
-
+    // @ts-ignore
     const loginFailed = useSelector(store => store.user.loginFailed);
+    // @ts-ignore
     const loginRequest = useSelector(store => store.user.loginRequest);
     const authorized = isAuthorized();
 
@@ -25,12 +28,13 @@ export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        dispatch(login(form.email, form.password));
+        // @ts-ignore
+        dispatch(login(form));
     };
 
-    const onChangeForm = (e) => {
+    const onChangeForm = (e: BaseSyntheticEvent) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 

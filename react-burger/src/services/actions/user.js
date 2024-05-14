@@ -37,11 +37,11 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
-export function login(email, password) {
+export function login(model) {
   return function(dispatch) {
     dispatch({ type: LOGIN_REQUEST });
 
-    postLogin({email, password})
+    postLogin(model)
     .then((model) => {
         if (model && model.success) {
 

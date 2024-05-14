@@ -2,10 +2,12 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { useDispatch } from 'react-redux';
 import { SET_BUN } from '../../../services/actions/burger-formula';
 import { useDrop } from 'react-dnd';
-import Bun from './bun/bun';
+import { Bun } from './bun/bun';
 import OtherIngredients from './other-ingredients/other-ingredients';
+import { IIngredient } from '../../../utils/shared-prop-types';
+import { FC } from 'react';
  
-export default function BurgerFormula() {
+export const BurgerFormula: FC = () => {
 
     const dispatch = useDispatch();
 
@@ -14,12 +16,12 @@ export default function BurgerFormula() {
         collect: monitor => ({
           isHoverBun: monitor.isOver()
         }),
-        drop(item) {
+        drop(item: any) {
           setBun(item.ingredient);
         },
     });
 
-    const setBun = (newBun) => {
+    const setBun = (newBun: IIngredient) => {
         dispatch({
             type: SET_BUN,
             bun: newBun

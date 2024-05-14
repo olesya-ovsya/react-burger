@@ -1,7 +1,7 @@
 import styles from './loader.module.css';
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 
-export const Loader = ({ text }) => {
+export const Loader: FC<{ text: string }> = ({ text }) => {
 
     return (
         <div className={`${styles.container}`}>
@@ -11,8 +11,4 @@ export const Loader = ({ text }) => {
             </div>
         </div>
     );
-};
-
-Loader.propTypes = {
-    text: PropTypes.string
 };

@@ -1,12 +1,14 @@
 import { getAccessToken } from "./utils";
+import { ILoginModel, IUserDataModel, IResetPasswordModel } from "./shared-prop-types";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-function sendRequest(endpoint, options) {
+function sendRequest(endpoint: string, options?: any) {
+    
     return fetch(`${BASE_URL}/${endpoint}/`, options).then(checkResponse);
 }
 
-function checkResponse(response) {
+function checkResponse(response: Response) {
     if (response.ok) {
         return response.json();
     }
@@ -14,10 +16,17 @@ function checkResponse(response) {
 }
 
 export function getIngredients() {
-    return sendRequest("ingredients");
+    const requestInfo = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        }
+    };
+    return sendRequest("ingredients", requestInfo);
 };
 
-export function postCreateOrder(ingredients) {
+export function postCreateOrder(ingredients: Array<string>) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -44,7 +53,7 @@ export function getUser() {
     return sendRequest('auth/user', requestInfo);
 }
 
-export function patchUser(model) {
+export function patchUser(model: IUserDataModel) {
     const requestInfo = {
         method: 'PATCH',
         headers: {
@@ -58,7 +67,7 @@ export function patchUser(model) {
     return sendRequest('auth/user', requestInfo);
 }
 
-export function postRegister(model) {
+export function postRegister(model: IUserDataModel) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -71,7 +80,7 @@ export function postRegister(model) {
     return sendRequest("auth/register", requestInfo);
 }
 
-export function postLogin(model) {
+export function postLogin(model: ILoginModel) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -84,7 +93,7 @@ export function postLogin(model) {
     return sendRequest("auth/login", requestInfo);
 }
 
-export function postLogout(refreshToken) {
+export function postLogout(refreshToken: string) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -97,7 +106,7 @@ export function postLogout(refreshToken) {
     return sendRequest("auth/logout", requestInfo);
 }
 
-export function postToken(refreshToken) {
+export function postToken(refreshToken: string) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -110,7 +119,7 @@ export function postToken(refreshToken) {
     return sendRequest("auth/token", requestInfo);
 }
 
-export function postCheckPasswordResetAvailable(email) {
+export function postCheckPasswordResetAvailable(email: string) {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -123,7 +132,7 @@ export function postCheckPasswordResetAvailable(email) {
     return sendRequest("password-reset", requestInfo);
 }
 
-export function postResetPassword(model) {
+export function postResetPassword(model: IResetPasswordModel) {
     const requestInfo = {
         method: 'POST',
         headers: {

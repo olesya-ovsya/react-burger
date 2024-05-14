@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import ModalOverlay from '../modal-overlay/modal-overlay';
+import { ModalOverlay } from '../modal-overlay/modal-overlay';
+import { FC, PropsWithChildren } from 'react';
 
+interface IModalProps {
+    header?: string,
+    onClose: () => void
+}
 
-export default function Modal({ children, header, onClose }) {
+export const Modal: FC<PropsWithChildren<IModalProps>> = ({ children, header, onClose }) => {
     
     React.useEffect(() => {
-
-        const handleClick = (e) => {
+        const handleClick = (e: KeyboardEvent) => {
             if (e.code === "Escape") {
               onClose();
             }
@@ -34,7 +37,7 @@ export default function Modal({ children, header, onClose }) {
                         <div className={styles.modal}>
                             <div className={styles.modalHeader + ' mr-10 ml-10'}>
                                 <h1 className='text_type_main-large mr-10 ml-10'>{header}</h1>
-                                <div onClick={onClose}><CloseIcon /></div>
+                                <div onClick={onClose}><CloseIcon  type='primary' /></div>
                             </div>
                             {children}
                         </div>
@@ -44,9 +47,3 @@ export default function Modal({ children, header, onClose }) {
             )
         : null;
 }
-
-Modal.propTypes = {
-    children: PropTypes.node,
-    header: PropTypes.string,
-    onClose: PropTypes.func.isRequired
-};

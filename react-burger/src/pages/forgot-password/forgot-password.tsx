@@ -1,25 +1,23 @@
-import React from "react";
-import { 
-    EmailInput,
-    Button
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { BaseSyntheticEvent, SyntheticEvent } from "react";
+import { EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from "react-router-dom";
 import { postCheckPasswordResetAvailable } from "../../utils/api";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
+import { FC } from "react";
 
-export default function ForgotPasswordPage() {
+export const ForgotPasswordPage: FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const [email, setEmail] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
+    const [error, setError] = React.useState<string | null>(null);
 
-    const onSubmit = e => {
+    const onSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         setLoading(true);
         postCheckPasswordResetAvailable(email)
@@ -37,7 +35,7 @@ export default function ForgotPasswordPage() {
         });
     };
 
-    const onChangeEmail = e => {
+    const onChangeEmail = (e: BaseSyntheticEvent) => {
         setEmail(e.target.value);
     };
 

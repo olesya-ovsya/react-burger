@@ -6,17 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/actions/user';
 import { Loader } from '../../components/loader/loader';
 import { Message } from '../../components/message/message';
+import { FC } from 'react';
 
-export default function ProfilePage() {
+export const ProfilePage: FC = () => {
 
     const location = useLocation();
     const pathname = location.pathname;
 
     const dispatch = useDispatch();
+    // @ts-ignore
     const logoutRequest = useSelector(store => store.user.logoutRequest);
+    // @ts-ignore
     const logoutFailed = useSelector(store => store.user.logoutFailed);
 
     const signOut = () => {
+        // @ts-ignore
         dispatch(logout());
     };
 
