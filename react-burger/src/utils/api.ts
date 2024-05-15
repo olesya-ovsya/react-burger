@@ -1,21 +1,42 @@
 import { getAccessToken } from "./utils";
 import { ILoginModel, IUserDataModel, IResetPasswordModel } from "./shared-prop-types";
+import { IApiIngredient } from "./shared-prop-types";
+
+type TResponse<T> = { success: boolean } & T;
+
+type TUser = {
+    email: string,
+    name: string
+}
+
+type TToken = {
+    accessToken: string,
+    refreshToken: string
+}
+
+type TMessage = {
+    message: string
+}
+
+type TOrder = {
+    name: string,
+    order: { number: number}
+}
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-function sendRequest(endpoint: string, options?: any) {
-    
-    return fetch(`${BASE_URL}/${endpoint}/`, options).then(checkResponse);
+const sendRequest = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
+    return fetch(`${BASE_URL}/${endpoint}/`, options).then(checkResponse<T>);
 }
 
-function checkResponse(response: Response) {
+const checkResponse = async <T>(response: Response): Promise<T> => {
     if (response.ok) {
         return response.json();
     }
     return Promise.reject(`Ошибка ${response.status}`);
 }
 
-export function getIngredients() {
+export const getIngredients = () => {
     const requestInfo = {
         method: 'GET',
         headers: {
@@ -23,10 +44,10 @@ export function getIngredients() {
           'Access-Control-Allow-Origin': '*'
         }
     };
-    return sendRequest("ingredients", requestInfo);
+    return sendRequest<TResponse<{data: IApiIngredient[]}>>("ingredients", requestInfo);
 };
 
-export function postCreateOrder(ingredients: Array<string>) {
+export const postCreateOrder = (ingredients: Array<string>) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -37,10 +58,10 @@ export function postCreateOrder(ingredients: Array<string>) {
         body: JSON.stringify({ ingredients })
     };
 
-    return sendRequest("orders", requestInfo);
+    return sendRequest<TResponse<TOrder>>("orders", requestInfo);
 }
 
-export function getUser() {
+export const getUser = () => {
     const requestInfo = {
         method: 'GET',
         headers: {
@@ -50,10 +71,10 @@ export function getUser() {
         }
     };
 
-    return sendRequest('auth/user', requestInfo);
+    return sendRequest<TResponse<TUser>>('auth/user', requestInfo);
 }
 
-export function patchUser(model: IUserDataModel) {
+export const patchUser = (model: IUserDataModel) => {
     const requestInfo = {
         method: 'PATCH',
         headers: {
@@ -64,10 +85,10 @@ export function patchUser(model: IUserDataModel) {
         body: JSON.stringify(model)
     };
 
-    return sendRequest('auth/user', requestInfo);
+    return sendRequest<TResponse<TUser>>('auth/user', requestInfo);
 }
 
-export function postRegister(model: IUserDataModel) {
+export const postRegister = (model: IUserDataModel) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -77,10 +98,10 @@ export function postRegister(model: IUserDataModel) {
         body: JSON.stringify(model)
     };
 
-    return sendRequest("auth/register", requestInfo);
+    return sendRequest<TResponse<TUser&TToken>>("auth/register", requestInfo);
 }
 
-export function postLogin(model: ILoginModel) {
+export const postLogin = (model: ILoginModel) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -90,10 +111,10 @@ export function postLogin(model: ILoginModel) {
         body: JSON.stringify(model)
     };
 
-    return sendRequest("auth/login", requestInfo);
+    return sendRequest<TResponse<TUser&TToken>>("auth/login", requestInfo);
 }
 
-export function postLogout(refreshToken: string) {
+export const postLogout = (refreshToken: string) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -103,10 +124,10 @@ export function postLogout(refreshToken: string) {
         body: JSON.stringify({ token: refreshToken })
     };
 
-    return sendRequest("auth/logout", requestInfo);
+    return sendRequest<TResponse<TMessage>>("auth/logout", requestInfo);
 }
 
-export function postToken(refreshToken: string) {
+export const postToken = (refreshToken: string) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -116,10 +137,10 @@ export function postToken(refreshToken: string) {
         body: JSON.stringify({ token: refreshToken })
     };
 
-    return sendRequest("auth/token", requestInfo);
+    return sendRequest<TResponse<TToken>>("auth/token", requestInfo);
 }
 
-export function postCheckPasswordResetAvailable(email: string) {
+export const postCheckPasswordResetAvailable = (email: string) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -129,10 +150,10 @@ export function postCheckPasswordResetAvailable(email: string) {
         body: JSON.stringify({ email })
     };
 
-    return sendRequest("password-reset", requestInfo);
+    return sendRequest<TResponse<TMessage>>("password-reset", requestInfo);
 }
 
-export function postResetPassword(model: IResetPasswordModel) {
+export const postResetPassword = (model: IResetPasswordModel) => {
     const requestInfo = {
         method: 'POST',
         headers: {
@@ -142,5 +163,5 @@ export function postResetPassword(model: IResetPasswordModel) {
         body: JSON.stringify(model)
     };
 
-    return sendRequest('password-reset/reset', requestInfo);
+    return sendRequest<TResponse<TMessage>>('password-reset/reset', requestInfo);
 }

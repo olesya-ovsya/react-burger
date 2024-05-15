@@ -32,12 +32,15 @@ export default function OtherIngredients() {
         });
       };
 
-    const [{ isHover }, dropTarget] = useDrop({
+    const [{ isHover }, dropTarget] = useDrop<
+      { ingredient: IIngredient; index: number; },
+      unknown,
+      { isHover: boolean }>({
         accept: 'otherIngredient',
         collect: monitor => ({
           isHover: monitor.isOver()
         }),
-        drop(item: any) {
+        drop(item) {
           addIngredient(item.ingredient);
         },
     });
@@ -84,9 +87,9 @@ const OtherIngredient : FC<{
 
     const ref = React.useRef<HTMLDivElement>(null);
 
-    const [, drop] = useDrop({
+    const [, drop] = useDrop<{ ingredient: IIngredient; index: number; }>({
         accept: 'constructorElement',
-        hover(item: any, monitor) {
+        hover(item, monitor) {
           if (!ref.current) {
             return;
           }

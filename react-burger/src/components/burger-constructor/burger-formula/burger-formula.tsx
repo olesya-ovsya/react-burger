@@ -11,12 +11,15 @@ export const BurgerFormula: FC = () => {
 
     const dispatch = useDispatch();
 
-    const [{ isHoverBun }, dropTargetBun] = useDrop({
+    const [{ isHoverBun }, dropTargetBun] = useDrop<
+        { ingredient: IIngredient; index: number; },
+        unknown,
+        { isHoverBun: boolean }>({
         accept: 'bun',
         collect: monitor => ({
           isHoverBun: monitor.isOver()
         }),
-        drop(item: any) {
+        drop(item) {
           setBun(item.ingredient);
         },
     });
