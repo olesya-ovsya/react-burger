@@ -4,9 +4,10 @@ import orderAcceptedImage from '../../images/order-accepted-img.jpg';
 import { useSelector } from 'react-redux';
 import { Loader } from '../loader/loader';
 import { Message } from '../message/message';
+import { FC } from 'react';
 
-export default function OrderDetails() 
-{
+export const OrderDetails: FC = () =>  {
+    // @ts-ignore
     const { orderNumber, createOrderRequest, createOrderFailed } = useSelector(store => store.order);
     
     return (
@@ -29,7 +30,6 @@ export default function OrderDetails()
                         Дождитесь готовности на орбитальной станции
                     </p>
                 </>}
-            
         </div>
     );
 }

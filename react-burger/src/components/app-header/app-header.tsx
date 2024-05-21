@@ -6,10 +6,10 @@ import {
     Button 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 
-export default function AppHeader() {
+export const AppHeader: FC = () => {
 
     const location = useLocation();
 
@@ -19,13 +19,11 @@ export default function AppHeader() {
                 <NavigationBlockItem text='Конструктор'
                     to='/'
                     path={location.pathname}
-                    icon={<BurgerIcon 
-                    type='secondary' />}/>
+                    icon={<BurgerIcon type='secondary' />}/>
                 <NavigationBlockItem text='Лента заказов'
                     to='/orders'
                     path={location.pathname}
-                    icon={<ListIcon 
-                    type='secondary' />} />
+                    icon={<ListIcon type='secondary' />} />
             </NavigationBlock>
             <NavigationBlock className={styles.blockLogo}>
                 <Logo />
@@ -34,14 +32,13 @@ export default function AppHeader() {
                 <NavigationBlockItem text='Личный кабинет'
                     to='/profile'
                     path={location.pathname}
-                    icon={<ProfileIcon 
-                    type='secondary' />}/>
+                    icon={<ProfileIcon type='secondary' />}/>
             </NavigationBlock>
         </Navigation>
     );
 };
 
-const Navigation = ({ children }) => {
+const Navigation : FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <header className={styles.header}>
             <nav className={styles.container}>
@@ -51,11 +48,10 @@ const Navigation = ({ children }) => {
     );
 };
 
-Navigation.propTypes = {
-    children: PropTypes.node
-};
-
-const NavigationBlock = ({ className, children }) => {
+const NavigationBlock : FC<{
+    className: string,
+    children: React.ReactNode
+}> = ({ className, children }) => {
     return (
         <div className={className}>
             {children}
@@ -63,12 +59,12 @@ const NavigationBlock = ({ className, children }) => {
     );
 };
 
-NavigationBlock.propTypes = {
-    className: PropTypes.string.isRequired,
-    children: PropTypes.node
-};
-
-const NavigationBlockItem = ({ icon, text, to, path }) => {
+const NavigationBlockItem : FC<{
+    icon: JSX.Element,
+    text: string,
+    to: string,
+    path: string
+}> = ({ icon, text, to, path }) => {
 
     const navigate = useNavigate();
 
@@ -88,11 +84,4 @@ const NavigationBlockItem = ({ icon, text, to, path }) => {
                 </span>
         </Button>
     );
-};
-
-NavigationBlockItem.propTypes = {
-    icon: PropTypes.element.isRequired,
-    text: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired
 };

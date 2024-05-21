@@ -1,6 +1,7 @@
 import styles from './not-found.module.css';
+import { FC } from 'react';
 
-export default function NotFoundPage() {
+export const NotFoundPage: FC = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>

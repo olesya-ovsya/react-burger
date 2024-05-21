@@ -1,16 +1,18 @@
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './burger-constructor.module.css';
-import BurgerFormula from './burger-formula/burger-formula';
+import { BurgerFormula } from './burger-formula/burger-formula';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import { Modal } from '../modal/modal';
+import { OrderDetails } from '../order-details/order-details';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createOrder, CLEAR_ORDER_NUMBER } from '../../services/actions/order';
 import { isAuthorized } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import { FC } from 'react';
+import { IIngredient } from '../../utils/shared-prop-types';
 
-export default function BurgerConstructor() {
+export const BurgerConstructor: FC = () => {
 
     const [state, setState] = React.useState({
         orderDetailsVisible: false
@@ -18,6 +20,7 @@ export default function BurgerConstructor() {
     
     const navigate = useNavigate();
 
+    // @ts-ignore
     const { bun, otherIngredients } = useSelector(store => store.burgerFormula);
 
     const finalSum = React.useMemo(
@@ -29,7 +32,7 @@ export default function BurgerConstructor() {
             }
 
             if (otherIngredients && otherIngredients.length > 0) {
-                otherIngredients.forEach(x => { currentSum += x.price });
+                otherIngredients.forEach((x: IIngredient) => { currentSum += x.price });
             }
 
             return currentSum;
@@ -53,11 +56,12 @@ export default function BurgerConstructor() {
         let ingredients = [bun._id];
 
         if (otherIngredients && otherIngredients.length > 0) {
-            ingredients = ingredients.concat(otherIngredients.map(x => x._id));
+            ingredients = ingredients.concat(otherIngredients.map((x: IIngredient) => x._id));
         }
 
         ingredients = ingredients.concat([bun._id]);
 
+        // @ts-ignore
         dispatch(createOrder(ingredients));
 
         if (!state.orderDetailsVisible) {
@@ -84,12 +88,12 @@ export default function BurgerConstructor() {
 
     return(
         <div className={styles.constructorContainer}>
-            <div className={styles.constructor}>
+            <div className={styles.constructorMenu}>
                 <div className='mt-25 ml-4'>
                     <BurgerFormula />
                     <div className={`${styles.bottom} mt-10`}>
                         <span className='text_type_digits-medium mr-2'>{finalSum}</span>
-                        <CurrencyIcon style={{viewBox: '0 0 36 36'}} />
+                        <CurrencyIcon type='primary' />
                         <Button 
                             extraClass='ml-10 mr-4'
                             htmlType='submit'

@@ -7,32 +7,40 @@ import {
 import '../../index.css';
 import styles from './user-data.module.css';
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, SyntheticEvent, BaseSyntheticEvent, ChangeEventHandler } from "react";
 import { getCurrentUser, updateUserData } from "../../services/actions/user";
 import { Loader } from "../loader/loader";
 import { Message } from "../message/message";
-import PropTypes from 'prop-types';
+import { FC } from "react";
+import { IUserDataModel } from "../../utils/shared-prop-types";
 
-export default function UserData() {
+export const UserData: FC = () => {
 
+    // @ts-ignore
     const getUserRequest = useSelector(store => store.user.getUserRequest);
+    // @ts-ignore
     const getUserFailed = useSelector(store => store.user.getUserFailed);
+    // @ts-ignore
     const updateUserDataRequest = useSelector(store => store.user.updateUserDataRequest);
+    // @ts-ignore
     const updateUserDataFailed = useSelector(store => store.user.updateUserDataFailed);
+    // @ts-ignore
     const email = useSelector(store => store.user.email);
+    // @ts-ignore
     const name = useSelector(store => store.user.name);
 
-    const [form, setForm] = useState({
+    const [form, setForm] = useState<IUserDataModel>({
         email: '',
         password: '',
         name: ''
     });
 
-    const [errorText, setErrorText] = useState(null);
+    const [errorText, setErrorText] = useState<string | null>(null);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(getCurrentUser());
     }, [dispatch]);
 
@@ -50,12 +58,13 @@ export default function UserData() {
         }
     }, [updateUserDataFailed, getUserFailed])
 
-    const onChangeForm = e => {
+    const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({...form, [e.target.name]: e.target.value });
     };
 
-    const submit = e => {
+    const submit = (e: SyntheticEvent) => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(updateUserData(form));
     };
 
@@ -76,9 +85,8 @@ export default function UserData() {
             {errorText && <Message type='error' text={errorText} />}
             <form className='mt-20' onSubmit={submit}>
                   <div>
-                      <NameEditInput name='name' 
+                      <NameInput name='name' 
                         value={form.name ?? ''} 
-                        placeholder='Имя'
                         onChange={onChangeForm}
                         isIcon={true}
                         extraClass="mb-6" />  
@@ -113,19 +121,27 @@ export default function UserData() {
     );
 }
 
-const NameEditInput = ({
-    placeholder,
+interface INameInputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'size' | 'type' | 'ref'> {
+    name: string,
+    value: string,
+    isIcon: boolean,
+    extraClass: string,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export const NameInput: React.FC<INameInputProps> = ({
     value,
-    isIcon,
-    extraClass,
     onChange,
-    ...rest 
-    }) => {
+    placeholder = 'Имя',
+    isIcon = false,
+    extraClass = '',
+    ...rest
+}) => {
     const [fieldDisabled, setDisabled] = useState(isIcon);
 
     const [error, setError] = useState(false);
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const onIconClick = () => {
         setDisabled(false);
@@ -136,31 +152,27 @@ const NameEditInput = ({
         setError(false);
     };
 
-    const onBlur = () => {
+    const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        setError(false);
         isIcon && setDisabled(true);
     };
-
-    return <Input
-        type='text'
-        placeholder={placeholder}
-        icon='EditIcon'
-        value={value}
-        ref={inputRef}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onChange={onChange}
-        error={error}
-        disabled={fieldDisabled}
-        onIconClick={onIconClick}
-        extraClass={extraClass}
-        errorText={'Ой, произошла ошибка!'}
-        {...rest} />
-}
-
-NameEditInput.propTypes = {
-    placeholder: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    isIcon: PropTypes.bool.isRequired,
-    extraClass: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired 
+    return (
+        <Input
+            type='text'
+            placeholder={placeholder}
+            onChange={onChange}
+            icon={isIcon ? 'EditIcon' : undefined}
+            value={value}
+            ref={inputRef}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            error={error}
+            disabled={fieldDisabled}
+            onIconClick={onIconClick}
+            errorText={'Ой, произошла ошибка!'}
+            size='default'
+            extraClass={extraClass}
+            {...rest}
+        />
+    );
 };

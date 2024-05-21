@@ -1,17 +1,17 @@
-import HomePage from '../../pages/home/home';
-import NotFoundPage from '../../pages/not-found/not-found';
-import LoginPage from '../../pages/login/login';
-import RegisterPage from '../../pages/register/register';
-import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
-import ResetPasswordPage from '../../pages/reset-password/reset-password';
-import ProfilePage from '../../pages/profile/profile';
-import UserData from '../user-data/user-data';
+import { HomePage } from '../../pages/home/home';
+import { NotFoundPage } from '../../pages/not-found/not-found';
+import { LoginPage } from '../../pages/login/login';
+import { RegisterPage } from '../../pages/register/register';
+import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
+import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
+import { ProfilePage } from '../../pages/profile/profile';
+import { UserData } from '../user-data/user-data';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
-import IngredientDetails from '../ingredient-details/ingredient-details';
+import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
-import Modal from '../modal/modal';
+import { AppHeader } from '../app-header/app-header';
+import { Modal } from '../modal/modal';
 
 export default function App() {
   const location = useLocation();

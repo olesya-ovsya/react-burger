@@ -1,12 +1,16 @@
 import { useSelector } from "react-redux";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import FakeConstructorElement from '../fake-constructor-element/fake-constructor-element';
-import PropTypes from 'prop-types';
+import { FakeConstructorElement } from '../fake-constructor-element/fake-constructor-element';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import '../../../../index.css';
+import { FC } from "react";
 
-export default function Bun({ type, isHover }) {
+export const Bun : FC<{
+    type: 'top' | 'bottom' | undefined;
+    isHover: boolean
+}> = ({ type, isHover }) => {
 
+    // @ts-ignore
     const bun = useSelector(store => store.burgerFormula.bun);
 
     return (
@@ -25,8 +29,3 @@ export default function Bun({ type, isHover }) {
         </div>
     )
 }
-
-Bun.propTypes = {
-    type: PropTypes.string.isRequired,
-    isHover: PropTypes.bool.isRequired
-};

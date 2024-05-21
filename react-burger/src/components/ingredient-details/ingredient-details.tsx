@@ -1,27 +1,33 @@
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import NutritionElement from "./nutrition-element/nutrition-element";
+import { NutritionElement } from "./nutrition-element/nutrition-element";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 import { Loader } from '../loader/loader';
 import { Message } from '../message/message';
+import { FC } from 'react';
+import { IApiIngredient } from '../../utils/shared-prop-types';
 
-export default function IngredientDetails()
-{
+export const IngredientDetails: FC = () => {
     const dispatch = useDispatch();
-    const [ingredient, setIngredient] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    const { id } = useParams();
+    const [ingredient, setIngredient] = useState<IApiIngredient | null>(null);
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const { id } = useParams<string>();
 
-    useEffect(() => { dispatch(getBurgerIngredients()); }, [dispatch]);
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(getBurgerIngredients());
+    }, [dispatch]);
 
+    // @ts-ignore
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
+    // @ts-ignore
     const getIngredientsFailed = useSelector(store => store.burgerIngredients.ingredientsFailed);
 
     useEffect(() => {
-        const currentIngredient = ingredients.filter(x => x._id === id)[0];
+        const currentIngredient = ingredients.filter((x: IApiIngredient) => x._id === id)[0];
 
         setIngredient(currentIngredient);
         setLoading(false);

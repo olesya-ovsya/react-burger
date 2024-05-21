@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import {
     getAccessToken,
     setAccessToken,
@@ -10,12 +10,18 @@ import {
 import { useDispatch } from 'react-redux';
 import {Loader} from '../loader/loader';
 import { postToken } from '../../utils/api';
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 
-export function ProtectedRouteElement ({ element }) {
+enum PageType {
+  Unknown,
+  Profile,
+  UnauthorizedOnly
+}
 
-  const [isLoading, setLoading] = useState(true);
-  const [redirect, setRedirect] = useState(null);
+export const ProtectedRouteElement: FC<{ element: ReactElement }> = ({ element }) => {
+
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [redirect, setRedirect] = useState<ReactElement | null>(null);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -24,21 +30,21 @@ export function ProtectedRouteElement ({ element }) {
     setLoading(true);
 
     const pathname = location.pathname;
-    let pageType = 'unknown';
+    let pageType = PageType.Unknown;
     if (pathname.includes('/profile')) {
-      pageType = 'profile';
+      pageType = PageType.Profile;
     } else if (pathname.includes('/login') 
       || pathname.includes('/register') 
       || pathname.includes('/forgot-password')
       || pathname.includes('/reset-password')) {
-      pageType = 'unauthorizedOnly';
+      pageType = PageType.UnauthorizedOnly;
     }
 
     let accessToken = getAccessToken() ?? null;
     const refreshToken = getRefreshToken();
 
     switch (pageType) {
-      case 'profile': {
+      case PageType.Profile: {
         if (accessToken !== null && refreshToken !== null) {
           setRedirect(element);
           setLoading(false);
@@ -76,10 +82,11 @@ export function ProtectedRouteElement ({ element }) {
       }
       break;
       }
-      case 'unauthorizedOnly': {
+      case PageType.UnauthorizedOnly: {
         if (accessToken === null || refreshToken === null) {
           setRedirect(element);
           setLoading(false);
+          return;
         } else {
           setRedirect(<Navigate to='/' />);
           setLoading(false);
@@ -98,8 +105,4 @@ export function ProtectedRouteElement ({ element }) {
   }
 
   return redirect;
-}
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.node.isRequired
 }
