@@ -66,10 +66,10 @@ export const ResetPasswordPage: FC = () => {
                         onChange={onChangeForm}
                         extraClass='mb-6' />
                       <Input name='token'
-            value={form.token}
-            placeholder='Введите код из письма'
-            onChange={onChangeForm}
-            extraClass="mb-6" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                          value={form.token}
+                          placeholder='Введите код из письма'
+                          onChange={onChangeForm}
+                          extraClass="mb-6" />
                       <Button htmlType='submit'
                         size='large'
                         extraClass='mb-20 pr-15 pl-15'>Сохранить</Button>

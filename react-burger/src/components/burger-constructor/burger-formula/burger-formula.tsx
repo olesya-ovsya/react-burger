@@ -1,11 +1,11 @@
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import { useDispatch } from 'react-redux';
-import { SET_BUN } from '../../../services/actions/burger-formula';
+import { useDispatch } from '../../../services/hooks';
 import { useDrop } from 'react-dnd';
 import { Bun } from './bun/bun';
 import OtherIngredients from './other-ingredients/other-ingredients';
 import { IIngredient } from '../../../utils/shared-prop-types';
 import { FC } from 'react';
+import { setBun } from '../../../services/actions/burger-formula';
  
 export const BurgerFormula: FC = () => {
 
@@ -20,15 +20,12 @@ export const BurgerFormula: FC = () => {
           isHoverBun: monitor.isOver()
         }),
         drop(item) {
-          setBun(item.ingredient);
+          setNewBun(item.ingredient);
         },
     });
 
-    const setBun = (newBun: IIngredient) => {
-        dispatch({
-            type: SET_BUN,
-            bun: newBun
-        })
+    const setNewBun = (newBun: IIngredient) => {
+        dispatch(setBun(newBun));
     };
 
     return (

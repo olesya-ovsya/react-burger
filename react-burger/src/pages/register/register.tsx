@@ -9,18 +9,15 @@ import '../../index.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { register } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
 import { FC } from "react";
 import { IUserDataModel } from "../../utils/shared-prop-types";
 
 export const RegisterPage: FC = () => {
-    // @ts-ignore
     const registerRequest = useSelector(store => store.user.registerRequest);
-    // @ts-ignore
     const registerFailed = useSelector(store => store.user.registerFailed);
-    // @ts-ignore
     const authorized = useSelector(store => store.user.authorized);
 
     const [state, setState] = useState<IUserDataModel>({
@@ -37,10 +34,7 @@ export const RegisterPage: FC = () => {
     };
 
     const onSubmit = (e: SyntheticEvent) => {
-
         e.preventDefault();
-
-        // @ts-ignore
         dispatch(register(state));
     };
 
@@ -64,9 +58,7 @@ export const RegisterPage: FC = () => {
                         value={state.name}
                         placeholder='Имя'
                         onChange={onChangeForm}
-                        extraClass="mb-6"
-                        onPointerEnterCapture={() => {}}
-                        onPointerLeaveCapture={() => {}} />  
+                        extraClass="mb-6" />  
                       <EmailInput name='email'
                         value={state.email}
                         onChange={onChangeForm}

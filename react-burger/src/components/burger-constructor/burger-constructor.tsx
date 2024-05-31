@@ -5,8 +5,8 @@ import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-co
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { createOrder, CLEAR_ORDER_NUMBER } from '../../services/actions/order';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { createOrder, clearOrderNumber } from '../../services/actions/order';
 import { isAuthorized } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { FC } from 'react';
@@ -20,7 +20,6 @@ export const BurgerConstructor: FC = () => {
     
     const navigate = useNavigate();
 
-    // @ts-ignore
     const { bun, otherIngredients } = useSelector(store => store.burgerFormula);
 
     const finalSum = React.useMemo(
@@ -61,7 +60,6 @@ export const BurgerConstructor: FC = () => {
 
         ingredients = ingredients.concat([bun._id]);
 
-        // @ts-ignore
         dispatch(createOrder(ingredients));
 
         if (!state.orderDetailsVisible) {
@@ -73,10 +71,7 @@ export const BurgerConstructor: FC = () => {
     };
 
     const closeOrderDetails = () => {
-
-        dispatch({
-            type: CLEAR_ORDER_NUMBER
-        });
+        dispatch(clearOrderNumber());
 
         if (state.orderDetailsVisible) {
             setState({

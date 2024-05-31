@@ -1,13 +1,12 @@
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import styles from './order-details.module.css';
 import orderAcceptedImage from '../../images/order-accepted-img.jpg';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { Loader } from '../loader/loader';
 import { Message } from '../message/message';
 import { FC } from 'react';
 
 export const OrderDetails: FC = () =>  {
-    // @ts-ignore
     const { orderNumber, createOrderRequest, createOrderFailed } = useSelector(store => store.order);
     
     return (

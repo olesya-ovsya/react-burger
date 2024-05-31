@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../../services/hooks";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FakeConstructorElement } from '../fake-constructor-element/fake-constructor-element';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
@@ -10,7 +10,6 @@ export const Bun : FC<{
     isHover: boolean
 }> = ({ type, isHover }) => {
 
-    // @ts-ignore
     const bun = useSelector(store => store.burgerFormula.bun);
 
     return (

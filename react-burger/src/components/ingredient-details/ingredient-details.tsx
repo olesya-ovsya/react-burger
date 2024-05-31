@@ -3,7 +3,7 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { NutritionElement } from "./nutrition-element/nutrition-element";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 import { Loader } from '../loader/loader';
 import { Message } from '../message/message';
@@ -17,13 +17,10 @@ export const IngredientDetails: FC = () => {
     const { id } = useParams<string>();
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getBurgerIngredients());
     }, [dispatch]);
 
-    // @ts-ignore
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
-    // @ts-ignore
     const getIngredientsFailed = useSelector(store => store.burgerIngredients.ingredientsFailed);
 
     useEffect(() => {

@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Message } from "../../components/message/message";
 import { useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react';
 import { login } from "../../services/actions/user";
@@ -17,9 +17,7 @@ import { ILoginModel } from "../../utils/shared-prop-types";
 export const LoginPage: FC = () => {
     const [form, setForm] = useState<ILoginModel>({ email: '', password: '' });
 
-    // @ts-ignore
     const loginFailed = useSelector(store => store.user.loginFailed);
-    // @ts-ignore
     const loginRequest = useSelector(store => store.user.loginRequest);
     const authorized = isAuthorized();
 
@@ -30,7 +28,6 @@ export const LoginPage: FC = () => {
 
     const onSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(login(form));
     };
 

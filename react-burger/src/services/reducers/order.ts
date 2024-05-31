@@ -4,14 +4,23 @@ import {
     CREATE_ORDER_SUCCESS,
     CLEAR_ORDER_NUMBER 
 } from "../actions/order";
+import { TOrderActions } from "../actions/order";
 
-const initialState = {
+export interface IOrderState {
+    orderNumber: number | null,
+    createOrderRequest: boolean,
+    createOrderFailed: boolean
+}
+
+const initialState: IOrderState = {
     orderNumber: null,
     createOrderRequest: false,
     createOrderFailed: false
 }
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+    state = initialState,
+    action: TOrderActions): IOrderState => {
     switch(action.type) {
         case CREATE_ORDER_REQUEST:
             return {

@@ -51,3 +51,8 @@ export interface IResetPasswordModel {
     password: string,
     token: string
 }
+
+export type TUser = {
+    email: string,
+    name: string
+};
