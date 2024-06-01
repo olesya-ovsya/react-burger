@@ -56,3 +56,20 @@ export type TUser = {
     email: string,
     name: string
 };
+
+export interface IOrderData {
+    ingredients: string[],
+    _id: string,
+    status: string,
+    name: string,
+    number: number,
+    createdAt: string,
+    updatedAt: string
+}
+
+export interface IOrders {
+    success: boolean,
+    orders: IOrderData[],
+    total: number,
+    totalToday: number
+}
