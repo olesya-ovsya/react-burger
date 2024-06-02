@@ -1,5 +1,5 @@
 import { getAccessToken } from "./utils";
-import { ILoginModel, IUserDataModel, IResetPasswordModel } from "./shared-prop-types";
+import { ILoginModel, IUserDataModel, IResetPasswordModel, IOrderDetails } from "./shared-prop-types";
 import { IApiIngredient, TUser } from "./shared-prop-types";
 
 type TResponse<T> = { success: boolean } & T;
@@ -159,4 +159,15 @@ export const postResetPassword = (model: IResetPasswordModel) => {
     };
 
     return sendRequest<TResponse<TMessage>>('password-reset/reset', requestInfo);
+}
+
+export const getOrderDetails = (number: number) => {
+    const requestInfo = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        }
+    };
+    return sendRequest<TResponse<{orders: IOrderDetails[]}>>(`orders/${number}`, requestInfo);
 }

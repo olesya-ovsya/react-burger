@@ -73,3 +73,15 @@ export interface IOrders {
     total: number,
     totalToday: number
 }
+
+export interface IOrderDetails {
+    _id: string,
+    ingredients: string[],
+    owner: string,
+    status: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: number,
+    __v: number
+}

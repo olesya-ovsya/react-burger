@@ -6,8 +6,15 @@ import { TBurgerFormulaActions } from '../actions/burger-formula';
 import { TBurgerIngredientsActions } from '../actions/burger-ingredients';
 import { TWSOrdersActions, WS_ORDERS_CONNECTION_CLOSED, WS_ORDERS_CONNECTION_ERROR, WS_ORDERS_CONNECTION_START, WS_ORDERS_CONNECTION_SUCCESS, WS_ORDERS_GET_DATA, WS_ORDERS_SEND } from '../actions/ws-orders';
 import { TWSFeedActions, WS_FEED_CONNECTION_CLOSED, WS_FEED_CONNECTION_ERROR, WS_FEED_CONNECTION_START, WS_FEED_CONNECTION_SUCCESS, WS_FEED_GET_DATA, WS_FEED_SEND } from '../actions/ws-feed';
+import { TOrderDetailsActions } from '../actions/order-details';
 
-export type TApplicationActions = TUserActions | TOrderActions | TBurgerFormulaActions | TBurgerIngredientsActions | TWSFeedActions | TWSOrdersActions;
+export type TApplicationActions = TUserActions
+    | TOrderActions
+    | TBurgerFormulaActions
+    | TBurgerIngredientsActions
+    | TWSFeedActions
+    | TWSOrdersActions
+    | TOrderDetailsActions;
 export type TWSActions =  {
     onStart: typeof WS_FEED_CONNECTION_START | typeof WS_ORDERS_CONNECTION_START,
     onSuccess: typeof WS_FEED_CONNECTION_SUCCESS | typeof WS_ORDERS_CONNECTION_SUCCESS,
