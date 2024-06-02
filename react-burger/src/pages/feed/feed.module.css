@@ -1,0 +1,108 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feedContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.feed {
+    max-height: 75vh;
+    max-width: 600px;
+    scrollbar-width: thin;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.info {
+    max-height: 65vh;
+    max-width: 600px;
+}
+
+.statusContainer {
+    display: flex;
+    justify-content: space-between;
+    max-height: 30vh;
+}
+
+.status {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 200px;
+}
+
+.statusScroll {
+    scrollbar-width: thin;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.feedElement {
+    background-color: var(--background);
+    border-radius: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+.feedElementCommonDataContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderName {
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.ingredientImages {
+    display: flex;
+    align-items: flex-start;
+    direction: rtl;
+    margin-left: 1.5rem;
+}
+
+.ingredientImage {
+    width: 5rem;
+    height: 5rem;
+    display: block;
+    object-fit: cover;
+    background-color: var(--background);
+    border-radius: 50%;
+}
+
+.ingredientImageBox{
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #a43ae9, var(--colors-interface-accent));
+    position: relative;
+    margin-left: -1.5rem;
+}
+
+.formula {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hidden {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    align-content: center;
+    background-color: #1c1c218c;
+    border-radius: 50%;
+}
+
+.total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

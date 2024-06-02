@@ -12,6 +12,7 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import styles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
 import { Modal } from '../modal/modal';
+import { FeedPage } from '../../pages/feed/feed';
 
 export default function App() {
   const location = useLocation();
@@ -37,6 +38,7 @@ export default function App() {
             <Route path='orders/:number' element={<ProtectedRouteElement element={<NotFoundPage />}/>} />
           </Route>
           <Route path='/ingredients/:id' element={<IngredientDetails />} />
+          <Route path='/feed' element={<FeedPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         {background && (

@@ -1,21 +1,21 @@
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import styles from './order-details.module.css';
+import styles from './order-status.module.css';
 import orderAcceptedImage from '../../images/order-accepted-img.jpg';
 import { useSelector } from '../../services/hooks';
 import { Loader } from '../loader/loader';
 import { Message } from '../message/message';
 import { FC } from 'react';
 
-export const OrderDetails: FC = () =>  {
+export const OrderStatus: FC = () =>  {
     const { orderNumber, createOrderRequest, createOrderFailed } = useSelector(store => store.order);
     
     return (
-        <div className={styles.orderDetailsContainer}>
+        <div className={styles.orderStatusContainer}>
             {createOrderRequest && (<Loader text='Оформляем заказ...' />)}
             {createOrderFailed && <Message type='error' text='Не удалось оформить заказ' />}
             {orderNumber && !createOrderFailed
                 && <>
-                    <p className={`text_type_digits-large mt-30 mb-8 ${styles.shadowText} `}>
+                    <p className={`text_type_digits-large mt-30 mb-8 shadow-text `}>
                         {orderNumber}
                     </p>
                     <p className='text_type_main-medium mb-15 mt-1'>

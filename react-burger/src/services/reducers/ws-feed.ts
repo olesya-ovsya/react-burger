@@ -9,12 +9,16 @@ import { TWSFeedActions } from "../actions/ws-feed";
 type TWSFeedState = {
     wsConnected: boolean,
     allOrders: IOrderData[],
+    total: number,
+    totalToday: number,
     error?: Event
 };
 
 const initialState: TWSFeedState = {
     wsConnected: false,
-    allOrders: []
+    allOrders: [],
+    total: 0,
+    totalToday: 0
 };
 
 export const wsFeedReducer = (
@@ -49,7 +53,9 @@ export const wsFeedReducer = (
             return {
                 ...state,
                 error: undefined,
-                allOrders: action.payload.orders
+                allOrders: action.payload.orders,
+                total: action.payload.total,
+                totalToday: action.payload.totalToday
             }
         default:
             return state;

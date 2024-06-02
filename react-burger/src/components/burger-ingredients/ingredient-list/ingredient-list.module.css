@@ -22,7 +22,6 @@
 .ingredientCard {
     display: inline-table;
     max-width: 50%;
-    /*flex-grow: 1;*/
     flex-basis: 0;
 }
 
