@@ -14,6 +14,7 @@ import { AppHeader } from '../app-header/app-header';
 import { Modal } from '../modal/modal';
 import { FeedPage } from '../../pages/feed/feed';
 import { OrderDetails } from '../order-details/order-details';
+import { UserOrders } from '../user-orders/user-orders';
 
 export default function App() {
   const location = useLocation();
@@ -35,8 +36,8 @@ export default function App() {
           <Route path='/reset-password' element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
           <Route path='/profile' element={<ProtectedRouteElement element={<ProfilePage />}/>}>
             <Route index element={<ProtectedRouteElement element={<UserData />}/>} />
-            <Route path='orders' element={<ProtectedRouteElement element={<NotFoundPage />} />} />
-            <Route path='orders/:number' element={<ProtectedRouteElement element={<NotFoundPage />}/>} />
+            <Route path='orders' element={<ProtectedRouteElement element={<UserOrders />} />} />
+            <Route path='orders/:number' element={<ProtectedRouteElement element={<OrderDetails />}/>} />
           </Route>
           <Route path='/ingredients/:id' element={<IngredientDetails />} />
           <Route path='/feed' element={<FeedPage />} />
@@ -54,6 +55,13 @@ export default function App() {
                 }/>
                 <Route
                   path='/feed/:number'
+                  element={
+                    <Modal onClose={handleModalClose}>
+                      <OrderDetails />
+                    </Modal>
+                }/>
+                <Route
+                  path='profile/orders/:number'
                   element={
                     <Modal onClose={handleModalClose}>
                       <OrderDetails />
