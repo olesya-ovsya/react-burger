@@ -13,6 +13,7 @@ import styles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
 import { Modal } from '../modal/modal';
 import { FeedPage } from '../../pages/feed/feed';
+import { OrderDetails } from '../order-details/order-details';
 
 export default function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ export default function App() {
           </Route>
           <Route path='/ingredients/:id' element={<IngredientDetails />} />
           <Route path='/feed' element={<FeedPage />} />
+          <Route path='/feed/:number' element={<OrderDetails />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         {background && (
@@ -49,6 +51,13 @@ export default function App() {
                   <Modal onClose={handleModalClose}>
                     <IngredientDetails />
                   </Modal>
+                }/>
+                <Route
+                  path='/feed/:number'
+                  element={
+                    <Modal onClose={handleModalClose}>
+                      <OrderDetails />
+                    </Modal>
                 }/>
           </Routes>
         )}

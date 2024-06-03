@@ -25,7 +25,7 @@
 .statusContainer {
     display: flex;
     justify-content: space-between;
-    max-height: 30vh;
+    max-height: 35vh;
 }
 
 .status {
@@ -33,16 +33,18 @@
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 200px;
+    justify-content: space-between;
 }
 
 .statusScroll {
     scrollbar-width: thin;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
     display: flex;
     flex-wrap: wrap;
     margin: 0;
+    flex-direction: column;
+    min-width: 260px;
 }
 
 .feedElement {

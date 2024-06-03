@@ -2,18 +2,21 @@ import { FC, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { wsFeedConnectionStart } from '../../services/actions/ws-feed';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import { IOrderData } from '../../utils/shared-prop-types';
+import { ILocation, IOrderData } from '../../utils/shared-prop-types';
 import { Loader } from '../../components/loader/loader';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './feed.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
+import { Link, useLocation } from 'react-router-dom';
 
 export const FeedPage: FC = () => {
 
     const dispatch = useDispatch();
 
     const { allOrders, wsConnected, total, totalToday } = useSelector(store => store.wsFeed);
+
+    const location = useLocation();
 
     useEffect(() => {
         console.log('create ws feed connection');
@@ -36,7 +39,7 @@ export const FeedPage: FC = () => {
                     <h1 className='text_type_main-large mr-2' style={{textAlign: 'start'}}>Лента заказов</h1>
                     <div className={`${styles.feed} pr-2 pl-2`}>
                         {allOrders.map((x) => (
-                            <FeedElement order={x} key={x._id} />
+                            <FeedElement order={x} key={x._id} location={location} />
                         ))}
                     </div>
                 </div>
@@ -80,10 +83,11 @@ export const FeedPage: FC = () => {
 };
 
 interface IFeedElement {
-    order: IOrderData
+    order: IOrderData,
+    location: ILocation
 }
 
-const FeedElement: FC<IFeedElement> = ({ order }) => {
+const FeedElement: FC<IFeedElement> = ({ order, location }) => {
 
     const { ingredients } = useSelector(store => store.burgerIngredients);
 
@@ -99,6 +103,7 @@ const FeedElement: FC<IFeedElement> = ({ order }) => {
     }, [ingredients]);
 
     return (
+        <Link to={`/feed/${order.number}`} state={{ background: location }}>
         <div className={`${styles.feedElement} p-6 mb-4`}>
             <div className={`${styles.feedElementCommonDataContainer} mb-6`}>
                 <p className='text_type_digits-default' style={{margin: 0}}>#{order.number}</p>
@@ -126,5 +131,6 @@ const FeedElement: FC<IFeedElement> = ({ order }) => {
                 </div>
             </div>
         </div>
+        </Link>
     );
 }

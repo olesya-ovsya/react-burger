@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    max-width: 80vw;
+    max-height: 80vh;
+    margin: auto;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+}
+
+.text {
+    text-align: justify;
+}
+
+.ingredientImage {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: block;
+    object-fit: cover;
+    background-color: var(--background);
+    border-radius: 50%;
+}
+
+.ingredientImageBox{
+    padding: 2px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #a43ae9, var(--colors-interface-accent));
+}
+
+.formulaElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.currency {
+    display: flex;
+}
+
+.name {
+    margin-right: auto;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+}
+
+.scrollable {
+    scrollbar-width: thin;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
