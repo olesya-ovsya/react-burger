@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { useLocation } from "react-router-dom";
 import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
@@ -14,23 +14,30 @@ export const UserOrders: FC = () => {
 
     const dispatch = useDispatch();
     const { wsConnected, orders, error } = useSelector(store => store.wsOrders);
+    const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const location = useLocation();
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log('connect')
         const accessToken = getAccessToken();
         dispatch(getBurgerIngredients());
         dispatch(wsOrdersConnectionStart(`wss://norma.nomoreparties.space/orders?token=${accessToken}`));
     }, [dispatch]);
 
-    if (!wsConnected) {
+    useEffect(() => {
+        if (wsConnected && ingredients.length > 0) {
+            setLoading(false);
+        }
+    }, [wsConnected, ingredients]);
+
+    if (isLoading) {
         return (<Loader text='Загружаем данные...' />);
     }
 
     return (
-        <div key={uuidv4()}>
+        <div key={uuidv4()} className='mt-10'>
             {orders && orders.length > 0 && <div className={styles.orders}>
-                {orders.map(x => (
+                {orders.reverse().map(x => (
                     <OrderCard key={x._id}
                         order={x}
                         location={location}
@@ -38,7 +45,7 @@ export const UserOrders: FC = () => {
                         showStatus={true} />
                 ))}
             </div>}
-            {!orders && <Message text='Не удалось загрузить заказы' type='error' />}    
+            {error && <Message text='Не удалось загрузить заказы' type='error' />}    
         </div>
     );
 }

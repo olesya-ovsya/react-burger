@@ -35,7 +35,7 @@ export const IngredientDetails: FC = () => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ml-10 mr-10`}>
         {ingredient && (<>
             <img src={ingredient.image_large} 
                 alt={`Изображение ингредиента "${ingredient.name}"`}

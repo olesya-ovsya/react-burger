@@ -54,7 +54,9 @@ export const OrderDetails: FC = () => {
                     {ingredients.filter(x => order.ingredients.includes(x._id)).map(x => (
                         <div key={x._id} className={`${styles.formulaElement} mt-6 mr-6`}>
                             <div className={`${styles.ingredientImageBox} mr-4`}>
-                                <img className={styles.ingredientImage} src={ingredients.find(y => y._id === x._id)?.image} />
+                                <img className={styles.ingredientImage}
+                                    src={ingredients.find(y => y._id === x._id)?.image}
+                                    alt='Ингредиент' />
                             </div>
                             <span className={`${styles.name} text_type_main-default`}>{x.name}</span>
                             <div className={`${styles.currency} mr-4`}>

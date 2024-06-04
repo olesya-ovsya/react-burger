@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styles from './order-card.module.css';
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from 'uuid';
+import { OrderStatusText } from "../order-status-text/order-status-text";
 
 interface IOrderCard {
     order: IOrderData,
@@ -14,7 +15,6 @@ interface IOrderCard {
 }
 
 export const OrderCard: FC<IOrderCard> = ({ order, location, page, showStatus }) => {
-
     const { ingredients } = useSelector(store => store.burgerIngredients);
 
     const sum = useMemo(() => {
@@ -24,7 +24,7 @@ export const OrderCard: FC<IOrderCard> = ({ order, location, page, showStatus })
             .forEach((x) => { currentSum += x.price });
 
         return currentSum;
-    }, [ingredients]);
+    }, [ingredients, order.ingredients]);
 
     return (
         <Link to={`/${page}/${order.number}`} state={{ background: location }}>
@@ -35,17 +35,18 @@ export const OrderCard: FC<IOrderCard> = ({ order, location, page, showStatus })
                     className='text_type_main-default text_color_inactive' />
             </div>
             <p className={`${styles.name} text_type_main-medium mb-6`}>{order.name}</p>
+            <OrderStatusText status={order.status} />
             <div className={`${styles.formula} mb-6`}>
                 <div className={styles.ingredientImages}>
                     {order.ingredients.reverse().slice(0, 6).map((i, index) => (
-                        <div className={styles.ingredientImageBox}>
+                        <div key={uuidv4()} className={styles.ingredientImageBox}>
                             {index === 0 && order.ingredients.length > 6 &&
                             <div className={`${styles.hidden} text_type_digits-default`}>
                                 {order.ingredients.slice(6).length}+
                             </div>}
-                            <img key={uuidv4()}
-                                src={ingredients.find(y => y._id === i)?.image}
-                                className={styles.ingredientImage} />
+                            <img src={ingredients.find(y => y._id === i)?.image}
+                                className={styles.ingredientImage}
+                                alt='Ингредиент' />
                         </div>
                     ))}
                 </div>

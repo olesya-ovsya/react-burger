@@ -10,7 +10,7 @@ export const OrderStatus: FC = () =>  {
     const { orderNumber, createOrderRequest, createOrderFailed } = useSelector(store => store.order);
     
     return (
-        <div className={styles.orderStatusContainer}>
+        <div className={`${styles.orderStatusContainer} ml-10 mr-10`}>
             {createOrderRequest && (<Loader text='Оформляем заказ...' />)}
             {createOrderFailed && <Message type='error' text='Не удалось оформить заказ' />}
             {orderNumber && !createOrderFailed

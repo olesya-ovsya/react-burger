@@ -1,14 +1,12 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { wsFeedConnectionStart } from '../../services/actions/ws-feed';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import { ILocation, IOrderData } from '../../utils/shared-prop-types';
 import { Loader } from '../../components/loader/loader';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './feed.module.css';
-import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { OrderCard } from '../../components/order-card/order-card';
 
 export const FeedPage: FC = () => {
@@ -16,15 +14,23 @@ export const FeedPage: FC = () => {
     const dispatch = useDispatch();
 
     const { allOrders, wsConnected, total, totalToday } = useSelector(store => store.wsFeed);
-
+    const { ingredients } = useSelector(store => store.burgerIngredients);
     const location = useLocation();
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        dispatch(getBurgerIngredients);
+        dispatch(getBurgerIngredients());
         dispatch(wsFeedConnectionStart(`wss://norma.nomoreparties.space/orders/all`));
     }, [dispatch]);
 
-    if (!wsConnected) {
+    useEffect(() => {
+        console.log('loading')
+        if (wsConnected && ingredients.length > 0) {
+            setLoading(false);
+        }
+    }, [wsConnected, ingredients]);
+
+    if (isLoading) {
         return (<Loader text='Загружаем данные...' />);
     }
 
