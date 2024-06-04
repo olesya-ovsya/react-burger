@@ -37,7 +37,7 @@ export const UserOrders: FC = () => {
     return (
         <div key={uuidv4()} className='mt-10'>
             {orders && orders.length > 0 && <div className={styles.orders}>
-                {orders.reverse().map(x => (
+                {(orders.sort((a, b) => new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1)).map(x => (
                     <OrderCard key={x._id}
                         order={x}
                         location={location}
