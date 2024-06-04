@@ -24,7 +24,6 @@ export const FeedPage: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log('loading')
         if (wsConnected && ingredients.length > 0) {
             setLoading(false);
         }
