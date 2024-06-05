@@ -2,12 +2,11 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { useLocation } from "react-router-dom";
 import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
-import { wsOrdersConnectionStart } from "../../services/actions/ws-orders";
+import { wsOrdersConnectionClose, wsOrdersConnectionStart } from "../../services/actions/ws-orders";
 import { getAccessToken } from "../../utils/utils";
 import { Loader } from "../loader/loader";
 import styles from './user-orders.module.css';
 import { OrderCard } from "../order-card/order-card";
-import { v4 as uuidv4 } from 'uuid';
 import { Message } from "../message/message";
 
 export const UserOrders: FC = () => {
@@ -21,8 +20,16 @@ export const UserOrders: FC = () => {
     useEffect(() => {
         const accessToken = getAccessToken();
         dispatch(getBurgerIngredients());
-        dispatch(wsOrdersConnectionStart(`wss://norma.nomoreparties.space/orders?token=${accessToken}`));
-    }, [dispatch]);
+        if (!wsConnected) {
+            dispatch(wsOrdersConnectionStart(`wss://norma.nomoreparties.space/orders?token=${accessToken}`));
+        }
+    
+        return () => {
+            if (wsConnected) {
+                dispatch(wsOrdersConnectionClose());
+            }
+        }
+    }, [wsConnected, dispatch]);
 
     useEffect(() => {
         if (wsConnected && ingredients.length > 0) {
@@ -35,7 +42,7 @@ export const UserOrders: FC = () => {
     }
 
     return (
-        <div key={uuidv4()} className='mt-10'>
+        <div className='mt-10'>
             {orders && orders.length > 0 && <div className={styles.orders}>
                 {(orders.sort((a, b) => new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1)).map(x => (
                     <OrderCard key={x._id}

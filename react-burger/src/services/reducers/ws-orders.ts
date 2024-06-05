@@ -2,7 +2,8 @@ import { WS_ORDERS_CONNECTION_START,
     WS_ORDERS_CONNECTION_SUCCESS,
     WS_ORDERS_CONNECTION_ERROR,
     WS_ORDERS_CONNECTION_CLOSED,
-    WS_ORDERS_GET_DATA
+    WS_ORDERS_GET_DATA,
+    WS_ORDERS_CONNECTION_CLOSE
  } from "../actions/ws-orders";
 
  import { IOrderData } from "../../utils/shared-prop-types";
@@ -55,6 +56,12 @@ import { WS_ORDERS_CONNECTION_START,
                 error: undefined,
                 orders: action.payload.orders
             };
+        case WS_ORDERS_CONNECTION_CLOSE:
+            return {
+                ...state,
+                error: undefined,
+                wsConnected: false
+            }
         default:
             return state;
     }

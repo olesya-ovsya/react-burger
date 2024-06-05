@@ -8,7 +8,16 @@ export const socketMiddleware = (wsActions: TWSActions): Middleware => {
 
     return next => (action: TApplicationActions) => {
       const { dispatch } = store;
-      const { onStart, onSuccess, onError, onClosed, onGetData, onSend } = wsActions;
+      const { 
+        onStart,
+        onSuccess,
+        onError,
+        onClosed,
+        onGetData,
+        onSend,
+        close
+      } = wsActions;
+      
       const { type } = action;
 
       if (type === onStart) {
@@ -34,6 +43,10 @@ export const socketMiddleware = (wsActions: TWSActions): Middleware => {
 
         if (type === onSend) {
           socket.send(JSON.stringify(action.payload));
+        }
+
+        if (type === close) {
+          socket.close();
         }
       }
 

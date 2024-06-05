@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { wsFeedConnectionStart } from '../../services/actions/ws-feed';
+import { wsFeedConnectionClose, wsFeedConnectionStart } from '../../services/actions/ws-feed';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { Loader } from '../../components/loader/loader';
-import { v4 as uuidv4 } from 'uuid';
 import styles from './feed.module.css';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 import { useLocation } from 'react-router-dom';
@@ -20,8 +19,16 @@ export const FeedPage: FC = () => {
 
     useEffect(() => {
         dispatch(getBurgerIngredients());
-        dispatch(wsFeedConnectionStart(`wss://norma.nomoreparties.space/orders/all`));
-    }, [dispatch]);
+        if (!wsConnected) {
+            dispatch(wsFeedConnectionStart(`wss://norma.nomoreparties.space/orders/all`));
+        }
+
+        return () => {
+            if (wsConnected) {
+                dispatch(wsFeedConnectionClose());
+            }
+        }
+    }, [dispatch, wsConnected]);
 
     useEffect(() => {
         if (wsConnected && ingredients.length > 0) {
@@ -51,7 +58,7 @@ export const FeedPage: FC = () => {
                             <div className={styles.statusScroll}>
                                 {allOrders.filter(x => x.status === 'done').map((x) => (
                                     <p className='text_type_digits-default text_color_success mb-2 mr-4'
-                                        key={uuidv4()}
+                                        key={x._id}
                                         style={{marginTop:0}}
                                         >{x.number}</p>
                                 ))}
@@ -62,7 +69,7 @@ export const FeedPage: FC = () => {
                             <div className={styles.statusScroll}>
                                 {allOrders.filter(x => x.status === 'pending').map((x) => (
                                     <p className='text_type_digits-default mb-2 mr-4'
-                                        key={uuidv4()}
+                                        key={x._id}
                                         style={{marginTop:0}}
                                         >{x.number}</p>
                                 ))}

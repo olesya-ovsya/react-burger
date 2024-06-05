@@ -6,6 +6,7 @@ export const WS_FEED_CONNECTION_ERROR: 'WS_FEED_CONNECTION_ERROR' = 'WS_FEED_CON
 export const WS_FEED_CONNECTION_CLOSED: 'WS_FEED_CONNECTION_CLOSED' = 'WS_FEED_CONNECTION_CLOSED';
 export const WS_FEED_GET_DATA: 'WS_FEED_GET_DATA' = 'WS_FEED_GET_DATA';
 export const WS_FEED_SEND: 'WS_FEED_SEND' = 'WS_FEED_SEND';
+export const WS_FEED_CONNECTION_CLOSE: 'WS_FEED_CLOSE_CONNECTION' = 'WS_FEED_CLOSE_CONNECTION'; 
 
 export interface IWSFeedConnectionStartAction {
     type: typeof WS_FEED_CONNECTION_START,
@@ -37,12 +38,17 @@ export interface IWSFeedSendAction {
     payload: string
 }
 
+export interface IWSFeedConnectionCloseAction {
+    type: typeof WS_FEED_CONNECTION_CLOSE
+}
+
 export type TWSFeedActions = IWSFeedConnectionStartAction
     | IWSFeedConnectionSuccessAction
     | IWSFeedConnectionErrorAction
     | IWSFeedConnectionClosedAction
     | IWSFeedGetDataAction
-    | IWSFeedSendAction;
+    | IWSFeedSendAction
+    | IWSFeedConnectionCloseAction;
 
 export const wsFeedConnectionStart = (payload: string) : IWSFeedConnectionStartAction => ({
     type: WS_FEED_CONNECTION_START,
@@ -72,4 +78,8 @@ export const wsFeedGetData = (payload: IOrders) : IWSFeedGetDataAction => ({
 export const wsFeedSend = (payload: string): IWSFeedSendAction => ({
     type: WS_FEED_SEND,
     payload
+});
+
+export const wsFeedConnectionClose = (): IWSFeedConnectionCloseAction => ({
+    type: WS_FEED_CONNECTION_CLOSE
 });

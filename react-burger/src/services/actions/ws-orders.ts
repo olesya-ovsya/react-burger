@@ -6,6 +6,7 @@ export const WS_ORDERS_CONNECTION_ERROR: 'WS_ORDERS_CONNECTION_ERROR' = 'WS_ORDE
 export const WS_ORDERS_CONNECTION_CLOSED: 'WS_ORDERS_CONNECTION_CLOSED' = 'WS_ORDERS_CONNECTION_CLOSED';
 export const WS_ORDERS_GET_DATA: 'WS_ORDERS_GET_DATA' = 'WS_ORDERS_GET_DATA';
 export const WS_ORDERS_SEND: 'WS_ORDERS_SEND' = 'WS_ORDERS_SEND';
+export const WS_ORDERS_CONNECTION_CLOSE: 'WS_ORDERS_CONNECTION_CLOSE' = 'WS_ORDERS_CONNECTION_CLOSE'; 
 
 export interface IWSOrdersConnectionStartAction {
     type: typeof WS_ORDERS_CONNECTION_START,
@@ -37,12 +38,17 @@ export interface IWSOrdersSendAction {
     payload: string
 }
 
+export interface IWSOrdersConnectionCloseAction {
+    type: typeof WS_ORDERS_CONNECTION_CLOSE
+}
+
 export type TWSOrdersActions = IWSOrdersConnectionStartAction
     | IWSOrdersConnectionSuccessAction
     | IWSOrdersConnectionErrorAction
     | IWSOrdersConnectionClosedAction
     | IWSOrdersGetDataAction
-    | IWSOrdersSendAction;
+    | IWSOrdersSendAction
+    | IWSOrdersConnectionCloseAction;
 
 export const wsOrdersConnectionStart = (payload: string) : IWSOrdersConnectionStartAction => ({
     type: WS_ORDERS_CONNECTION_START,
@@ -72,4 +78,8 @@ export const wsOrdersGetData = (payload: IOrders) : IWSOrdersGetDataAction => ({
 export const wsOrdersSend = (payload: string): IWSOrdersSendAction => ({
     type: WS_ORDERS_SEND,
     payload
+});
+
+export const wsOrdersConnectionClose = (): IWSOrdersConnectionCloseAction => ({
+    type: WS_ORDERS_CONNECTION_CLOSE
 });

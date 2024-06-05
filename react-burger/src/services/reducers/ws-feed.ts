@@ -2,7 +2,8 @@ import { WS_FEED_CONNECTION_START,
     WS_FEED_CONNECTION_SUCCESS,
     WS_FEED_CONNECTION_ERROR,
     WS_FEED_CONNECTION_CLOSED,
-    WS_FEED_GET_DATA } from "../actions/ws-feed";
+    WS_FEED_GET_DATA,
+    WS_FEED_CONNECTION_CLOSE } from "../actions/ws-feed";
 import { IOrderData } from "../../utils/shared-prop-types";
 import { TWSFeedActions } from "../actions/ws-feed";
 
@@ -56,6 +57,12 @@ export const wsFeedReducer = (
                 allOrders: action.payload.orders,
                 total: action.payload.total,
                 totalToday: action.payload.totalToday
+            };
+        case WS_FEED_CONNECTION_CLOSE: 
+            return {
+                ...state,
+                error: undefined,
+                wsConnected: false
             }
         default:
             return state;

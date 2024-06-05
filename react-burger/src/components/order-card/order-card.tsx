@@ -4,7 +4,6 @@ import { useSelector } from "../../services/hooks";
 import { Link } from "react-router-dom";
 import styles from './order-card.module.css';
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { v4 as uuidv4 } from 'uuid';
 import { OrderStatusText } from "../order-status-text/order-status-text";
 
 interface IOrderCard {
@@ -39,7 +38,7 @@ export const OrderCard: FC<IOrderCard> = ({ order, location, page, showStatus })
             <div className={`${styles.formula} mb-6`}>
                 <div className={styles.ingredientImages}>
                     {order.ingredients.reverse().slice(0, 6).map((i, index) => (
-                        <div key={uuidv4()} className={styles.ingredientImageBox}>
+                        <div key={index} className={styles.ingredientImageBox}>
                             {index === 0 && order.ingredients.length > 6 &&
                             <div className={`${styles.hidden} text_type_digits-default`}>
                                 {order.ingredients.slice(6).length}+
