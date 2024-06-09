@@ -51,3 +51,37 @@ export interface IResetPasswordModel {
     password: string,
     token: string
 }
+
+export type TUser = {
+    email: string,
+    name: string
+};
+
+export interface IOrderData {
+    ingredients: string[],
+    _id: string,
+    status: string,
+    name: string,
+    number: number,
+    createdAt: string,
+    updatedAt: string
+}
+
+export interface IOrders {
+    success: boolean,
+    orders: IOrderData[],
+    total: number,
+    totalToday: number
+}
+
+export interface IOrderDetails {
+    _id: string,
+    ingredients: string[],
+    owner: string,
+    status: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: number,
+    __v: number
+}

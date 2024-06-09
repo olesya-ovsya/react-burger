@@ -7,10 +7,10 @@ import {
     getRefreshToken,
     setRefreshToken
 } from '../../utils/utils';
-import { useDispatch } from 'react-redux';
 import {Loader} from '../loader/loader';
 import { postToken } from '../../utils/api';
 import { FC } from 'react';
+import { useDispatch } from '../../services/hooks';
 
 enum PageType {
   Unknown,

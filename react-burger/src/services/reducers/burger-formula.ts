@@ -4,20 +4,29 @@ import {
     SET_BUN,
     MOVE_INGREDIENT
 } from "../actions/burger-formula";
+import { IIngredient } from "../../utils/shared-prop-types";
+import { TBurgerFormulaActions } from "../actions/burger-formula";
 
-const initialState = {
+export type TBurgerFormulaState = {
+    bun: IIngredient | null,
+    otherIngredients: IIngredient[]
+}
+
+const initialState: TBurgerFormulaState = {
     bun: null,
     otherIngredients: []
 }
 
-export const burgerFormulaReducer = (state = initialState, action) => {
+export const burgerFormulaReducer = (
+    state: TBurgerFormulaState = initialState,
+    action: TBurgerFormulaActions): TBurgerFormulaState => {
     switch(action.type) {
         case ADD_INGREDIENT:
             return {
                 ...state,
                 otherIngredients:[
                     ...state.otherIngredients,
-                    action.newIngredient
+                    action.ingredient
                 ]
             };
         case REMOVE_INGREDIENT:

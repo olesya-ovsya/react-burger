@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { REMOVE_INGREDIENT, ADD_INGREDIENT, MOVE_INGREDIENT } from '../../../../services/actions/burger-formula';
+import { useSelector, useDispatch } from '../../../../services/hooks';
 import { FakeConstructorElement } from '../fake-constructor-element/fake-constructor-element';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
@@ -10,27 +9,21 @@ import { v4 as uuidv4 } from 'uuid';
 import '../../../../index.css';
 import { IApiIngredient, IIngredient } from '../../../../utils/shared-prop-types';
 import { FC } from 'react';
+import { addIngredient, removeIngredient, moveIngredient } from '../../../../services/actions/burger-formula';
 
 export default function OtherIngredients() {
 
-    // @ts-ignore
     const otherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
 
     const dispatch = useDispatch();
 
-    const removeIngredient = (ingredientIdentity: string) => {
-        dispatch({
-            type: REMOVE_INGREDIENT,
-            identity: ingredientIdentity
-        });
+    const removeOtherIngredient = (identity: string) => {
+        dispatch(removeIngredient(identity));
     }
 
-    const addIngredient = (newIngredient: IApiIngredient) => {
-        dispatch({
-          type: ADD_INGREDIENT,
-          newIngredient: { ...newIngredient, identity: uuidv4()}
-        });
-      };
+    const addNewIngredient = (newIngredient: IApiIngredient) => {
+      dispatch(addIngredient({ ...newIngredient, identity: uuidv4()}));
+    };
 
     const [{ isHover }, dropTarget] = useDrop<
       { ingredient: IIngredient; index: number; },
@@ -41,7 +34,7 @@ export default function OtherIngredients() {
           isHover: monitor.isOver()
         }),
         drop(item) {
-          addIngredient(item.ingredient);
+          addNewIngredient(item.ingredient);
         },
     });
 
@@ -54,7 +47,7 @@ export default function OtherIngredients() {
                             key={ingredient.identity}
                             index={index}
                             ingredient={ingredient}
-                            removeIngredient={removeIngredient}/>)}
+                            removeIngredient={removeOtherIngredient}/>)}
                 </div>
             : <FakeConstructorElement
                 text='Выберите начинку'
@@ -72,7 +65,6 @@ const OtherIngredient : FC<{
 
     const dispatch = useDispatch();
 
-    // @ts-ignore
     const otherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
 
     const [{ isDragging }, drag] = useDrag({
@@ -118,11 +110,7 @@ const OtherIngredient : FC<{
     type moveElementCallback = (dragIndex: number, hoverIndex: number) => void;
     const moveElement = React.useCallback<moveElementCallback>(
         (dragIndex, hoverIndex) => {
-            dispatch({
-                type: MOVE_INGREDIENT,
-                fromIndex: dragIndex,
-                toIndex: hoverIndex
-            });
+          dispatch(moveIngredient(dragIndex, hoverIndex));
         },
         [otherIngredients],
     );

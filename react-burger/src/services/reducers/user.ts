@@ -15,8 +15,25 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILED
 } from "../actions/user";
+import { TUserActions } from "../actions/user";
 
-const initialState = {
+export type TUserState = {
+    name: string | null,
+    email: string | null,
+    authorized: boolean,
+    getUserRequest: boolean,
+    getUserFailed: boolean,
+    loginRequest: boolean,
+    loginFailed: boolean,
+    logoutRequest: boolean,
+    logoutFailed: boolean,
+    updateUserDataRequest: boolean,
+    updateUserDataFailed: boolean,
+    registerRequest: boolean,
+    registerFailed: boolean
+}
+
+const initialState: TUserState = {
     name: null,
     email: null,
     authorized: false,
@@ -32,7 +49,9 @@ const initialState = {
     registerFailed: false
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+    state = initialState,
+    action: TUserActions): TUserState => {
     switch(action.type) {
         case GET_USER_REQUEST:
             return {

@@ -1,0 +1,55 @@
+.order {
+    background-color: var(--background);
+    border-radius: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+.commonDataContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.formula {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredientImages {
+    display: flex;
+    align-items: flex-start;
+    direction: rtl;
+    margin-left: 1.5rem;
+}
+
+.ingredientImage {
+    width: 5rem;
+    height: 5rem;
+    display: block;
+    object-fit: cover;
+    background-color: var(--background);
+    border-radius: 50%;
+}
+
+.ingredientImageBox{
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #a43ae9, var(--colors-interface-accent));
+    position: relative;
+    margin-left: -1.5rem;
+}
+
+.hidden {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    align-content: center;
+    background-color: #1c1c218c;
+    border-radius: 50%;
+}

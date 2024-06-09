@@ -3,10 +3,10 @@ import styles from './burger-constructor.module.css';
 import { BurgerFormula } from './burger-formula/burger-formula';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Modal } from '../modal/modal';
-import { OrderDetails } from '../order-details/order-details';
+import { OrderStatus } from '../order-status/order-status';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { createOrder, CLEAR_ORDER_NUMBER } from '../../services/actions/order';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { createOrder, clearOrderNumber } from '../../services/actions/order';
 import { isAuthorized } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { FC } from 'react';
@@ -15,12 +15,11 @@ import { IIngredient } from '../../utils/shared-prop-types';
 export const BurgerConstructor: FC = () => {
 
     const [state, setState] = React.useState({
-        orderDetailsVisible: false
+        orderStatusVisible: false
     });
     
     const navigate = useNavigate();
 
-    // @ts-ignore
     const { bun, otherIngredients } = useSelector(store => store.burgerFormula);
 
     const finalSum = React.useMemo(
@@ -61,27 +60,23 @@ export const BurgerConstructor: FC = () => {
 
         ingredients = ingredients.concat([bun._id]);
 
-        // @ts-ignore
         dispatch(createOrder(ingredients));
 
-        if (!state.orderDetailsVisible) {
+        if (!state.orderStatusVisible) {
             setState({
                 ...state,
-                orderDetailsVisible: true
+                orderStatusVisible: true
             });
         }
     };
 
-    const closeOrderDetails = () => {
+    const closeOrderStatus = () => {
+        dispatch(clearOrderNumber());
 
-        dispatch({
-            type: CLEAR_ORDER_NUMBER
-        });
-
-        if (state.orderDetailsVisible) {
+        if (state.orderStatusVisible) {
             setState({
                 ...state,
-                orderDetailsVisible: false
+                orderStatusVisible: false
             });
         }
     }
@@ -102,9 +97,9 @@ export const BurgerConstructor: FC = () => {
                             <span>Оформить заказ</span>
                         </Button>
                     </div>
-                    {state.orderDetailsVisible && (
-                        <Modal onClose={closeOrderDetails}>
-                            <OrderDetails />
+                    {state.orderStatusVisible && (
+                        <Modal onClose={closeOrderStatus}>
+                            <OrderStatus />
                         </Modal>)}
                 </div>
             </div>

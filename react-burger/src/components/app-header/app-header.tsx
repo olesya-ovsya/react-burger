@@ -21,7 +21,7 @@ export const AppHeader: FC = () => {
                     path={location.pathname}
                     icon={<BurgerIcon type='secondary' />}/>
                 <NavigationBlockItem text='Лента заказов'
-                    to='/orders'
+                    to='/feed'
                     path={location.pathname}
                     icon={<ListIcon type='secondary' />} />
             </NavigationBlock>

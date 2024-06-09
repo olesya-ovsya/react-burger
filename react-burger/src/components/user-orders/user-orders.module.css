@@ -1,0 +1,7 @@
+.orders {
+    max-height: 75vh;
+    max-width: 600px;
+    scrollbar-width: thin;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

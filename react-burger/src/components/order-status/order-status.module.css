@@ -1,0 +1,14 @@
+.orderStatusContainer {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-flow: column;
+    margin: auto;
+    align-items: center;
+    height: max-content;
+    min-height: 60vh;
+}
+
+.shadowText {
+    text-shadow: 0px 4px 32px #3333FF80;
+}

@@ -1,10 +1,10 @@
 import styles from './ingredient-list.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../services/hooks';
 import { useDrag } from 'react-dnd';
 import { useLocation, Link } from 'react-router-dom';
 import { FC } from 'react';
-import { ITab, IIngredient, IApiIngredient, ILocation } from '../../../utils/shared-prop-types';
+import { ITab, IApiIngredient, ILocation } from '../../../utils/shared-prop-types';
 
 interface IIngredientListProps  {
     tabData: Array<ITab>,
@@ -12,11 +12,8 @@ interface IIngredientListProps  {
 }
 
 export const IngredientList: FC<IIngredientListProps> = ({ tabData, handleScroll }) => {
-    // @ts-ignore
     const ingredients = useSelector(store => store.burgerIngredients.ingredients);
-    // @ts-ignore
     const formulaBun = useSelector(store => store.burgerFormula.bun);
-    // @ts-ignore
     const formulaOtherIngredients = useSelector(store => store.burgerFormula.otherIngredients);
     const location = useLocation();
 
@@ -28,13 +25,13 @@ export const IngredientList: FC<IIngredientListProps> = ({ tabData, handleScroll
                         {tab.name}
                     </h2>
                     <div className={styles.ingredientListBlock}>
-                        {ingredients.filter((x: IApiIngredient) => x.type === tab.type).map((i: IIngredient)=>(
+                        {ingredients.filter((x: IApiIngredient) => x.type === tab.type).map((i: IApiIngredient)=>(
                             <ElementListItem
                                 key={i._id}
                                 ingredient={i}
                                 count={ i.type === 'bun'
                                     ? (formulaBun && formulaBun._id === i._id ? 2 : 0)
-                                    : (formulaOtherIngredients.filter((x: IIngredient) => x._id === i._id).length)}
+                                    : (formulaOtherIngredients.filter((x: IApiIngredient) => x._id === i._id).length)}
                                 location={location} />
                         ))}
                     </div>
@@ -45,7 +42,7 @@ export const IngredientList: FC<IIngredientListProps> = ({ tabData, handleScroll
 }
 
 interface IElementListItem {
-    ingredient: IIngredient,
+    ingredient: IApiIngredient,
     count: number,
     location: ILocation
 }

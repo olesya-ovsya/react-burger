@@ -12,6 +12,9 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import styles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
 import { Modal } from '../modal/modal';
+import { FeedPage } from '../../pages/feed/feed';
+import { OrderDetails } from '../order-details/order-details';
+import { UserOrders } from '../user-orders/user-orders';
 
 export default function App() {
   const location = useLocation();
@@ -33,10 +36,12 @@ export default function App() {
           <Route path='/reset-password' element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
           <Route path='/profile' element={<ProtectedRouteElement element={<ProfilePage />}/>}>
             <Route index element={<ProtectedRouteElement element={<UserData />}/>} />
-            <Route path='orders' element={<ProtectedRouteElement element={<NotFoundPage />} />} />
-            <Route path='orders/:number' element={<ProtectedRouteElement element={<NotFoundPage />}/>} />
+            <Route path='orders' element={<ProtectedRouteElement element={<UserOrders />} />} />
+            <Route path='orders/:number' element={<ProtectedRouteElement element={<OrderDetails />}/>} />
           </Route>
           <Route path='/ingredients/:id' element={<IngredientDetails />} />
+          <Route path='/feed' element={<FeedPage />} />
+          <Route path='/feed/:number' element={<OrderDetails />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         {background && (
@@ -47,6 +52,20 @@ export default function App() {
                   <Modal onClose={handleModalClose}>
                     <IngredientDetails />
                   </Modal>
+                }/>
+                <Route
+                  path='/feed/:number'
+                  element={
+                    <Modal onClose={handleModalClose}>
+                      <OrderDetails />
+                    </Modal>
+                }/>
+                <Route
+                  path='profile/orders/:number'
+                  element={
+                    <Modal onClose={handleModalClose}>
+                      <OrderDetails />
+                    </Modal>
                 }/>
           </Routes>
         )}

@@ -3,14 +3,24 @@ import {
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED
 } from '../actions/burger-ingredients';
+import { TBurgerIngredientsActions } from '../actions/burger-ingredients';
+import { IApiIngredient } from '../../utils/shared-prop-types';
 
-const initialState = {
+export type TBurgerIngredientsState = {
+    ingredients: IApiIngredient[],
+    ingredientsRequest: boolean,
+    ingredientsFailed: boolean
+}
+
+const initialState: TBurgerIngredientsState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false
-}
+};
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (
+    state = initialState,
+    action: TBurgerIngredientsActions): TBurgerIngredientsState  => {
     switch(action.type) {
         case GET_INGREDIENTS_REQUEST:
             return {

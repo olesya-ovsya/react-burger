@@ -1,14 +1,18 @@
 import { combineReducers } from 'redux';
 import { burgerIngredientsReducer } from './burger-ingredients';
 import { burgerFormulaReducer } from './burger-formula';
-import { ingredientDetailsReducer } from './ingredient-details';
 import { orderReducer } from './order';
 import { userReducer } from './user';
+import { wsOrdersReducer } from './ws-orders';
+import { wsFeedReducer } from './ws-feed';
+import { orderDetailsReducer } from './order-details';
 
 export const rootReducer = combineReducers({
     burgerIngredients: burgerIngredientsReducer,
     burgerFormula: burgerFormulaReducer,
-    ingredientDetails: ingredientDetailsReducer,
     order: orderReducer,
-    user: userReducer
+    user: userReducer,
+    wsFeed: wsFeedReducer,
+    wsOrders: wsOrdersReducer,
+    orderDetails: orderDetailsReducer
   });

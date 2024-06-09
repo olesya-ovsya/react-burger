@@ -1,0 +1,54 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feedContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.feed {
+    max-height: 75vh;
+    max-width: 600px;
+    scrollbar-width: thin;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.info {
+    max-height: 65vh;
+    max-width: 600px;
+}
+
+.statusContainer {
+    display: flex;
+    justify-content: space-between;
+    max-height: 35vh;
+}
+
+.status {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.statusScroll {
+    scrollbar-width: thin;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    flex-direction: column;
+    min-width: 260px;
+}
+
+.total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

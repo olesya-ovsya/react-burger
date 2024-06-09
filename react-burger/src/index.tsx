@@ -4,12 +4,8 @@ import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { rootReducer } from './services/reducers/index';
-import { customEnhancer } from './enhancers/customEnhancer';
-import { createStore } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
-
-const store = createStore(rootReducer, customEnhancer);
+import { store } from './services/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

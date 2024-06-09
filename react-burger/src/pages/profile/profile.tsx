@@ -2,7 +2,7 @@ import '../../index.css';
 import styles from './profile.module.css';
 import { Outlet } from "react-router-dom";
 import { useLocation, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { logout } from '../../services/actions/user';
 import { Loader } from '../../components/loader/loader';
 import { Message } from '../../components/message/message';
@@ -14,13 +14,10 @@ export const ProfilePage: FC = () => {
     const pathname = location.pathname;
 
     const dispatch = useDispatch();
-    // @ts-ignore
     const logoutRequest = useSelector(store => store.user.logoutRequest);
-    // @ts-ignore
     const logoutFailed = useSelector(store => store.user.logoutFailed);
 
     const signOut = () => {
-        // @ts-ignore
         dispatch(logout());
     };
 

@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../../index.css';
 import styles from './user-data.module.css';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/hooks";
 import { useEffect, useState, useRef, SyntheticEvent, BaseSyntheticEvent, ChangeEventHandler } from "react";
 import { getCurrentUser, updateUserData } from "../../services/actions/user";
 import { Loader } from "../loader/loader";
@@ -16,17 +16,11 @@ import { IUserDataModel } from "../../utils/shared-prop-types";
 
 export const UserData: FC = () => {
 
-    // @ts-ignore
     const getUserRequest = useSelector(store => store.user.getUserRequest);
-    // @ts-ignore
     const getUserFailed = useSelector(store => store.user.getUserFailed);
-    // @ts-ignore
     const updateUserDataRequest = useSelector(store => store.user.updateUserDataRequest);
-    // @ts-ignore
     const updateUserDataFailed = useSelector(store => store.user.updateUserDataFailed);
-    // @ts-ignore
     const email = useSelector(store => store.user.email);
-    // @ts-ignore
     const name = useSelector(store => store.user.name);
 
     const [form, setForm] = useState<IUserDataModel>({
@@ -40,12 +34,11 @@ export const UserData: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getCurrentUser());
     }, [dispatch]);
 
     useEffect(() => {
-        setForm({ ...form, email: email, name: name });
+        setForm({ ...form, email: email ?? '', name: name ?? '' });
     }, [name, email]);
 
     useEffect(() => {
@@ -64,12 +57,11 @@ export const UserData: FC = () => {
 
     const submit = (e: SyntheticEvent) => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(updateUserData(form));
     };
 
     const cancel = () => {
-        setForm({...form, password: '', email: email, name: name });
+        setForm({...form, password: '', email: email ?? '', name: name ?? '' });
     };
 
     if (getUserRequest) {

@@ -1,6 +1,6 @@
 .modal {
     max-width: 90vh;
-    width: 60%;
+    width: fit-content;
     height: fit-content;
     background: var(--background);
     position: relative;
