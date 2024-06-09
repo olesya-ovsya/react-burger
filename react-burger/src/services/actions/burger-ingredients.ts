@@ -23,16 +23,16 @@ export type TBurgerIngredientsActions = IGetIngredientsRequestAction
   | IGetIngredientsSuccessAction
   | IGetIngredientsFailedAction;
 
-const getIngredientsRequest = (): IGetIngredientsRequestAction => ({
+export const getIngredientsRequest = (): IGetIngredientsRequestAction => ({
   type: GET_INGREDIENTS_REQUEST
 });
 
-const getIngredientsSuccess = (ingredients: Array<IApiIngredient>): IGetIngredientsSuccessAction => ({
+export const getIngredientsSuccess = (ingredients: Array<IApiIngredient>): IGetIngredientsSuccessAction => ({
   type: GET_INGREDIENTS_SUCCESS,
   data: ingredients
 });
 
-const getIngredientsFailed = (): IGetIngredientsFailedAction => ({
+export const getIngredientsFailed = (): IGetIngredientsFailedAction => ({
   type: GET_INGREDIENTS_FAILED
 });
 
