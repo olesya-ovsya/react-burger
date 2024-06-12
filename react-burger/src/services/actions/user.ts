@@ -158,8 +158,7 @@ export const updateUserData = (model: IUserDataModel): AppThunk => (dispatch: Ap
 }
 
 export const register = (model: IUserDataModel): AppThunk => (dispatch: AppDispatch) => {
-  return function(dispatch: AppDispatch) {
-    dispatch(registerRequest());
+  dispatch(registerRequest());
 
     postRegister(model)
     .then((model) => {
@@ -182,5 +181,4 @@ export const register = (model: IUserDataModel): AppThunk => (dispatch: AppDispa
         }
       })
     .catch(e => dispatch(registerFailed()));
-  }
 }

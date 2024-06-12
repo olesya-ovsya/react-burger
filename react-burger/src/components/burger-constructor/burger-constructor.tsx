@@ -90,6 +90,7 @@ export const BurgerConstructor: FC = () => {
                         <span className='text_type_digits-medium mr-2'>{finalSum}</span>
                         <CurrencyIcon type='primary' />
                         <Button 
+                            id='create-order-button'
                             extraClass='ml-10 mr-4'
                             htmlType='submit'
                             onClick={createNewOrder}
