@@ -1,6 +1,8 @@
 describe('dnd in burger constructor work correctly', function() {
+    const url = 'http://ovsyannikova.react-burger.nomorepartiesco.ru';
+    
     before(function() {
-        cy.visit('http://localhost:3000');
+        cy.visit(url);
     });
 
     it('should set bun and other ingredients to target area with dnd', function() {
@@ -75,7 +77,7 @@ describe('dnd in burger constructor work correctly', function() {
     });
 
     it('should open and close modal with ingredient details', function() {
-        cy.visit('http://localhost:3000');
+        cy.visit(url);
         // кликаем по ингредиенту в списке
         cy.get('[id=ingredient-list_bun]').children().first().as('bun');
         let bunName;
@@ -96,7 +98,7 @@ describe('dnd in burger constructor work correctly', function() {
 
     it('should open and close modal with created order details', function() {
         // для проверки функционала оформления заказов сначала залогинимся
-        cy.visit('http://localhost:3000/login');
+        cy.visit(`${url}/login`);
         cy.get('[type=email]').type('test-email@test.ru');
         cy.get('[type=password]').type('12345qwert');
         cy.get('[type=submit]').click();
