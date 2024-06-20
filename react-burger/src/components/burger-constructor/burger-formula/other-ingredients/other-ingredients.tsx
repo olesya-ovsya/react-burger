@@ -39,7 +39,7 @@ export default function OtherIngredients() {
     });
 
     return (
-        <div ref={dropTarget}>
+        <div id='constructor-area-middle' ref={dropTarget}>
             {otherIngredients && otherIngredients.length > 0 
             ?   <div className={styles.ingredientListContainer}>
                     {otherIngredients.map((ingredient: IIngredient, index: number) =>

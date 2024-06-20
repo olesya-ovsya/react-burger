@@ -28,16 +28,16 @@ export type TOrderActions = ICreateOrderRequestAction
   | ICreateOrderFailedAction
   | IClearOrderNumberAction;
 
-const createOrderRequest = () : ICreateOrderRequestAction => ({
+export const createOrderRequest = () : ICreateOrderRequestAction => ({
   type: CREATE_ORDER_REQUEST
 });
 
-const createOrderSuccess = (number: number): ICreateOrderSuccessAction => ({
+export const createOrderSuccess = (number: number): ICreateOrderSuccessAction => ({
   type: CREATE_ORDER_SUCCESS,
   number: number
 });
 
-const createOrderFailed = (): ICreateOrderFailedAction => ({
+export const createOrderFailed = (): ICreateOrderFailedAction => ({
   type: CREATE_ORDER_FAILED
 });
 

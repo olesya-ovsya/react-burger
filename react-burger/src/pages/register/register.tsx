@@ -49,9 +49,9 @@ export const RegisterPage: FC = () => {
     }
 
     return (
-        <div className='form-container' style={{flexDirection: 'column'}}>
+        <div className='form-container mt-20' style={{flexDirection: 'column'}}>
               {registerFailed && <Message type='error' text='Не удалось зарегистрировать пользователя' />}
-              <form className='mt-20' onSubmit={onSubmit}>
+              <form onSubmit={onSubmit}>
                   <h1 className='text_type_main-medium mb-6'>Регистрация</h1>
                   <div>
                       <Input name='name'

@@ -24,16 +24,16 @@ export type TOrderDetailsActions = IGetOrderDetailsRequestAction
     | IGetOrderDetailsSuccessAction
     | IGetOrderDetailsFailedAction;
 
-const getOrderDetailsRequest = () : IGetOrderDetailsRequestAction => ({
+export const getOrderDetailsRequest = () : IGetOrderDetailsRequestAction => ({
     type: GET_ORDER_DETAILS_REQUEST
 });
 
-const getOrderDetailsSuccess = (order: IOrderDetails) : IGetOrderDetailsSuccessAction => ({
+export const getOrderDetailsSuccess = (order: IOrderDetails) : IGetOrderDetailsSuccessAction => ({
     type: GET_ORDER_DETAILS_SUCCESS,
     order
 });
 
-const getOrderDetailsFailed = (): IGetOrderDetailsFailedAction => ({
+export const getOrderDetailsFailed = (): IGetOrderDetailsFailedAction => ({
     type: GET_ORDER_DETAILS_FAILED
 });
 

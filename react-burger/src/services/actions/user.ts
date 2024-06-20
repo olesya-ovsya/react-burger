@@ -59,28 +59,28 @@ export type TUserActions = IGetUserRequestAction
   | IRegisterSuccessAction
   | IRegisterFailedAction;
 
-const getUserRequest = (): IGetUserRequestAction => ({ type: GET_USER_REQUEST }); 
-const getUserSuccess = (user: TUser): IGetUserSuccessAction => ({ type: GET_USER_SUCCESS, user });
-const getUserFailed = (): IGetUserFailedAction => ({ type: GET_USER_FAILED });
+export const getUserRequest = (): IGetUserRequestAction => ({ type: GET_USER_REQUEST }); 
+export const getUserSuccess = (user: TUser): IGetUserSuccessAction => ({ type: GET_USER_SUCCESS, user });
+export const getUserFailed = (): IGetUserFailedAction => ({ type: GET_USER_FAILED });
 
-const loginRequest = (): ILoginRequestAction => ({ type: LOGIN_REQUEST });
-const loginSuccess = (user: TUser): ILoginSuccessAction => ({ type: LOGIN_SUCCESS, user });
-const loginFailed = (): ILoginFailedAction => ({ type: LOGIN_FAILED });
+export const loginRequest = (): ILoginRequestAction => ({ type: LOGIN_REQUEST });
+export const loginSuccess = (user: TUser): ILoginSuccessAction => ({ type: LOGIN_SUCCESS, user });
+export const loginFailed = (): ILoginFailedAction => ({ type: LOGIN_FAILED });
 
-const logoutRequest = (): ILogoutRequestAction => ({ type: LOGOUT_REQUEST });
-const logoutSuccess = (): ILogoutSuccessAction => ({ type: LOGOUT_SUCCESS }); 
-const logoutFailed = (): ILogoutFailedAction => ({ type: LOGOUT_FAILED });
+export const logoutRequest = (): ILogoutRequestAction => ({ type: LOGOUT_REQUEST });
+export const logoutSuccess = (): ILogoutSuccessAction => ({ type: LOGOUT_SUCCESS }); 
+export const logoutFailed = (): ILogoutFailedAction => ({ type: LOGOUT_FAILED });
 
-const updateUserDataRequest = (): IUpdateUserDataRequestAction => ({ type: UPDATE_USER_DATA_REQUEST });
-const updateUserDataSuccess = (user: TUser) :IUpdateUserDataSuccessAction => ({
+export const updateUserDataRequest = (): IUpdateUserDataRequestAction => ({ type: UPDATE_USER_DATA_REQUEST });
+export const updateUserDataSuccess = (user: TUser) :IUpdateUserDataSuccessAction => ({
   type: UPDATE_USER_DATA_SUCCESS,
   user: user
 });
-const updateUserDataFailed = (): IUpdateUserDataFailedAction => ({ type: UPDATE_USER_DATA_FAILED });
+export const updateUserDataFailed = (): IUpdateUserDataFailedAction => ({ type: UPDATE_USER_DATA_FAILED });
 
-const registerRequest = (): IRegisterRequestAction => ({ type: REGISTER_REQUEST });
-const registerSuccess = (user: TUser): IRegisterSuccessAction => ({ type: REGISTER_SUCCESS, user });
-const registerFailed = (): IRegisterFailedAction => ({ type: REGISTER_FAILED });
+export const registerRequest = (): IRegisterRequestAction => ({ type: REGISTER_REQUEST });
+export const registerSuccess = (user: TUser): IRegisterSuccessAction => ({ type: REGISTER_SUCCESS, user });
+export const registerFailed = (): IRegisterFailedAction => ({ type: REGISTER_FAILED });
 
 export const getCurrentUser = (): AppThunk => (dispatch: AppDispatch) =>  {
   dispatch(getUserRequest());
@@ -158,8 +158,7 @@ export const updateUserData = (model: IUserDataModel): AppThunk => (dispatch: Ap
 }
 
 export const register = (model: IUserDataModel): AppThunk => (dispatch: AppDispatch) => {
-  return function(dispatch: AppDispatch) {
-    dispatch(registerRequest());
+  dispatch(registerRequest());
 
     postRegister(model)
     .then((model) => {
@@ -182,5 +181,4 @@ export const register = (model: IUserDataModel): AppThunk => (dispatch: AppDispa
         }
       })
     .catch(e => dispatch(registerFailed()));
-  }
 }

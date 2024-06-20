@@ -24,7 +24,7 @@ export const IngredientList: FC<IIngredientListProps> = ({ tabData, handleScroll
                     <h2 className={`${styles.header} text_type_main-medium`} ref={tab.ref}>
                         {tab.name}
                     </h2>
-                    <div className={styles.ingredientListBlock}>
+                    <div id={`ingredient-list_${tab.type}`} className={styles.ingredientListBlock}>
                         {ingredients.filter((x: IApiIngredient) => x.type === tab.type).map((i: IApiIngredient)=>(
                             <ElementListItem
                                 key={i._id}

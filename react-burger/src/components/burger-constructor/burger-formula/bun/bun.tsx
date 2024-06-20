@@ -13,7 +13,7 @@ export const Bun : FC<{
     const bun = useSelector(store => store.burgerFormula.bun);
 
     return (
-        <div>
+        <div id={`constructor-area-${type}`}>
             {bun
                 ? <ConstructorElement
                     type={type}

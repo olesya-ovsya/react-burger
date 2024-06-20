@@ -37,7 +37,7 @@ export const Modal: FC<PropsWithChildren<IModalProps>> = ({ children, header, on
                         <div className={styles.modal}>
                             <div className={styles.modalHeader + ' mr-10 ml-10'}>
                                 <h1 className='text_type_main-large mr-10 ml-10'>{header}</h1>
-                                <div onClick={onClose}><CloseIcon  type='primary' /></div>
+                                <div id='close-modal' onClick={onClose}><CloseIcon  type='primary' /></div>
                             </div>
                             {children}
                         </div>
